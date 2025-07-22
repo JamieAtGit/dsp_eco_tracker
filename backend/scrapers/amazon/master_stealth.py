@@ -587,17 +587,24 @@ class MasterStealthScraper:
         """Detect material from text"""
         text_lower = text.lower()
         
+        # Enhanced material detection for protein powder containers
         materials = {
-            'Plastic': ['plastic', 'polymer'],
-            'Metal': ['metal', 'steel', 'aluminum'],
-            'Paper': ['paper', 'cardboard']
+            'Plastic': ['plastic', 'polymer', 'container', 'tub', 'jar', 'bottle'],
+            'Metal': ['metal', 'steel', 'aluminum', 'can', 'tin'],
+            'Paper': ['paper', 'cardboard', 'box', 'carton'],
+            'Glass': ['glass', 'jar'],
+            'Mixed': ['mixed', 'composite']
         }
+        
+        # Special case for protein powders - usually plastic containers
+        if any(word in text_lower for word in ['protein', 'powder', 'supplement']):
+            return 'Plastic'
         
         for material, keywords in materials.items():
             if any(keyword in text_lower for keyword in keywords):
                 return material
         
-        return 'Unknown'
+        return 'Plastic'  # Default for most containers
     
     def estimate_origin(self, brand: str) -> str:
         """Estimate origin from brand"""

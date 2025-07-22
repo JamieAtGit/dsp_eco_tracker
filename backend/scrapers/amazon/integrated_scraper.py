@@ -82,7 +82,23 @@ def scrape_amazon_product_page(amazon_url: str, fallback: bool = False) -> Dict[
             "carbon_kg": None
         }
     
-    # Try MASTER stealth scraper first (ultimate anti-bot detection)
+    # Try REQUESTS scraper first (no ChromeDriver needed - most reliable)
+    try:
+        logger.info("📡 Attempting requests-based extraction...")
+        from .requests_scraper import scrape_with_requests
+        
+        requests_result = scrape_with_requests(amazon_url)
+        
+        if requests_result and requests_result.get("title") != "Unknown Product":
+            logger.info("✅ Requests extraction successful!")
+            return requests_result
+        else:
+            logger.warning("⚠️ Requests extraction failed, trying master stealth")
+            
+    except Exception as e:
+        logger.warning(f"⚠️ Requests scraper error: {e}, trying master stealth")
+    
+    # Try MASTER stealth scraper as backup (ultimate anti-bot detection)
     try:
         logger.info("🎓 Attempting MASTER stealth extraction...")
         from .master_stealth import master_scrape_amazon

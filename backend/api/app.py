@@ -6,12 +6,12 @@ import os
 import os
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.append(BASE_DIR)
 
 model_dir = os.path.join(BASE_DIR, "backend", "ml", "models")
 encoders_dir = os.path.join(BASE_DIR, "backend", "ml", "encoders")
 
 import json
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from backend.api.routes.auth import register_routes
 from backend.api.routes.api import calculate_eco_score
@@ -979,8 +979,9 @@ def estimate_emissions():
 
         user_lat, user_lon = location.latitude, location.longitude
 
-        # Get origin coordinates
-        origin_country = product.get("brand_estimated_origin", "Other")
+        # Get origin coordinates - use scraper result first
+        origin_country = product.get("origin") or product.get("brand_estimated_origin", "UK")
+        print(f"🌍 Origin determined: {origin_country}")
         origin_coords = origin_hubs.get(origin_country, uk_hub)
 
         # Distance calculations
@@ -989,9 +990,10 @@ def estimate_emissions():
 
         print(f"🌍 Distances → origin: {origin_distance_km} km | UK hub: {uk_distance_km} km")
 
-        # Use weight
-        raw_weight = product.get("raw_product_weight_kg") or 0.5
+        # Use weight from scraper
+        raw_weight = product.get("weight_kg") or product.get("raw_product_weight_kg") or 0.5
         weight = float(raw_weight)
+        print(f"🏋️ Using weight: {weight} kg from scraper")
         if include_packaging:
             weight *= 1.05
 
