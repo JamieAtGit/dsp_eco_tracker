@@ -140,12 +140,24 @@ class RequestsScraper:
         origin_from_tech = self.extract_origin_from_tech_details(all_text)
         if origin_from_tech != "Unknown":
             origin = origin_from_tech
+            print(f"📍 Found origin in tech details: {origin}")
         else:
             # Estimate origin from brand as fallback
             origin = self.estimate_origin(brand)
+            print(f"📍 Using brand-based origin: {origin} (from brand: {brand})")
         
         # Extract weight
         weight = self.extract_weight(all_text)
+        # Also try to extract from title
+        if weight == 1.0:  # Default weight, try title
+            title_weight = self.extract_weight(title)
+            if title_weight != 1.0:
+                weight = title_weight
+                print(f"⚖️ Found weight in title: {weight} kg")
+            else:
+                print(f"⚖️ Using default weight: {weight} kg")
+        else:
+            print(f"⚖️ Found weight in tech details: {weight} kg")
         
         # Smart material detection - check for protein powder first
         if any(keyword in title.lower() for keyword in ['protein', 'powder', 'mass gainer', 'supplement', 'whey', 'casein']):
@@ -233,24 +245,63 @@ class RequestsScraper:
         }
     
     def extract_weight(self, text: str) -> float:
-        """Extract weight from text"""
-        patterns = [
-            r'(\d+(?:\.\d+)?)\s*(?:kg|kilogram)',
-            r'(\d+(?:\.\d+)?)\s*(?:g|gram)(?!\w)',
-            r'(\d+(?:\.\d+)?)\s*(?:lb|pound)',
+        """Extract weight from text with improved precision"""
+        text_lower = text.lower()
+        
+        # Priority patterns - look for specific weight fields first
+        priority_patterns = [
+            # Weight field patterns
+            (r'weight[:\s]+(\d+(?:\.\d+)?)\s*(kg|kilograms?)', 'kg'),
+            (r'weight[:\s]+(\d+(?:\.\d+)?)\s*(g|grams?)', 'g'),
+            # Product dimensions patterns (e.g., "11 x 7 x 27 cm; 600 g")
+            (r';\s*(\d+(?:\.\d+)?)\s*(kg)\b', 'kg'),
+            (r';\s*(\d+(?:\.\d+)?)\s*(g)\b', 'g'),
+            # Units field patterns (e.g., "Units: 600.0 gram")
+            (r'units[:\s]+(\d+(?:\.\d+)?)\s*(g|gram)', 'g'),
+            # Title patterns (e.g., "2kg" or "600g" in product title)
+            (r'\b(\d+(?:\.\d+)?)\s*kg\b', 'kg'),
+            (r'\b(\d+(?:\.\d+)?)\s*g\b(?!ram)', 'g'),  # Avoid "program"
         ]
         
-        text_lower = text.lower()
-        for pattern in patterns:
+        # Check each pattern in priority order
+        for pattern, unit_type in priority_patterns:
             matches = re.findall(pattern, text_lower)
             if matches:
-                weight = float(matches[0])
-                if 'kg' in text_lower:
-                    return weight
-                elif 'g' in text_lower and 'kg' not in text_lower:
-                    return weight / 1000
-                elif 'lb' in text_lower:
-                    return weight * 0.453592
+                for match in matches:
+                    try:
+                        if isinstance(match, tuple):
+                            weight_val = float(match[0])
+                        else:
+                            weight_val = float(match)
+                        
+                        # Skip very small values that are likely errors
+                        if weight_val < 0.01 and unit_type == 'kg':
+                            continue
+                        if weight_val < 10 and unit_type == 'g':
+                            continue
+                            
+                        # Convert to kg
+                        if unit_type == 'kg':
+                            return weight_val
+                        elif unit_type == 'g':
+                            return weight_val / 1000
+                    except:
+                        continue
+        
+        # Pound patterns as fallback
+        lb_patterns = [
+            r'(\d+(?:\.\d+)?)\s*(?:lb|lbs|pounds?)',
+            r'weight[:\s]+(\d+(?:\.\d+)?)\s*(?:lb|lbs|pounds?)'
+        ]
+        
+        for pattern in lb_patterns:
+            matches = re.findall(pattern, text_lower)
+            if matches:
+                try:
+                    weight = float(matches[0])
+                    return weight * 0.453592  # Convert lbs to kg
+                except:
+                    continue
         
         return 1.0  # Default weight
     
@@ -279,15 +330,44 @@ class RequestsScraper:
         if not brand or brand == "Unknown":
             return "UK"
         
-        # Simple brand-to-origin mapping
+        # Enhanced brand-to-origin mapping for common brands
         brand_origins = {
+            # Protein/Supplement brands
             'optimum nutrition': 'USA',
-            'bulk protein': 'UK',
-            'serious': 'UK',
-            'myprotein': 'UK',
+            'dymatize': 'USA',  # Actually made in Germany but US brand
+            'bsn': 'USA',
+            'muscletech': 'USA',
+            'cellucor': 'USA',
+            'gat sport': 'USA',
+            'evlution': 'USA',
+            'bulk protein': 'England',  # Manchester-based
+            'bulk powders': 'England',  # Essex-based
+            'myprotein': 'England',     # Manchester-based
+            'the protein works': 'England',  # Cheshire-based
+            'applied nutrition': 'UK',
+            'phd nutrition': 'UK',
+            'sci-mx': 'UK',
+            'free soul': 'England',     # London-based
+            'grenade': 'England',       # Birmingham-based
+            'usn uk': 'England',        # UK operations
+            'usn': 'South Africa',
+            'mutant': 'Canada',
+            'allmax': 'Canada',
+            'scitec': 'Hungary',
+            'weider': 'Germany',
+            'esn': 'Germany',
+            'biotech usa': 'Hungary',
+            # Electronics
             'samsung': 'South Korea',
             'apple': 'China',
-            'sony': 'Japan'
+            'sony': 'Japan',
+            'lg': 'South Korea',
+            'huawei': 'China',
+            'xiaomi': 'China',
+            'lenovo': 'China',
+            'asus': 'Taiwan',
+            'dell': 'China',
+            'hp': 'China'
         }
         
         brand_lower = brand.lower()
@@ -298,29 +378,67 @@ class RequestsScraper:
         return "UK"  # Default
     
     def extract_origin_from_tech_details(self, text: str) -> str:
-        """Extract origin from Amazon's technical details"""
+        """Extract origin from Amazon's technical details with improved accuracy"""
         text_lower = text.lower()
         
-        # Look for country of origin patterns
+        # Look for country of origin patterns with improved regex
         patterns = [
-            r"country\s+of\s+origin[:\s]*\s*(gb|uk|united kingdom|usa|china|germany|france|italy|japan)",
-            r"country\s+of\s+origin[:\s]*([a-zA-Z\s]{1,25})(?:\s+brand|\s+format|\s+age|\s*\n|\s*$)",
-            r"made\s+in[:\s]*([a-zA-Z\s]{1,20})",
+            # Specific pattern for "Country of origin: Germany" format
+            r"country\s+of\s+origin[:\s]+([a-zA-Z\s]{1,25})(?:\n|$|country|brand|format|age|additional)",
+            # Common countries with exact matching
+            r"country\s+of\s+origin[:\s]*\b(germany|uk|gb|united kingdom|usa|united states|china|france|italy|japan|canada|india|spain|netherlands|belgium|switzerland|austria|poland|ireland)\b",
+            # Made in patterns
+            r"made\s+in[:\s]*\b([a-zA-Z\s]{1,20})\b",
+            # Manufactured in patterns
+            r"manufactured\s+in[:\s]*\b([a-zA-Z\s]{1,20})\b",
+            # Product of patterns
+            r"product\s+of[:\s]*\b([a-zA-Z\s]{1,20})\b"
         ]
         
         for pattern in patterns:
             matches = re.findall(pattern, text_lower)
             if matches:
+                # Take the first match and clean it
                 candidate = matches[0].strip()
+                
+                # Remove any trailing words that aren't part of country name
+                candidate = re.sub(r'\s*(brand|format|age|additional|country).*$', '', candidate).strip()
+                
                 if candidate:
-                    # Clean and normalize
-                    if candidate == "gb":
-                        return "UK"
-                    elif candidate == "united kingdom":
-                        return "UK"
-                    elif candidate == "usa":
-                        return "USA"
-                    elif len(candidate) <= 20:  # Reasonable country name
+                    # Normalize country names
+                    country_map = {
+                        "gb": "UK",
+                        "united kingdom": "UK", 
+                        "great britain": "UK",
+                        "england": "England",
+                        "wales": "Wales",
+                        "scotland": "Scotland",
+                        "northern ireland": "Northern Ireland",
+                        "n. ireland": "Northern Ireland",
+                        "n ireland": "Northern Ireland",
+                        "usa": "USA",
+                        "united states": "USA",
+                        "united states of america": "USA",
+                        "deutschland": "Germany",
+                        "bundesrepublik deutschland": "Germany",
+                        "españa": "Spain",
+                        "españa": "Spain",
+                        "nederland": "Netherlands",
+                        "the netherlands": "Netherlands",
+                        "belgie": "Belgium",
+                        "belgique": "Belgium",
+                        "schweiz": "Switzerland",
+                        "suisse": "Switzerland",
+                        "österreich": "Austria",
+                        "polska": "Poland",
+                        "éire": "Ireland",
+                        "république française": "France"
+                    }
+                    
+                    # Check if we have a mapping
+                    if candidate in country_map:
+                        return country_map[candidate]
+                    elif len(candidate) <= 25:  # Reasonable country name length
                         return candidate.title()
         
         return "Unknown"

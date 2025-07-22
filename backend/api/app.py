@@ -358,11 +358,13 @@ def predict_eco_score():
 
 # Load the enhanced XGBoost model with error handling
 model = None
+model_type = None  # Track which model type is loaded
 try:
     import xgboost as xgb
     model = xgb.XGBClassifier()
     model.load_model(os.path.join(model_dir, "xgb_model.json"))
     print("✅ Loaded enhanced XGBoost model")
+    model_type = "enhanced"  # This is the 11-feature model
 except Exception as e:
     print(f"⚠️ Failed to load XGBoost model: {e}")
     print("🔄 Falling back to joblib for compatibility...")
@@ -374,7 +376,16 @@ except Exception as e:
         print("✅ Loaded fallback model via pickle")
     except Exception as e2:
         try:
-            model = joblib.load(os.path.join(model_dir, "eco_model.pkl"))
+            # Try to load enhanced XGBoost model first
+            try:
+                model = joblib.load(os.path.join(model_dir, "enhanced_xgboost_model.pkl"))
+                print("✅ Loaded enhanced XGBoost model (11 features)")
+                model_type = "enhanced"
+            except:
+                # Fallback to basic model
+                model = joblib.load(os.path.join(model_dir, "eco_model.pkl"))
+                print("⚠️ Loaded basic model (6 features)")
+                model_type = "basic"
             print("✅ Loaded fallback model via joblib")
         except Exception as e3:
             print(f"❌ Failed to load any model: {e3}")
@@ -981,6 +992,20 @@ def estimate_emissions():
 
         # Get origin coordinates - use scraper result first
         origin_country = product.get("origin") or product.get("brand_estimated_origin", "UK")
+        
+        # For UK internal deliveries, determine specific region from postcode
+        if origin_country == "UK" and postcode:
+            postcode_upper = postcode.upper()
+            if postcode_upper.startswith(('CF', 'NP', 'SA', 'SY', 'LL', 'LD')):
+                origin_country = "Wales"
+            elif postcode_upper.startswith(('EH', 'G', 'KA', 'ML', 'PA', 'PH', 'FK', 'KY', 'AB', 'DD', 'DG', 'TD', 'KW', 'IV', 'HS', 'ZE')):
+                origin_country = "Scotland"
+            elif postcode_upper.startswith('BT'):
+                origin_country = "Northern Ireland"
+            else:
+                origin_country = "England"
+            print(f"🇬🇧 UK internal delivery - Origin: {origin_country}")
+        
         print(f"🌍 Origin determined: {origin_country}")
         origin_coords = origin_hubs.get(origin_country, uk_hub)
 
@@ -1196,17 +1221,40 @@ def estimate_emissions():
                     "features": [{"name": name, "value": convert_numpy_types(value)} for name, value in zip(fallback_feature_names, fallback_feature_values)]
                 }
 
+            # ML Prediction - Use correct features based on loaded model
+            if model_type == "basic" or model_type is None:
+                # Force 6 features for basic model
+                X = [[
+                    material_encoded,
+                    transport_encoded,
+                    recycle_encoded,
+                    origin_encoded,
+                    weight_log,
+                    weight_bin_encoded
+                ]]
+                print("📊 Using 6 features for basic model")
+                ml_features_used["feature_count"] = 6
+            
             # ML Prediction
             if model is None:
                 raise Exception("Model not available")
             
-            prediction = model.predict(X)[0]
-            eco_score_ml = label_encoder.inverse_transform([prediction])[0]
-
-            confidence = 0.0
-            if hasattr(model, "predict_proba"):
-                proba = model.predict_proba(X)
-                confidence = round(float(np.max(proba[0])) * 100, 1)
+            try:
+                prediction = model.predict(X)[0]
+                eco_score_ml = label_encoder.inverse_transform([prediction])[0]
+                print(f"✅ ML prediction successful: {eco_score_ml}")
+                
+                confidence = 0.0
+                if hasattr(model, "predict_proba"):
+                    proba = model.predict_proba(X)
+                    confidence = round(float(np.max(proba[0])) * 100, 1)
+            except Exception as pred_error:
+                print(f"⚠️ ML prediction error: {pred_error}")
+                print(f"   Feature vector shape: {len(X[0])} features")
+                print(f"   Model type: {model_type}")
+                # Use rule-based as fallback
+                eco_score_ml = eco_score_rule_based
+                confidence = 0.0
 
             print(f"✅ ML Score: {eco_score_ml} ({confidence}%)")
             print(f"🔧 Rule-based Score: {eco_score_rule_based}")

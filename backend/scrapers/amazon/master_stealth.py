@@ -337,8 +337,8 @@ class MasterStealthScraper:
         try:
             print(f"🎯 MASTER scraping: {url}")
             
-            # Phase 1: Session warming
-            self.warm_up_session()
+            # Phase 1: Session warming - DISABLED for speed
+            # self.warm_up_session()
             
             # Phase 2: Strategic delay
             print("⏳ Strategic delay before product page...")

@@ -191,6 +191,11 @@ origin_hubs = {
     # 🇪🇺 Europe
     "Germany": {"lat": 50.1109, "lon": 8.6821, "city": "Frankfurt", "region": "Europe"},
     "UK": {"lat": 51.509865, "lon": -0.118092, "city": "London", "region": "Europe"},
+    "England": {"lat": 52.3555, "lon": -1.1743, "city": "Birmingham", "region": "Europe"},
+    "Wales": {"lat": 51.4816, "lon": -3.1791, "city": "Cardiff", "region": "Europe"},
+    "Scotland": {"lat": 55.9533, "lon": -3.1883, "city": "Edinburgh", "region": "Europe"},
+    "Northern Ireland": {"lat": 54.5973, "lon": -5.9301, "city": "Belfast", "region": "Europe"},
+    "Ireland": {"lat": 53.3498, "lon": -6.2603, "city": "Dublin", "region": "Europe"},
     "France": {"lat": 48.8566, "lon": 2.3522, "city": "Paris", "region": "Europe"},
     "Italy": {"lat": 45.4642, "lon": 9.1900, "city": "Milan", "region": "Europe"},
     "Spain": {"lat": 40.4168, "lon": -3.7038, "city": "Madrid", "region": "Europe"},
