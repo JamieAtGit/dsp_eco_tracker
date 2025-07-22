@@ -1,0 +1,72 @@
+# Node.js
+node_modules/
+
+# Selenium
+selenium_profile/
+
+# Python
+__pycache__/
+*.pyc
+
+# Data files
+
+
+!package.json
+!package-lock.json
+
+# Environment
+.env
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+.env
+.venv/
+
+
+# === Node ===
+node_modules/
+dist/
+*.log
+.env.local
+.vite/
+
+# === Mac & VS Code ===
+.DS_Store
+.vscode/
+
+# === Frontend ===
+frontend/website/dist/
+frontend/extension/dist/
+
+# === Common ===
+
+# keep this one if needed
+
+# === Models ===
+
+# === Keep specific files ===
+!backend/scrapers/brand_origins.csv
+!common/data/csv/defra_material_intensity.csv
+!frontend/extension/material_insights.json
+!ml_model/
+!ml_model/*.json
+!ml_model/*.pkl
+
+# Ensure encoders and all .pkl files are kept
+!backend/ml/
+!backend/ml/ml_model/
+!backend/ml/ml_model/encoders/
+!backend/ml/ml_model/encoders/*.pkl
+
+!common/
+!common/data/
+!common/data/csv/
+!common/data/csv/defra_material_intensity.csv
+
+!brand_locations.json
+
+
