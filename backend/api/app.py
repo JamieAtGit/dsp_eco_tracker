@@ -18,13 +18,19 @@ from backend.api.routes.api import calculate_eco_score
 
 
 import pandas as pd
+# Import new production-grade unified scraper
+from backend.scrapers.amazon.unified_scraper import (
+    scrape_amazon_product_page,  # Drop-in replacement with enhanced capabilities
+    UnifiedProductScraper
+)
 from backend.scrapers.amazon.integrated_scraper import (
-    scrape_amazon_product_page,
     estimate_origin_country,
     resolve_brand_origin,
-    save_brand_locations
+    save_brand_locations,
+    haversine, 
+    origin_hubs, 
+    uk_hub
 )
-from backend.scrapers.amazon.integrated_scraper import haversine, origin_hubs, uk_hub
 
 import csv
 import re
@@ -1008,7 +1014,7 @@ def estimate_emissions():
             return jsonify({"error": "Missing URL or postcode"}), 400
 
         # Scrape product with debugging using enhanced stealth scraper
-        from backend.scrapers.amazon.integrated_scraper import scrape_amazon_product_page, haversine, origin_hubs, uk_hub
+        # Use production-grade unified scraper (already imported)
         print(f"🔍 Scraping URL: {url}")
         product = scrape_amazon_product_page(url)
         
@@ -1204,34 +1210,57 @@ def estimate_emissions():
                     size_encoded = safe_encode(size_category, size_category_encoder, "medium") 
                     quality_encoded = safe_encode(quality_level, quality_level_encoder, "standard")
                     
-                    # Build the full feature vector (11 features as expected by the model)
+                    # === ADD MISSING ENHANCED FEATURES FOR 16-FEATURE MODEL ===
+                    
+                    # Infer category from product title
+                    category_encoded = 0  # Default to first category
+                    if inferred_category_encoder:
+                        inferred_category = "supplement" if "protein" in product.get("title", "").lower() else "other"
+                        category_encoded = safe_encode(inferred_category, inferred_category_encoder, "other")
+                    
+                    # Additional confidence scores
+                    origin_confidence = 0.9 if product.get("origin", "Unknown") != "Unknown" else 0.3
+                    weight_confidence = 0.9 if product.get("weight_kg", 1.0) != 1.0 else 0.5
+                    
+                    # Product lifecycle estimates
+                    estimated_lifespan_years = 2.0 if "supplement" in product.get("title", "").lower() else 5.0
+                    repairability_score = 0.1 if material in ["Plastic", "Glass"] else 0.6
+                    
+                    # Build the full feature vector (16 features as expected by enhanced model)
                     X = [[
-                        material_encoded,           # 1
-                        transport_encoded,          # 2
-                        recycle_encoded,           # 3
-                        origin_encoded,            # 4
-                        weight_log,                # 5
-                        weight_bin_encoded,        # 6
-                        packaging_encoded,         # 7
-                        size_encoded,              # 8
-                        quality_encoded,           # 9
-                        pack_size,                 # 10
-                        material_confidence        # 11
+                        material_encoded,           # 1: material_encoded
+                        transport_encoded,          # 2: transport_encoded  
+                        recycle_encoded,           # 3: recyclability_encoded
+                        origin_encoded,            # 4: origin_encoded
+                        weight_log,                # 5: weight_log
+                        weight_bin_encoded,        # 6: weight_bin_encoded
+                        packaging_encoded,         # 7: packaging_type_encoded
+                        size_encoded,              # 8: size_category_encoded
+                        quality_encoded,           # 9: quality_level_encoded
+                        category_encoded,          # 10: inferred_category_encoded
+                        pack_size,                 # 11: pack_size
+                        material_confidence,       # 12: material_confidence
+                        origin_confidence,         # 13: origin_confidence
+                        weight_confidence,         # 14: weight_confidence
+                        estimated_lifespan_years,  # 15: estimated_lifespan_years
+                        repairability_score        # 16: repairability_score
                     ]]
                     
-                    # Show the 11 features for transparency
+                    # Show all 16 features for transparency
                     feature_names = [
                         "Material Type", "Transport Mode", "Recyclability", "Origin Country",
                         "Weight (log)", "Weight Category", "Packaging Type", "Size Category", 
-                        "Quality Level", "Pack Size", "Material Confidence"
+                        "Quality Level", "Inferred Category", "Pack Size", "Material Confidence",
+                        "Origin Confidence", "Weight Confidence", "Estimated Lifespan", "Repairability Score"
                     ]
                     feature_values = [
                         material_encoded, transport_encoded, recycle_encoded, origin_encoded,
                         weight_log, weight_bin_encoded, packaging_encoded, size_encoded,
-                        quality_encoded, pack_size, material_confidence
+                        quality_encoded, category_encoded, pack_size, material_confidence,
+                        origin_confidence, weight_confidence, estimated_lifespan_years, repairability_score
                     ]
                     
-                    print(f"🔧 Using 11 enhanced features for ML prediction:")
+                    print(f"🔧 Using 16 enhanced features for ML prediction:")
                     for name, value in zip(feature_names, feature_values):
                         print(f"   {name}: {value}")
                     
@@ -1239,7 +1268,8 @@ def estimate_emissions():
                     
                     # Store features for response (convert numpy types)
                     ml_features_used = {
-                        "feature_count": 11,
+                        "feature_count": 16,
+                        "model_type": "enhanced_16_feature",
                         "features": [{"name": name, "value": convert_numpy_types(value)} for name, value in zip(feature_names, feature_values)]
                     }
                 else:
@@ -1414,6 +1444,6 @@ def test():
    
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5001))
     app.run(host="0.0.0.0", port=port)
  

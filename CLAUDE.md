@@ -352,3 +352,356 @@ else: transport = "air" (0.5 kg CO2/kg·km)
 5. **Context-Aware Brand Intelligence**: Product-specific manufacturing pattern detection
 
 This roadmap positions your project for 95% by addressing the core technical deficiencies while maintaining the strong academic foundation you've already built.
+
+---
+
+## 🏗️ **TECHNICAL DEBT ELIMINATION ROADMAP** 
+*Professional Engineering Standards for First-Class Dissertation*
+
+### **Current Technical Assessment: 58-62% (Lower 2:2)**
+
+#### **Critical Deficiencies Identified:**
+- ❌ **Non-functional core system**: All scrapers broken with import/dependency errors
+- ❌ **Amateur error handling**: Cascade failures, no graceful degradation
+- ❌ **Architecture chaos**: 8+ competing scrapers, massive code duplication
+- ❌ **ML implementation issues**: Feature engineering weak, overfitting risk
+- ❌ **Zero testing coverage**: No automated tests, manual verification only
+- ❌ **Data quality nightmare**: "Unknown" values everywhere, no validation
+
+---
+
+### **🎯 SYSTEMATIC ENGINEERING PHASES**
+
+#### **PHASE 1: SYSTEM STABILIZATION** 🚨
+**Status**: In Progress | **Target**: 1-2 weeks | **Impact**: +15-20 marks
+
+**Objectives:**
+- ✅ Create ONE reliable, production-grade scraper
+- ✅ Fix all import/dependency issues
+- ✅ Implement proper error handling and logging
+- ✅ Establish data validation pipeline
+
+**Technical Deliverables:**
+```python
+# Unified Scraper Interface
+class ProductScraper:
+    def scrape(self, url: str) -> ScrapingResult:
+        """Single method, multiple strategies, guaranteed result"""
+        pass
+
+# Error Handling Framework  
+class ScrapingException(Exception):
+    """Custom exceptions with context and recovery strategies"""
+    pass
+
+# Data Validation Pipeline
+class ProductValidator:
+    def validate(self, product_data: Dict) -> ValidationResult:
+        """Comprehensive data quality assessment"""
+        pass
+```
+
+**Success Criteria:**
+- 95%+ scraping success rate
+- Zero import/dependency errors
+- All errors logged with context
+- Data completeness >90%
+
+---
+
+#### **PHASE 2: ARCHITECTURE CLEANUP** 🏗️
+**Status**: Pending | **Target**: 2-3 weeks | **Impact**: +10-15 marks
+
+**Objectives:**
+- 🔧 Consolidate 8 scrapers into clean interface hierarchy
+- 🔧 Implement dependency injection and strategy pattern
+- 🔧 Create standardized data models and APIs
+- 🔧 Eliminate code duplication (target: <5% duplicate code)
+
+**Technical Deliverables:**
+```python
+# Strategy Pattern Implementation
+class ScrapingStrategy(ABC):
+    @abstractmethod
+    def can_handle(self, url: str) -> bool:
+    def scrape(self, url: str) -> ProductData:
+
+# Dependency Injection Container
+class ScrapingContainer:
+    def __init__(self):
+        self.strategies = [RequestsStrategy(), SeleniumStrategy(), ...]
+    
+# Standardized Product Data Model
+@dataclass
+class ProductData:
+    title: str
+    origin: str  
+    weight_kg: float
+    confidence_scores: Dict[str, float]
+    extraction_metadata: ExtractionMetadata
+```
+
+**Success Criteria:**
+- Single entry point for all scraping
+- Strategy pattern with fallback chain
+- 100% consistent data models
+- <5% code duplication
+
+---
+
+#### **PHASE 3: TESTING FRAMEWORK** 🧪
+**Status**: Pending | **Target**: 1-2 weeks | **Impact**: +10-12 marks
+
+**Objectives:**
+- 🧪 Unit tests for all critical functions (target: 80%+ coverage)
+- 🧪 Integration tests for API endpoints
+- 🧪 ML model validation tests
+- 🧪 CI/CD pipeline with automated testing
+
+**Technical Deliverables:**
+```python
+# Comprehensive Test Suite
+class TestProductScraper(unittest.TestCase):
+    def test_scraping_accuracy(self):
+    def test_error_handling(self):
+    def test_data_validation(self):
+
+class TestMLPipeline(unittest.TestCase):
+    def test_model_accuracy(self):
+    def test_cross_validation(self):
+    def test_bias_detection(self):
+
+# Performance Benchmarks
+class TestPerformance(unittest.TestCase):
+    def test_scraping_speed(self):
+    def test_memory_usage(self):
+    def test_concurrent_requests(self):
+```
+
+**Success Criteria:**
+- 80%+ test coverage
+- All tests passing in CI/CD
+- Performance benchmarks established
+- Automated regression detection
+
+---
+
+#### **PHASE 4: ML ENGINEERING RIGOR** 📊
+**Status**: Pending | **Target**: 2-3 weeks | **Impact**: +8-12 marks
+
+**Objectives:**
+- 📊 Implement proper cross-validation with statistical significance
+- 📊 Add model uncertainty quantification
+- 📊 Bias detection across product categories
+- 📊 Ensemble methods for improved accuracy
+
+**Technical Deliverables:**
+```python
+# Statistical Validation Framework
+class MLValidator:
+    def cross_validate(self, model, X, y, cv=10) -> ValidationResults:
+        """K-fold CV with confidence intervals"""
+    
+    def statistical_significance_test(self, model_a, model_b) -> float:
+        """McNemar's test for model comparison"""
+    
+    def bias_analysis(self, model, X, y, protected_attrs) -> BiasReport:
+        """Fairness analysis across categories"""
+
+# Model Uncertainty
+class UncertaintyQuantifier:
+    def prediction_intervals(self, X) -> Tuple[float, float, float]:
+        """Returns (prediction, lower_bound, upper_bound)"""
+```
+
+**Success Criteria:**
+- Model accuracy >90% with statistical validation
+- Uncertainty quantification implemented
+- Bias analysis completed
+- Ensemble methods deployed
+
+---
+
+#### **PHASE 5: PRODUCTION READINESS** 🚀
+**Status**: Pending | **Target**: 1-2 weeks | **Impact**: +8-10 marks
+
+**Objectives:**
+- 🚀 Async processing and caching layer
+- 🚀 Monitoring and alerting system
+- 🚀 Performance optimization
+- 🚀 Docker containerization and deployment
+
+**Technical Deliverables:**
+```python
+# Async Processing
+class AsyncScraper:
+    async def scrape_batch(self, urls: List[str]) -> List[ProductData]:
+        """Concurrent scraping with rate limiting"""
+
+# Caching Layer
+class ProductCache:
+    def get_cached_product(self, url: str) -> Optional[ProductData]:
+    def cache_product(self, url: str, data: ProductData, ttl: int):
+
+# Monitoring System
+class MetricsCollector:
+    def track_scraping_success_rate(self):
+    def track_model_performance(self):
+    def track_response_times(self):
+```
+
+**Success Criteria:**
+- 3x performance improvement
+- 99%+ uptime monitoring
+- Automated alerts for failures
+- One-command deployment
+
+---
+
+### **🎯 ENGINEERING PRINCIPLES**
+
+#### **Code Quality Standards:**
+```python
+# Every function MUST have:
+def scrape_product(url: str) -> ProductData:
+    """
+    Scrapes Amazon product data with guaranteed fallback.
+    
+    Args:
+        url: Valid Amazon product URL
+        
+    Returns:
+        ProductData with confidence scores
+        
+    Raises:
+        ScrapingException: When all strategies fail
+        
+    Examples:
+        >>> data = scrape_product("https://amazon.co.uk/dp/B123")
+        >>> assert data.confidence_scores['origin'] > 0.8
+    """
+    pass
+```
+
+#### **Error Handling Standards:**
+```python
+# Every operation MUST handle errors gracefully
+try:
+    result = risky_operation()
+except SpecificException as e:
+    logger.error(f"Operation failed: {e}", extra={"context": context})
+    return fallback_result()
+except Exception as e:
+    logger.critical(f"Unexpected error: {e}", exc_info=True)
+    raise SystemException("Critical system failure") from e
+```
+
+#### **Testing Standards:**
+```python
+# Every function MUST have tests
+class TestProductScraper:
+    def test_valid_url_returns_data(self):
+        """Test normal operation"""
+        
+    def test_invalid_url_raises_exception(self):
+        """Test error cases"""
+        
+    def test_rate_limiting_respected(self):
+        """Test performance constraints"""
+```
+
+---
+
+### **📊 TECHNICAL DEBT METRICS**
+
+#### **Current State:**
+- **Lines of duplicated code**: ~2,000+
+- **Test coverage**: 0%  
+- **Import errors**: 15-20 major issues
+- **Performance**: 60+ second scraping times
+- **Error handling**: Inconsistent/missing
+- **Documentation**: <20% coverage
+
+#### **Target State:**
+- **Lines of duplicated code**: <100
+- **Test coverage**: 80%+
+- **Import errors**: 0
+- **Performance**: <5 second scraping times  
+- **Error handling**: 100% graceful degradation
+- **Documentation**: 95% coverage
+
+---
+
+### **💻 PROFESSIONAL DEVELOPMENT ENVIRONMENT**
+
+#### **Required Tools & Dependencies:**
+```bash
+# Development Environment Setup
+python -m venv .venv
+source .venv/bin/activate
+
+# Core dependencies (managed properly)  
+pip install -r requirements/base.txt
+pip install -r requirements/dev.txt  # Testing, linting, type checking
+pip install -r requirements/ml.txt   # ML/AI dependencies
+
+# Development tools
+pre-commit install  # Automated code quality
+pytest --cov=backend tests/  # Test coverage
+mypy backend/  # Type checking
+black backend/  # Code formatting
+flake8 backend/  # Linting
+```
+
+#### **CI/CD Pipeline:**
+```yaml
+# .github/workflows/test.yml
+name: Test & Lint
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+      - name: Run tests
+        run: |
+          pip install -r requirements/dev.txt
+          pytest --cov=backend tests/
+          mypy backend/
+          black --check backend/
+          flake8 backend/
+```
+
+---
+
+### **🎯 WEEKLY MILESTONES & DELIVERABLES**
+
+#### **Week 1: System Stabilization** 
+- ✅ Fix all import/dependency issues
+- ✅ Create unified scraper interface
+- ✅ Implement comprehensive error handling
+- ✅ Add structured logging throughout
+
+#### **Week 2-3: Architecture & Testing**
+- 🔧 Consolidate scrapers using strategy pattern
+- 🧪 Build comprehensive test suite (80%+ coverage)
+- 📊 Implement data validation pipeline
+- 🚀 Add performance monitoring
+
+#### **Week 4-5: ML Engineering Excellence**
+- 📊 Statistical model validation framework  
+- 🧠 Model uncertainty quantification
+- 🔍 Bias detection and fairness analysis
+- 🏆 Ensemble methods implementation
+
+#### **Week 6: Production & Documentation**
+- 🚀 Async processing and caching
+- 📖 Complete API documentation
+- 🐳 Docker containerization
+- 🎯 Performance optimization to <5s
+
+---
+
+**This systematic engineering approach transforms the codebase from prototype to production-grade system worthy of First-Class honors.**
