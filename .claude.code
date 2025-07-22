@@ -1,0 +1,8 @@
+{
+  "documentation_files": ["CLAUDE.md"],
+  "default_context": {
+    "description": "DSP Eco Tracker: An academic project featuring a React frontend, Chrome extension, Flask backend, and ML-based sustainability scoring system for Amazon products.",
+    "entry_points": ["frontend/website", "frontend/extension", "backend/api", "backend/ml", "backend/scrapers"],
+    "tags": ["academic", "ai", "react", "python", "ml", "eco", "scraper"]
+  }
+}

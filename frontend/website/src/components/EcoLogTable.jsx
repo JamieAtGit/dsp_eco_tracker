@@ -24,7 +24,15 @@ export default function EcoLogTable() {
   }
   
   const filteredData = data.filter((row) => {
-    const matchesScore = scoreFilter === "" || row.eco_score === scoreFilter;
+    // Filter out invalid rows (like header rows that got mixed in)
+    const isValidRow = row.true_eco_score && 
+                      row.true_eco_score !== 'true_eco_score' && 
+                      row.material && 
+                      row.material !== 'material';
+    
+    if (!isValidRow) return false;
+    
+    const matchesScore = scoreFilter === "" || row.true_eco_score === scoreFilter;
     const matchesMaterial = materialFilter === "" || row.material === materialFilter;
     const matchesSearch = searchTerm === "" || 
       row.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -34,8 +42,12 @@ export default function EcoLogTable() {
     return matchesScore && matchesMaterial && matchesSearch;
   });
 
-  const uniqueScores = [...new Set(data.map((row) => row.eco_score))];
-  const uniqueMaterials = [...new Set(data.map((row) => row.material))];
+  const uniqueScores = [...new Set(data.map((row) => row.true_eco_score))].filter(score => 
+    score && score !== 'true_eco_score' && typeof score === 'string' && score.length <= 2
+  );
+  const uniqueMaterials = [...new Set(data.map((row) => row.material))].filter(material => 
+    material && material !== 'material' && typeof material === 'string'
+  );
 
   const downloadCSV = () => {
     const headers = [
@@ -44,7 +56,7 @@ export default function EcoLogTable() {
       "weight",
       "transport",
       "recyclability",
-      "eco_score",
+      "true_eco_score",
       "co2_emissions",
       "origin",
     ];
@@ -201,11 +213,11 @@ export default function EcoLogTable() {
                         <div className="flex justify-between">
                           <span className="text-slate-400">Score:</span>
                           <ModernBadge 
-                            variant={row.eco_score === 'A+' || row.eco_score === 'A' ? 'success' : 
-                                   row.eco_score === 'B' || row.eco_score === 'C' ? 'warning' : 'error'} 
+                            variant={row.true_eco_score === 'A+' || row.true_eco_score === 'A' ? 'success' : 
+                                   row.true_eco_score === 'B' || row.true_eco_score === 'C' ? 'warning' : 'error'} 
                             size="sm"
                           >
-                            {row.eco_score}
+                            {row.true_eco_score}
                           </ModernBadge>
                         </div>
                         <div className="flex justify-between">

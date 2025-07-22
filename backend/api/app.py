@@ -18,13 +18,13 @@ from backend.api.routes.api import calculate_eco_score
 
 
 import pandas as pd
-from backend.scrapers.amazon.scrape_amazon_titles import (
+from backend.scrapers.amazon.integrated_scraper import (
     scrape_amazon_product_page,
     estimate_origin_country,
     resolve_brand_origin,
     save_brand_locations
 )
-from backend.scrapers.amazon.scrape_amazon_titles import haversine, origin_hubs, uk_hub
+from backend.scrapers.amazon.integrated_scraper import haversine, origin_hubs, uk_hub
 
 import csv
 import re
@@ -422,7 +422,7 @@ except Exception as e:
             print("✅ Created fallback rule-based model")
 
 # Load basic encoders
-material_encoder = joblib.load("backend/ml/ml_model/encoders/material_encoder.pkl")
+material_encoder = joblib.load(os.path.join(encoders_dir, "material_encoder.pkl"))
 print("🧩 Loaded material encoder classes:", material_encoder.classes_)
 
 transport_encoder = joblib.load(os.path.join(encoders_dir, "transport_encoder.pkl"))
@@ -511,7 +511,7 @@ def ml_audit_report():
         
         # 2. Dataset analysis
         try:
-            dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "eco_dataset.csv")
+            dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "expanded_eco_dataset.csv")
             if os.path.exists(dataset_path):
                 df = pd.read_csv(dataset_path)
                 
@@ -724,12 +724,13 @@ def fuzzy_match_origin(origin):
 @app.route("/api/eco-data", methods=["GET"])
 def fetch_eco_dataset():
     try:
-        dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "eco_dataset.csv")
-        #print("📁 Trying to read:", dataset_path)
+        dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "expanded_eco_dataset.csv")
         df = pd.read_csv(dataset_path)
-        #print("✅ Loaded:", df.shape)
-        #print("🧪 Columns:", df.columns.tolist())
         df = df.dropna(subset=["material", "true_eco_score", "co2_emissions"])
+        
+        # Replace NaN values with None/null for JSON serialization
+        df = df.where(pd.notnull(df), None)
+        
         return jsonify(df.to_dict(orient="records"))
     except Exception as e:
         print(f"❌ Failed to return eco dataset: {e}")
@@ -742,7 +743,7 @@ def fetch_eco_dataset():
 def insights_dashboard():
     try:
         # Load the logged data
-        dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "eco_dataset.csv")
+        dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "expanded_eco_dataset.csv")
         df = pd.read_csv(dataset_path)
         print("🔍 Dataset path:", dataset_path)
         print("✅ Exists?", os.path.exists(dataset_path))
@@ -778,7 +779,7 @@ def get_dashboard_metrics():
         
         # 1. Load main dataset
         try:
-            dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "eco_dataset.csv")
+            dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "expanded_eco_dataset.csv")
             if os.path.exists(dataset_path):
                 df = pd.read_csv(dataset_path)
                 df_clean = df.dropna(subset=["material", "true_eco_score"])
@@ -945,8 +946,8 @@ def estimate_emissions():
         if not url or not postcode:
             return jsonify({"error": "Missing URL or postcode"}), 400
 
-        # Scrape product with debugging
-        from backend.scrapers.amazon.scrape_amazon_titles import scrape_amazon_product_page, haversine, origin_hubs, uk_hub
+        # Scrape product with debugging using enhanced stealth scraper
+        from backend.scrapers.amazon.integrated_scraper import scrape_amazon_product_page, haversine, origin_hubs, uk_hub
         print(f"🔍 Scraping URL: {url}")
         product = scrape_amazon_product_page(url)
         

@@ -13,7 +13,7 @@ import json
 
 # === Paths ===
 script_dir = os.path.dirname(__file__)
-csv_path = os.path.abspath(os.path.join(script_dir, "../../../common/data/csv/enhanced_amazon_dataset.csv"))
+csv_path = os.path.abspath(os.path.join(script_dir, "../../../common/data/csv/expanded_eco_dataset.csv"))
 model_dir = os.path.join(script_dir, "..", "models")
 encoders_dir = os.path.join(script_dir, "..", "encoders")
 os.makedirs(model_dir, exist_ok=True)
