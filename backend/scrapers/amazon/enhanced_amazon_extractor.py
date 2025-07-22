@@ -128,7 +128,7 @@ class EnhancedAmazonExtractor:
         return {
             "Aluminum": ["aluminum", "aluminium", "anodized aluminum", "aircraft aluminum"],
             "Steel": ["stainless steel", "carbon steel", "steel", "inox", "ss304", "ss316"],
-            "Plastic": ["plastic", "abs", "polycarbonate", "polypropylene", "polyethylene", "pvc", "pet"],
+            "Plastic": ["plastic", "abs", "polycarbonate", "polypropylene", "polyethylene", "pvc", "pet", "container", "tub", "jar", "bottle", "lid", "scoop"],
             "Glass": ["glass", "tempered glass", "borosilicate", "pyrex"],
             "Rubber": ["rubber", "silicone", "tpu", "thermoplastic", "elastomer"],
             "Cotton": ["cotton", "organic cotton", "100% cotton", "cotton blend"],
@@ -143,12 +143,15 @@ class EnhancedAmazonExtractor:
     def _init_origin_patterns(self) -> List[Tuple[str, str]]:
         """Initialize origin detection patterns"""
         return [
-            (r"country\s+of\s+origin[:\s]*([a-zA-Z\s,]+)", "country_of_origin"),
-            (r"made\s+in[:\s]*([a-zA-Z\s,]+)", "made_in"),
-            (r"manufactured\s+in[:\s]*([a-zA-Z\s,]+)", "manufactured_in"),
-            (r"origin[:\s]*([a-zA-Z\s,]+)", "origin"),
-            (r"product\s+of[:\s]*([a-zA-Z\s,]+)", "product_of"),
-            (r"ships\s+from[:\s]*([a-zA-Z\s,]+)", "ships_from")
+            # More specific patterns for Amazon's format
+            (r"country\s+of\s+origin[:\s]*([a-zA-Z\s]{1,30})(?:\s+[A-Z][a-z]|\s*$|\s+\d|\s+[A-Z]{2,})", "country_of_origin"),
+            (r"made\s+in[:\s]*([a-zA-Z\s]{1,30})(?:\s+[A-Z][a-z]|\s*$|\s+\d)", "made_in"),
+            (r"manufactured\s+in[:\s]*([a-zA-Z\s]{1,30})(?:\s+[A-Z][a-z]|\s*$|\s+\d)", "manufactured_in"),
+            # Amazon often uses just "gb" or "uk" 
+            (r"country\s+of\s+origin[:\s]*\b(gb|uk|united kingdom|usa|china|germany|france|italy|japan)\b", "country_of_origin_short"),
+            (r"origin[:\s]*\b(gb|uk|united kingdom|usa|china|germany|france|italy|japan)\b", "origin_short"),
+            (r"product\s+of[:\s]*([a-zA-Z\s]{1,20})", "product_of"),
+            (r"ships\s+from[:\s]*([a-zA-Z\s]{1,20})", "ships_from")
         ]
     
     def _setup_driver(self) -> webdriver.Chrome:
@@ -423,6 +426,10 @@ class EnhancedAmazonExtractor:
                 if match:
                     raw_origin = match.group(1).strip()
                     
+                    # Special handling for Amazon's format - extract just the country part
+                    if "country of origin" in pattern.lower():
+                        raw_origin = self._extract_country_from_amazon_text(raw_origin, text)
+                    
                     # Clean up the origin value
                     cleaned_origin = self._clean_origin_country(raw_origin)
                     
@@ -449,6 +456,26 @@ class EnhancedAmazonExtractor:
         """Extract both primary material and materials breakdown"""
         text_sources = self._get_all_text_sources()
         found_materials = []
+        
+        # First check if this is a protein powder (smart inference)
+        title_text = text_sources.get('title', '').lower()
+        if any(keyword in title_text for keyword in ['protein', 'powder', 'mass gainer', 'supplement', 'whey', 'casein']):
+            return (
+                ExtractionResult(
+                    value="Plastic",
+                    confidence="high",
+                    source="product_type_inference",
+                    raw_text="Protein powder container (typically plastic)",
+                    timestamp=datetime.now().isoformat()
+                ),
+                ExtractionResult(
+                    value="Plastic container with powder contents",
+                    confidence="medium",
+                    source="product_type_inference",
+                    raw_text="Protein powder packaging analysis",
+                    timestamp=datetime.now().isoformat()
+                )
+            )
         
         for source_name, text in text_sources.items():
             if not text:
@@ -633,11 +660,15 @@ class EnhancedAmazonExtractor:
             "china": "China",
             "people's republic of china": "China",
             "prc": "China",
+            "cn": "China",
             "united kingdom": "UK",
+            "great britain": "UK",
+            "gb": "UK",
             "uk": "UK",
             "england": "UK",
             "scotland": "UK",
             "wales": "UK",
+            "britain": "UK",
             "united states": "USA",
             "united states of america": "USA",
             "usa": "USA",
@@ -645,10 +676,14 @@ class EnhancedAmazonExtractor:
             "america": "USA",
             "germany": "Germany",
             "deutschland": "Germany",
+            "de": "Germany",
             "france": "France",
+            "fr": "France",
             "italy": "Italy",
             "italia": "Italy",
+            "it": "Italy",
             "japan": "Japan",
+            "jp": "Japan",
             "nippon": "Japan"
         }
         
@@ -663,6 +698,26 @@ class EnhancedAmazonExtractor:
         
         # Return title case if no match found
         return raw_origin.title()
+    
+    def _extract_country_from_amazon_text(self, raw_origin: str, full_text: str) -> str:
+        """Extract just the country from Amazon's technical details format"""
+        # If we extracted too much text, try to find just the country part
+        if len(raw_origin) > 30:  # Likely grabbed too much text
+            # Look for specific patterns in the full text
+            country_patterns = [
+                r"country\s+of\s+origin[:\s]*\s*(gb|uk|united kingdom|usa|china|germany|france|italy|japan)\s",
+                r"country\s+of\s+origin[:\s]*([a-zA-Z\s]{1,20})(?:\s+brand|\s+format|\s+age|\s*$)",
+                r"country\s+of\s+origin[:\s]*([^0-9\n\r\t]{1,25})(?:\s+[A-Z][a-z]+|\s*$)"
+            ]
+            
+            for pattern in country_patterns:
+                match = re.search(pattern, full_text, re.IGNORECASE)
+                if match:
+                    candidate = match.group(1).strip()
+                    if candidate and len(candidate) <= 25:  # Reasonable country name length
+                        return candidate
+        
+        return raw_origin
     
     def _calculate_overall_confidence(self, results: Dict[str, ExtractionResult]) -> str:
         """Calculate overall extraction confidence score"""

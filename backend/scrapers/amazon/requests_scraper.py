@@ -96,19 +96,24 @@ class RequestsScraper:
     def extract_from_soup(self, soup, asin: str, url: str) -> Dict:
         """Extract product data from HTML"""
         
-        # Extract title
+        # Extract title with improved selectors
         title = "Unknown Product"
         title_selectors = [
             '#productTitle',
             '.product-title',
-            '[data-automation-id="product-title"]'
+            '[data-automation-id="product-title"]',
+            'h1.a-size-large',
+            'h1[data-automation-id="product-title"]',
+            'h1 span'
         ]
         
         for selector in title_selectors:
             element = soup.select_one(selector)
             if element:
-                title = element.get_text().strip()
-                break
+                extracted_title = element.get_text().strip()
+                if extracted_title and len(extracted_title) > 5:  # Valid title
+                    title = extracted_title
+                    break
         
         # Extract brand
         brand = "Unknown"
@@ -131,14 +136,22 @@ class RequestsScraper:
         # Get all text for analysis
         all_text = soup.get_text()
         
+        # Look for origin in technical details first
+        origin_from_tech = self.extract_origin_from_tech_details(all_text)
+        if origin_from_tech != "Unknown":
+            origin = origin_from_tech
+        else:
+            # Estimate origin from brand as fallback
+            origin = self.estimate_origin(brand)
+        
         # Extract weight
         weight = self.extract_weight(all_text)
         
-        # Detect material
-        material = self.detect_material(title, all_text)
-        
-        # Estimate origin from brand
-        origin = self.estimate_origin(brand)
+        # Smart material detection - check for protein powder first
+        if any(keyword in title.lower() for keyword in ['protein', 'powder', 'mass gainer', 'supplement', 'whey', 'casein']):
+            material = "Plastic"  # Protein powder containers are typically plastic
+        else:
+            material = self.detect_material(title, all_text)
         
         result = {
             "title": title,
@@ -283,6 +296,34 @@ class RequestsScraper:
                 return origin
         
         return "UK"  # Default
+    
+    def extract_origin_from_tech_details(self, text: str) -> str:
+        """Extract origin from Amazon's technical details"""
+        text_lower = text.lower()
+        
+        # Look for country of origin patterns
+        patterns = [
+            r"country\s+of\s+origin[:\s]*\s*(gb|uk|united kingdom|usa|china|germany|france|italy|japan)",
+            r"country\s+of\s+origin[:\s]*([a-zA-Z\s]{1,25})(?:\s+brand|\s+format|\s+age|\s*\n|\s*$)",
+            r"made\s+in[:\s]*([a-zA-Z\s]{1,20})",
+        ]
+        
+        for pattern in patterns:
+            matches = re.findall(pattern, text_lower)
+            if matches:
+                candidate = matches[0].strip()
+                if candidate:
+                    # Clean and normalize
+                    if candidate == "gb":
+                        return "UK"
+                    elif candidate == "united kingdom":
+                        return "UK"
+                    elif candidate == "usa":
+                        return "USA"
+                    elif len(candidate) <= 20:  # Reasonable country name
+                        return candidate.title()
+        
+        return "Unknown"
 
 def scrape_with_requests(url: str) -> Optional[Dict]:
     """Main function for requests-based scraping"""
