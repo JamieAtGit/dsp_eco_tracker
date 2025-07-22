@@ -235,26 +235,64 @@ def predict_eco_score():
             material_confidence = 0.8 if material != "Other" else 0.3
             
             # Try to encode enhanced features if available
-            if packaging_type_encoder and size_category_encoder and quality_level_encoder:
+            if packaging_type_encoder and size_category_encoder and quality_level_encoder and inferred_category_encoder:
                 packaging_encoded = safe_encode(packaging_type, packaging_type_encoder, "box")
                 size_encoded = safe_encode(size_category, size_category_encoder, "medium") 
                 quality_encoded = safe_encode(quality_level, quality_level_encoder, "standard")
                 
-                # Use 11-feature model
+                # Inferred category (basic inference)
+                if any(x in title_lower for x in ["protein", "supplement", "vitamins"]):
+                    inferred_category = "health"
+                elif any(x in title_lower for x in ["electronics", "phone", "computer"]):
+                    inferred_category = "electronics"  
+                elif any(x in title_lower for x in ["clothing", "shirt", "dress"]):
+                    inferred_category = "clothing"
+                else:
+                    inferred_category = "other"
+                
+                # Encode inferred category
+                category_encoded = safe_encode(inferred_category, inferred_category_encoder, "other")
+                
+                # Additional confidence measures
+                origin_confidence = 0.8 if origin != "Other" else 0.4
+                weight_confidence = 0.9 if weight > 0.1 else 0.5
+                
+                # Estimated lifespan (years) - basic heuristic
+                if "electronics" in inferred_category:
+                    estimated_lifespan_years = 5.0
+                elif "clothing" in inferred_category:
+                    estimated_lifespan_years = 2.0
+                else:
+                    estimated_lifespan_years = 3.0
+                
+                # Repairability score (1-10, higher is more repairable)
+                if "electronics" in inferred_category:
+                    repairability_score = 3.0
+                elif inferred_category in ["other", "health"]:
+                    repairability_score = 1.0  # Consumables not repairable
+                else:
+                    repairability_score = 5.0
+                
+                # Use 16-feature enhanced model (matching our training)
                 X = [[
-                    material_encoded,           # 1
-                    transport_encoded,          # 2
-                    recycle_encoded,           # 3
-                    origin_encoded,            # 4
-                    weight_log,                # 5
-                    weight_bin_encoded,        # 6
-                    packaging_encoded,         # 7
-                    size_encoded,              # 8
-                    quality_encoded,           # 9
-                    pack_size,                 # 10
-                    material_confidence        # 11
+                    material_encoded,           # 1: material_encoded
+                    transport_encoded,          # 2: transport_encoded  
+                    recycle_encoded,           # 3: recyclability_encoded
+                    origin_encoded,            # 4: origin_encoded
+                    weight_log,                # 5: weight_log
+                    weight_bin_encoded,        # 6: weight_bin_encoded
+                    packaging_encoded,         # 7: packaging_type_encoded
+                    size_encoded,              # 8: size_category_encoded
+                    quality_encoded,           # 9: quality_level_encoded
+                    category_encoded,          # 10: inferred_category_encoded
+                    pack_size,                 # 11: pack_size
+                    material_confidence,       # 12: material_confidence
+                    origin_confidence,         # 13: origin_confidence
+                    weight_confidence,         # 14: weight_confidence
+                    estimated_lifespan_years,  # 15: estimated_lifespan_years
+                    repairability_score        # 16: repairability_score
                 ]]
-                print(f"🔧 Using 11-feature enhanced model for prediction")
+                print(f"🔧 Using 16-feature enhanced model for prediction")
             else:
                 raise Exception("Enhanced encoders not available")
                 
@@ -359,15 +397,25 @@ def predict_eco_score():
 # Load the enhanced XGBoost model with error handling
 model = None
 model_type = None  # Track which model type is loaded
+
+# First try to load the 16-feature enhanced model (eco_model.pkl)
 try:
-    import xgboost as xgb
-    model = xgb.XGBClassifier()
-    model.load_model(os.path.join(model_dir, "xgb_model.json"))
-    print("✅ Loaded enhanced XGBoost model")
-    model_type = "enhanced"  # This is the 11-feature model
+    model = joblib.load(os.path.join(model_dir, "eco_model.pkl"))
+    print("✅ Loaded enhanced XGBoost model (16-feature)")
+    model_type = "enhanced_16"
 except Exception as e:
-    print(f"⚠️ Failed to load XGBoost model: {e}")
-    print("🔄 Falling back to joblib for compatibility...")
+    print(f"⚠️ Failed to load enhanced 16-feature model: {e}")
+    
+    # Fallback to old XGBoost JSON format
+    try:
+        import xgboost as xgb
+        model = xgb.XGBClassifier()
+        model.load_model(os.path.join(model_dir, "xgb_model.json"))
+        print("✅ Loaded legacy XGBoost model")
+        model_type = "legacy"
+    except Exception as e2:
+        print(f"⚠️ Failed to load XGBoost JSON model: {e2}")
+        print("🔄 Trying other formats...")
     try:
         # Try loading the pickled model without XGBoost dependency
         import pickle
@@ -441,18 +489,20 @@ recycle_encoder = joblib.load(os.path.join(encoders_dir, "recycle_encoder.pkl"))
 label_encoder = joblib.load(os.path.join(encoders_dir, "label_encoder.pkl"))
 origin_encoder = joblib.load(os.path.join(encoders_dir, "origin_encoder.pkl"))
 
-# Load enhanced encoders for 11-feature model
+# Load enhanced encoders for 16-feature model
 try:
     packaging_type_encoder = joblib.load(os.path.join(encoders_dir, "packaging_type_encoder.pkl"))
     size_category_encoder = joblib.load(os.path.join(encoders_dir, "size_category_encoder.pkl"))
     quality_level_encoder = joblib.load(os.path.join(encoders_dir, "quality_level_encoder.pkl"))
-    print("✅ Loaded enhanced encoders for 11-feature model")
+    inferred_category_encoder = joblib.load(os.path.join(encoders_dir, "inferred_category_encoder.pkl"))
+    print("✅ Loaded enhanced encoders for 16-feature model")
 except Exception as e:
     print(f"⚠️ Could not load enhanced encoders: {e}")
     # Set to None so we can check later
     packaging_type_encoder = None
     size_category_encoder = None
     quality_level_encoder = None
+    inferred_category_encoder = None
 
 valid_scores = list(label_encoder.classes_)
 print("✅ Loaded label classes:", valid_scores)

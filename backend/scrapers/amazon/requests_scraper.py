@@ -136,15 +136,19 @@ class RequestsScraper:
         # Get all text for analysis
         all_text = soup.get_text()
         
-        # Look for origin in technical details first
+        # Look for origin in technical details first (HIGHEST PRIORITY)
         origin_from_tech = self.extract_origin_from_tech_details(all_text)
+        print(f"🔍 Tech details extraction result: '{origin_from_tech}'")
+        
         if origin_from_tech != "Unknown":
             origin = origin_from_tech
-            print(f"📍 Found origin in tech details: {origin}")
+            print(f"📍 ✅ Using origin from technical details: {origin}")
         else:
-            # Estimate origin from brand as fallback
-            origin = self.estimate_origin(brand)
-            print(f"📍 Using brand-based origin: {origin} (from brand: {brand})")
+            # Estimate origin from brand as fallback (LOWER PRIORITY)
+            brand_origin = self.estimate_origin(brand)
+            origin = brand_origin
+            print(f"📍 ⚠️ Using brand-based origin fallback: {origin} (from brand: {brand})")
+            print(f"📍 NOTE: Technical details did not contain valid origin information")
         
         # Extract weight
         weight = self.extract_weight(all_text)
@@ -381,35 +385,57 @@ class RequestsScraper:
         """Extract origin from Amazon's technical details with improved accuracy"""
         text_lower = text.lower()
         
-        # Look for country of origin patterns with improved regex
+        # Debug: Check for key countries in the text
+        debug_countries = ['belgium', 'germany', 'england', 'uk', 'usa', 'china']
+        for country in debug_countries:
+            if country in text_lower:
+                country_pos = text_lower.find(country)
+                context_start = max(0, country_pos - 80)
+                context_end = min(len(text_lower), country_pos + 80)
+                context = text_lower[context_start:context_end]
+                print(f"🔍 DEBUG: Found '{country}' in text: '{context}'")
+        
+        # Look for country of origin patterns with improved regex (ordered by specificity)
         patterns = [
-            # Specific pattern for "Country of origin: Germany" format
-            r"country\s+of\s+origin[:\s]+([a-zA-Z\s]{1,25})(?:\n|$|country|brand|format|age|additional)",
-            # Common countries with exact matching
-            r"country\s+of\s+origin[:\s]*\b(germany|uk|gb|united kingdom|usa|united states|china|france|italy|japan|canada|india|spain|netherlands|belgium|switzerland|austria|poland|ireland)\b",
-            # Made in patterns
-            r"made\s+in[:\s]*\b([a-zA-Z\s]{1,20})\b",
-            # Manufactured in patterns
-            r"manufactured\s+in[:\s]*\b([a-zA-Z\s]{1,20})\b",
-            # Product of patterns
-            r"product\s+of[:\s]*\b([a-zA-Z\s]{1,20})\b"
+            # MOST SPECIFIC: Exact "country of origin:" patterns
+            (r"country\s+of\s+origin[:\s]*\b(belgium|germany|uk|gb|united\s+kingdom|usa|united\s+states|china|france|italy|japan|canada|india|spain|netherlands|switzerland|austria|poland|ireland|denmark|sweden|norway)\b", "country_of_origin_exact"),
+            
+            # SPECIFIC: "Country of origin" with broader capture (but limited)
+            (r"country\s+of\s+origin[:\s]*([a-zA-Z][a-zA-Z\s]{1,20}?)(?=\s*(?:\n|country|brand|format|age|additional|manufacturer|$))", "country_of_origin_broad"),
+            
+            # Made in patterns (high confidence)
+            (r"made\s+in[:\s]*\b([a-zA-Z][a-zA-Z\s]{1,20})\b", "made_in"),
+            
+            # Manufactured in patterns (medium confidence)
+            (r"manufactured\s+in[:\s]*\b([a-zA-Z][a-zA-Z\s]{1,20})\b", "manufactured_in"),
+            
+            # Product of patterns (medium confidence)
+            (r"product\s+of[:\s]*\b([a-zA-Z][a-zA-Z\s]{1,20})\b", "product_of"),
+            
+            # Origin patterns (medium confidence)
+            (r"origin[:\s]*\b([a-zA-Z][a-zA-Z\s]{1,20})\b", "origin")
         ]
         
-        for pattern in patterns:
-            matches = re.findall(pattern, text_lower)
+        for pattern, pattern_name in patterns:
+            matches = re.findall(pattern, text_lower, re.IGNORECASE)
+            print(f"🔍 Pattern '{pattern_name}': {matches}")
+            
             if matches:
                 # Take the first match and clean it
                 candidate = matches[0].strip()
                 
                 # Remove any trailing words that aren't part of country name
-                candidate = re.sub(r'\s*(brand|format|age|additional|country).*$', '', candidate).strip()
+                candidate = re.sub(r'\s*(brand|format|age|additional|country|manufacturer|item|model|dimensions?).*$', '', candidate).strip()
                 
-                if candidate:
+                print(f"🔍 Candidate after cleaning: '{candidate}'")
+                
+                if candidate and len(candidate) >= 2:  # At least 2 characters
                     # Normalize country names
                     country_map = {
                         "gb": "UK",
                         "united kingdom": "UK", 
                         "great britain": "UK",
+                        "britain": "UK",
                         "england": "England",
                         "wales": "Wales",
                         "scotland": "Scotland",
@@ -419,28 +445,40 @@ class RequestsScraper:
                         "usa": "USA",
                         "united states": "USA",
                         "united states of america": "USA",
+                        "us": "USA",
                         "deutschland": "Germany",
                         "bundesrepublik deutschland": "Germany",
                         "españa": "Spain",
-                        "españa": "Spain",
                         "nederland": "Netherlands",
                         "the netherlands": "Netherlands",
+                        "holland": "Netherlands",
                         "belgie": "Belgium",
                         "belgique": "Belgium",
+                        "belgië": "Belgium",
                         "schweiz": "Switzerland",
                         "suisse": "Switzerland",
                         "österreich": "Austria",
                         "polska": "Poland",
                         "éire": "Ireland",
-                        "république française": "France"
+                        "république française": "France",
+                        "prc": "China",
+                        "people's republic of china": "China"
                     }
                     
                     # Check if we have a mapping
-                    if candidate in country_map:
-                        return country_map[candidate]
+                    candidate_lower = candidate.lower()
+                    if candidate_lower in country_map:
+                        result = country_map[candidate_lower]
+                        print(f"🔍 ✅ Mapped '{candidate}' -> '{result}' using pattern '{pattern_name}'")
+                        return result
                     elif len(candidate) <= 25:  # Reasonable country name length
-                        return candidate.title()
+                        result = candidate.title()
+                        print(f"🔍 ✅ Using direct match '{result}' from pattern '{pattern_name}'")
+                        return result
+                    else:
+                        print(f"🔍 ⚠️ Candidate too long: '{candidate}' ({len(candidate)} chars)")
         
+        print(f"🔍 ❌ No origin found in technical details")
         return "Unknown"
 
 def scrape_with_requests(url: str) -> Optional[Dict]:

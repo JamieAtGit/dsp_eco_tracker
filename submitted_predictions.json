@@ -34,5 +34,53 @@
     },
     "predicted_label": "D",
     "confidence": "70.0%"
+  },
+  {
+    "title": "Protein Powder 2kg",
+    "raw_input": {
+      "material": "Plastic",
+      "weight": 2.5,
+      "transport": "Truck",
+      "recyclability": "Medium",
+      "origin": "Germany"
+    },
+    "predicted_label": "D",
+    "confidence": "88.6%"
+  },
+  {
+    "title": "Protein Powder 2kg",
+    "raw_input": {
+      "material": "Plastic",
+      "weight": 2.5,
+      "transport": "Truck",
+      "recyclability": "Medium",
+      "origin": "Germany"
+    },
+    "predicted_label": "D",
+    "confidence": "88.6%"
+  },
+  {
+    "title": "Electronics Phone",
+    "raw_input": {
+      "material": "Mixed",
+      "weight": 0.2,
+      "transport": "Truck",
+      "recyclability": "Low",
+      "origin": "China"
+    },
+    "predicted_label": "A",
+    "confidence": "61.8%"
+  },
+  {
+    "title": "Clothing Shirt",
+    "raw_input": {
+      "material": "Fabric",
+      "weight": 0.3,
+      "transport": "Truck",
+      "recyclability": "High",
+      "origin": "Uk"
+    },
+    "predicted_label": "A",
+    "confidence": "36.1%"
   }
 ]
