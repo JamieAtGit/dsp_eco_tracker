@@ -1,0 +1,49 @@
+{
+  "error_handling": {
+    "custom_exception": {
+      "success": true,
+      "exception_id": "b5d2ec3b",
+      "severity": "medium",
+      "category": "rate_limit",
+      "recovery_suggestion": "Try again later or use a different scraping strategy"
+    },
+    "error_handler": {
+      "success": true,
+      "response_keys": [
+        "error",
+        "message",
+        "error_id",
+        "severity",
+        "recovery_suggestion",
+        "monitoring"
+      ],
+      "user_friendly": true
+    },
+    "error_stats": {
+      "success": true,
+      "total_errors": 1,
+      "has_breakdown": true,
+      "has_top_errors": true
+    }
+  },
+  "monitoring": {
+    "success": false,
+    "error": "No module named 'deprecated'"
+  },
+  "caching": {
+    "success": false,
+    "error": "No module named 'deprecated'"
+  },
+  "rate_limiting": {
+    "success": false,
+    "error": "'await' outside async function (rate_limiting.py, line 323)"
+  },
+  "api_docs": {
+    "success": false,
+    "error": "Field.__init__() got an unexpected keyword argument 'description'"
+  },
+  "ml_monitoring": {
+    "success": false,
+    "error": "No module named 'deprecated'"
+  }
+}

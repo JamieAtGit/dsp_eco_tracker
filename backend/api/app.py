@@ -18,20 +18,28 @@ from backend.api.routes.api import calculate_eco_score
 
 
 import pandas as pd
-# Import enhanced scraper with dual origin system
+# Import production scraper with category intelligence and enhanced reliability
 try:
-    # Add project root to Python path for enhanced scraper
+    from backend.scrapers.amazon.production_scraper import ProductionAmazonScraper
+    PRODUCTION_SCRAPER_AVAILABLE = True
+    print("✅ Production scraper with category intelligence loaded")
+except ImportError as e:
+    print(f"⚠️ Production scraper not available: {e}")
+    PRODUCTION_SCRAPER_AVAILABLE = False
+
+# Always try to load enhanced scraper as fallback
+try:
     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
     from enhanced_scraper_fix import EnhancedAmazonScraper
     ENHANCED_SCRAPER_AVAILABLE = True
-    print("✅ Enhanced scraper with dual origins loaded")
-except ImportError as e:
+    print("✅ Enhanced scraper with dual origins loaded (fallback)")
+except ImportError as e2:
     from backend.scrapers.amazon.unified_scraper import (
-        scrape_amazon_product_page,  # Fallback scraper
+        scrape_amazon_product_page,  # Final fallback scraper
         UnifiedProductScraper
     )
     ENHANCED_SCRAPER_AVAILABLE = False
-    print(f"⚠️ Using fallback unified scraper (enhanced not found: {e})")
+    print(f"⚠️ Using unified scraper (final fallback: {e2})")
 from backend.scrapers.amazon.integrated_scraper import (
     estimate_origin_country,
     resolve_brand_origin,
@@ -57,8 +65,8 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-change-in-production')
 
 def extract_weight_from_title(title: str) -> float:
     """
-    Universal weight extraction from Amazon product titles
-    Works for ANY product type - no hardcoding
+    Enhanced weight extraction that avoids nutritional content
+    Works for ANY product type with category-specific intelligence
     """
     if not title:
         return 0.0
@@ -66,37 +74,184 @@ def extract_weight_from_title(title: str) -> float:
     import re
     title_lower = title.lower()
     
-    # Comprehensive weight patterns (ordered by precision)
-    weight_patterns = [
-        # Most precise: explicit weight mentions
-        (r'(\d+(?:\.\d+)?)\s*kg\b', 'kg', 1.0),
-        (r'(\d+(?:\.\d+)?)\s*g\b(?!ram)', 'g', 0.001),  # Avoid "program"
-        (r'(\d+(?:\.\d+)?)\s*lb\b', 'lb', 0.453592),
-        (r'(\d+(?:\.\d+)?)\s*lbs\b', 'lb', 0.453592),
-        (r'(\d+(?:\.\d+)?)\s*oz\b', 'oz', 0.0283495),
-        
-        # Common Amazon formats
-        (r'(\d+(?:\.\d+)?)\s*kilograms?\b', 'kg', 1.0),
-        (r'(\d+(?:\.\d+)?)\s*grams?\b', 'g', 0.001),
-        (r'(\d+(?:\.\d+)?)\s*pounds?\b', 'lb', 0.453592),
-        (r'(\d+(?:\.\d+)?)\s*ounces?\b', 'oz', 0.0283495),
+    print(f"🔍 Extracting weight from title: {title}")
+    
+    # STEP 1: Exclude nutritional content patterns to avoid false matches
+    nutritional_exclusions = [
+        r'\d+\s*g\s*protein\b',
+        r'\d+\s*g\s*carbs?\b', 
+        r'\d+\s*g\s*fat\b',
+        r'\d+\s*mg\s*(?:sodium|caffeine)\b',
+        r'\d+\s*(?:cal|kcal)\b',
+        r'\d+\s*g\s*sugar\b',
+        r'\d+\s*g\s*fiber\b',
+        r'\d+\s*servings?\b',
+        r'\d+\s*scoops?\b'
     ]
     
-    for pattern, unit, multiplier in weight_patterns:
-        matches = re.findall(pattern, title_lower)
+    # Remove nutritional info to avoid false matches
+    cleaned_title = title_lower
+    for exclusion in nutritional_exclusions:
+        if re.search(exclusion, cleaned_title):
+            print(f"⚠️ Removing nutritional info pattern: {exclusion}")
+            cleaned_title = re.sub(exclusion, ' ', cleaned_title)
+    
+    print(f"🧹 Cleaned title: {cleaned_title}")
+    
+    # STEP 2: Look for container weight patterns (ordered by precision)
+    container_weight_patterns = [
+        # Most precise: explicit container weight
+        (r'(\d+(?:\.\d+)?)\s*kg\b', 'kg', 1.0),
+        (r'(\d+(?:\.\d+)?)\s*lb[s]?\b', 'lb', 0.453592),
+        (r'(\d+(?:\.\d+)?)\s*pound[s]?\b', 'lb', 0.453592),
+        
+        # Medium precision: large gram amounts (likely containers)
+        (r'(\d{3,4})\s*g\b', 'g_large', 0.001),  # 500g, 1000g, 2500g
+        
+        # Common Amazon formats  
+        (r'(\d+(?:\.\d+)?)\s*kilograms?\b', 'kg', 1.0),
+        (r'(\d+(?:\.\d+)?)\s*pounds?\b', 'lb', 0.453592),
+        (r'(\d+(?:\.\d+)?)\s*ounces?\b', 'oz', 0.0283495),
+        
+        # Low precision: any gram amount (use with caution)
+        (r'(\d+(?:\.\d+)?)\s*g\b(?!ram)', 'g', 0.001),
+    ]
+    
+    for pattern, unit, multiplier in container_weight_patterns:
+        matches = re.findall(pattern, cleaned_title)
         if matches:
             try:
                 weight_val = float(matches[0])
                 weight_kg = weight_val * multiplier
                 
-                # Sanity check - reasonable product weights
-                if 0.001 <= weight_kg <= 100:  # 1g to 100kg range
-                    print(f"⚖️ Extracted weight: {weight_val}{unit} = {weight_kg:.3f}kg")
+                # Category-specific validation
+                is_protein_supplement = any(keyword in title_lower for keyword in ['protein', 'whey', 'casein', 'mass gainer', 'supplement'])
+                
+                if is_protein_supplement:
+                    # For protein products, reject weights that are clearly nutritional content
+                    if unit == 'g' and weight_val < 200:  # Less than 200g unlikely to be container
+                        print(f"⚠️ Rejecting small gram value for protein: {weight_val}g (likely nutritional)")
+                        continue
+                    elif unit == 'g_large' and weight_val < 400:  # Even large gram pattern, be cautious
+                        print(f"⚠️ Rejecting medium gram value for protein: {weight_val}g (likely nutritional)")
+                        continue
+                
+                # General sanity check - reasonable product weights
+                if 0.05 <= weight_kg <= 50:  # 50g to 50kg range
+                    print(f"⚖️ ✅ Extracted weight: {weight_val}{unit} = {weight_kg:.3f}kg")
                     return weight_kg
+                else:
+                    print(f"⚠️ Weight out of range: {weight_kg:.3f}kg")
+                    
             except (ValueError, IndexError):
                 continue
     
+    print("⚠️ No valid weight found in title")
     return 0.0
+
+def get_category_fallback_weight(title: str, brand: str = "") -> float:
+    """
+    Category-specific weight estimation when extraction fails
+    Uses intelligent defaults based on product category
+    """
+    if not title:
+        return 1.0
+        
+    title_lower = title.lower()
+    
+    print(f"🧠 Getting category fallback for: {title}")
+    
+    # Protein powder/supplement category
+    if any(keyword in title_lower for keyword in ['protein', 'whey', 'casein', 'mass gainer', 'supplement']):
+        # Estimate based on common protein powder sizes
+        if any(size in title_lower for size in ['trial', 'sample', 'mini', 'small']):
+            weight = 0.9  # ~900g trial size
+            print(f"🏋️ Protein supplement (trial size): {weight}kg")
+        elif any(size in title_lower for size in ['bulk', '10lb', '5kg', 'large', 'jumbo']):
+            weight = 4.5  # ~4.5kg bulk size
+            print(f"🏋️ Protein supplement (bulk size): {weight}kg")
+        else:
+            weight = 2.3  # ~2.3kg standard 5lb container
+            print(f"🏋️ Protein supplement (standard size): {weight}kg")
+        return weight
+    
+    # Pre-workout/BCAA powder
+    elif any(keyword in title_lower for keyword in ['pre-workout', 'pre workout', 'bcaa', 'amino', 'creatine']):
+        weight = 0.5  # Typically smaller containers
+        print(f"💊 Pre-workout supplement: {weight}kg")
+        return weight
+    
+    # Electronics category
+    elif any(keyword in title_lower for keyword in ['phone', 'smartphone', 'mobile', 'iphone']):
+        weight = 0.2  # Phone weight
+        print(f"📱 Smartphone: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['tablet', 'ipad']):
+        weight = 0.5  # Tablet weight
+        print(f"📱 Tablet: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['laptop', 'notebook']):
+        weight = 2.0  # Laptop weight
+        print(f"💻 Laptop: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['headphone', 'earphone', 'earbuds']):
+        weight = 0.3  # Headphone weight
+        print(f"🎧 Headphones: {weight}kg")
+        return weight
+    
+    # Books and media
+    elif any(keyword in title_lower for keyword in ['book', 'kindle', 'paperback', 'hardcover']):
+        if 'hardcover' in title_lower:
+            weight = 0.6  # Hardcover book
+        else:
+            weight = 0.3  # Paperback book
+        print(f"📚 Book: {weight}kg")
+        return weight
+    
+    # Clothing
+    elif any(keyword in title_lower for keyword in ['shirt', 't-shirt', 'top', 'blouse']):
+        weight = 0.2  # Shirt weight
+        print(f"👕 Shirt: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['jacket', 'coat', 'hoodie']):
+        weight = 0.8  # Jacket weight
+        print(f"🧥 Jacket: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['shoes', 'sneakers', 'boots']):
+        weight = 1.0  # Shoe pair weight
+        print(f"👟 Shoes: {weight}kg")
+        return weight
+    
+    # Home and kitchen
+    elif any(keyword in title_lower for keyword in ['mug', 'cup', 'glass']):
+        weight = 0.3  # Mug weight
+        print(f"☕ Mug/Cup: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['plate', 'bowl', 'dish']):
+        weight = 0.5  # Plate weight
+        print(f"🍽️ Dishware: {weight}kg")
+        return weight
+    elif any(keyword in title_lower for keyword in ['bottle', 'water bottle']):
+        weight = 0.2  # Water bottle weight
+        print(f"🍶 Bottle: {weight}kg")
+        return weight
+    
+    # Tools and hardware
+    elif any(keyword in title_lower for keyword in ['drill', 'screwdriver', 'hammer']):
+        weight = 1.5  # Tool weight
+        print(f"🔧 Tool: {weight}kg")
+        return weight
+    
+    # Toys and games
+    elif any(keyword in title_lower for keyword in ['toy', 'game', 'puzzle', 'lego']):
+        weight = 0.4  # Toy weight
+        print(f"🧸 Toy: {weight}kg")
+        return weight
+    
+    # Default fallback
+    weight = 1.0
+    print(f"❓ Unknown category, using default: {weight}kg")
+    return weight
 
 def extract_enhanced_origins(product: dict, title: str) -> dict:
     """
@@ -1305,11 +1460,32 @@ def estimate_emissions():
         if not url or not postcode:
             return jsonify({"error": "Missing URL or postcode"}), 400
 
-        # Scrape product using enhanced scraper with dual origins
+        # Scrape product using production scraper with category intelligence
         print(f"🔍 Scraping URL: {url}")
         
-        if ENHANCED_SCRAPER_AVAILABLE:
-            # Use enhanced scraper with dual origin system
+        if PRODUCTION_SCRAPER_AVAILABLE:
+            # Use production scraper with category intelligence and enhanced reliability
+            production_scraper = ProductionAmazonScraper()
+            result = production_scraper.scrape_with_full_url(url)
+            
+            if result and result.get('title', 'Unknown Product') != 'Unknown Product':
+                print(f"✅ Production scraper success: {result.get('title', '')[:50]}... (confidence: {result.get('confidence_score', 0):.1%})")
+                product = result
+            else:
+                print("⚠️ Production scraper failed, trying fallback")
+                if ENHANCED_SCRAPER_AVAILABLE:
+                    enhanced_scraper = EnhancedAmazonScraper()
+                    result = enhanced_scraper.scrape_product_enhanced(url)
+                    if result and result.get('title', 'Unknown Product') != 'Unknown Product':
+                        print(f"✅ Enhanced scraper fallback success")
+                        product = result
+                    else:
+                        print("⚠️ Enhanced scraper also failed, using unified fallback")
+                        product = scrape_amazon_product_page(url)
+                else:
+                    product = scrape_amazon_product_page(url)
+        elif ENHANCED_SCRAPER_AVAILABLE:
+            # Use enhanced scraper as fallback
             enhanced_scraper = EnhancedAmazonScraper()
             result = enhanced_scraper.scrape_product_enhanced(url)
             
@@ -1317,10 +1493,10 @@ def estimate_emissions():
                 print(f"✅ Enhanced scraper success: {result.get('title', '')[:50]}...")
                 product = result
             else:
-                print("⚠️ Enhanced scraper failed, using fallback")
+                print("⚠️ Enhanced scraper failed, using unified fallback")
                 product = scrape_amazon_product_page(url)
         else:
-            # Use fallback unified scraper
+            # Use unified scraper as final fallback
             product = scrape_amazon_product_page(url)
         
         # Debug what the scraper returned
@@ -1329,29 +1505,56 @@ def estimate_emissions():
             print(f"  {key}: {value}")
         print("🔍 END DEBUG")
         
+        # Add additional fields for compatibility with existing UI
+        if PRODUCTION_SCRAPER_AVAILABLE and 'category' in product:
+            print(f"🏷️ Product category: {product['category']} (confidence: {product.get('category_confidence', 0):.1%})")
+            if 'scraping_metadata' in product:
+                print(f"🔧 Scraping strategy: {product['scraping_metadata']['successful_strategy']}")
+                print(f"📊 Success rate: {product['scraping_metadata']['success_rate']}")
+        
         from backend.scrapers.amazon.guess_material import smart_guess_material
 
         material = product.get("material_type")
-        if not material or material.lower() in ["unknown", "other", ""]:
+        # Only do additional material processing if using fallback scrapers
+        if not PRODUCTION_SCRAPER_AVAILABLE and (not material or material.lower() in ["unknown", "other", ""]):
             guessed = smart_guess_material(product.get("title", ""))
             if guessed:
                 print(f"🧠 Fallback guessed material: {guessed}")
                 material = guessed.title()
-        product["material_type"] = material
+                product["material_type"] = material
+        elif PRODUCTION_SCRAPER_AVAILABLE:
+            print(f"🔧 Production scraper handled material detection: {material}")
+        
+        # Ensure material is set
+        if not product.get("material_type"):
+            product["material_type"] = material or "Mixed"
         
         # Universal product enhancement (no product-specific hardcoding)
         print("🔧 Applying universal product data enhancement...")
         
-        # Enhanced weight extraction if missing or seems incorrect
+        # Enhanced weight extraction (only needed for fallback scrapers)
         title = product.get("title", "")
         current_weight = product.get("weight_kg", 0)
         
-        if current_weight <= 0.1:  # Universal threshold for suspicious weight
+        print(f"🔧 Current weight from scraper: {current_weight}kg")
+        
+        # Only do additional weight processing if using fallback scrapers
+        if not PRODUCTION_SCRAPER_AVAILABLE and current_weight <= 0.1:
             import re
             enhanced_weight = extract_weight_from_title(title)
             if enhanced_weight > 0:
                 product["weight_kg"] = enhanced_weight
                 print(f"🔧 Enhanced weight extraction: {enhanced_weight}kg from title")
+            else:
+                # Use category-specific fallback when extraction fails
+                fallback_weight = get_category_fallback_weight(title, product.get("brand", ""))
+                product["weight_kg"] = fallback_weight
+                print(f"🔧 Using category fallback weight: {fallback_weight}kg")
+        else:
+            if PRODUCTION_SCRAPER_AVAILABLE:
+                print(f"🔧 Production scraper handled weight extraction: {current_weight}kg")
+            else:
+                print(f"🔧 Weight seems reasonable, keeping: {current_weight}kg")
         
         # Enhanced origin extraction with priority system
         enhanced_origins = extract_enhanced_origins(product, title)

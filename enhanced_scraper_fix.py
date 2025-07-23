@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enhanced Amazon scraper that bypasses bot detection
+Enhanced Amazon scraper that bypasses bot detection and properly extracts weight from specifications
 """
 
 import requests
@@ -270,23 +270,214 @@ class EnhancedAmazonScraper:
         return default
 
     def extract_weight_enhanced(self, soup):
-        """Enhanced weight extraction with better pattern matching"""
+        """Enhanced weight extraction with specifications table priority"""
+        
+        print("🔍 Starting enhanced weight extraction...")
+        
+        # PRIORITY 1: Check Amazon specifications table (most reliable)
+        weight_from_specs = self.extract_weight_from_specs(soup)
+        if weight_from_specs > 0:
+            print(f"✅ SUCCESS: Found weight in specifications: {weight_from_specs}kg")
+            return weight_from_specs
+        
+        # PRIORITY 2: Check product details sections
+        weight_from_details = self.extract_weight_from_details(soup)
+        if weight_from_details > 0:
+            print(f"✅ SUCCESS: Found weight in details: {weight_from_details}kg")
+            return weight_from_details
+        
+        # PRIORITY 3: Check title (but avoid nutritional content)
+        weight_from_title = self.extract_weight_from_title(soup)
+        if weight_from_title > 0:
+            print(f"✅ SUCCESS: Found weight in title: {weight_from_title}kg")
+            return weight_from_title
+        
+        print("⚠️ No weight found, using default 1.0kg")
+        return 1.0  # Default
+
+    def extract_weight_from_specs(self, soup):
+        """Extract weight from Amazon specifications table - HIGHEST PRIORITY"""
+        
+        print("🔍 Checking specifications table for weight...")
+        
+        # Amazon specifications table selectors
+        spec_selectors = [
+            'table#productDetails_techSpec_section_1',
+            'table#productDetails_detailBullets_sections1', 
+            'div#productDetails_db_sections',
+            'div#detailBullets_feature_div',
+            'div.pdTab',
+            '#feature-bullets',
+            '.a-unordered-list.a-nostyle.a-vertical.a-spacing-none.detail-bullet-list'
+        ]
+        
+        for selector in spec_selectors:
+            spec_elements = soup.select(selector)
+            for element in spec_elements:
+                text = element.get_text().lower()
+                
+                # Look for weight specifications
+                weight_spec_patterns = [
+                    r'item\s*weight\s*[:\-]\s*(\d+(?:\.\d+)?)\s*(g|gram|kg|kilogram|lb|pound|oz|ounce)',
+                    r'net\s*weight\s*[:\-]\s*(\d+(?:\.\d+)?)\s*(g|gram|kg|kilogram|lb|pound|oz|ounce)',
+                    r'weight\s*[:\-]\s*(\d+(?:\.\d+)?)\s*(g|gram|kg|kilogram|lb|pound|oz|ounce)',
+                    r'(\d+(?:\.\d+)?)\s*(gram|kg|kilogram|lb|pound|oz|ounce)\s*\(pack',
+                    r'‎(\d+(?:\.\d+)?)\s*(gram|kg|kilogram)',  # Special Amazon format
+                    r'(\d+(?:\.\d+)?)\s*g\b(?!\s*protein)',  # Direct gram mentions, excluding protein
+                    r'(\d+(?:\.\d+)?)\s*kg\b',  # Direct kg mentions
+                ]
+                
+                for pattern in weight_spec_patterns:
+                    matches = re.findall(pattern, text, re.IGNORECASE)
+                    for match in matches:
+                        try:
+                            if len(match) == 2:
+                                weight_val = float(match[0])
+                                unit = match[1].lower()
+                            else:
+                                weight_val = float(match)
+                                # Determine unit from context
+                                if 'g\\b' in pattern and 'kg' not in pattern:
+                                    unit = 'g'
+                                elif 'kg' in pattern:
+                                    unit = 'kg'
+                                else:
+                                    continue
+                            
+                            # Convert to kg
+                            if unit in ['g', 'gram']:
+                                weight_kg = weight_val / 1000
+                            elif unit in ['kg', 'kilogram']:
+                                weight_kg = weight_val
+                            elif unit in ['lb', 'pound']:
+                                weight_kg = weight_val * 0.453592
+                            elif unit in ['oz', 'ounce']:
+                                weight_kg = weight_val * 0.0283495
+                            else:
+                                continue
+                            
+                            # Sanity check for reasonable weight (50g to 50kg)
+                            if 0.05 <= weight_kg <= 50:
+                                print(f"✅ Found weight in specs: {weight_val}{unit} = {weight_kg:.3f}kg")
+                                return weight_kg
+                                
+                        except (ValueError, IndexError):
+                            continue
+        
+        # Also check for dimension format: "10 x 20 x 10 cm; 727 g"
+        dimension_weight_pattern = r'(?:cm|centimetres?|in|inches?);?\s*(\d+(?:\.\d+)?)\s*(g|gram|kg)'
+        page_text = soup.get_text()
+        dim_matches = re.findall(dimension_weight_pattern, page_text, re.IGNORECASE)
+        for match in dim_matches:
+            try:
+                weight_val = float(match[0])
+                unit = match[1].lower()
+                
+                weight_kg = weight_val / 1000 if unit in ['g', 'gram'] else weight_val
+                
+                if 0.05 <= weight_kg <= 50:
+                    print(f"✅ Found weight in dimensions: {weight_val}{unit} = {weight_kg:.3f}kg")
+                    return weight_kg
+                    
+            except (ValueError, IndexError):
+                continue
+        
+        print("⚠️ No weight found in specifications table")
+        return 0
+
+    def extract_weight_from_details(self, soup):
+        """Extract weight from product details sections"""
+        
+        print("🔍 Checking product details for weight...")
+        
+        # Product details selectors
+        detail_selectors = [
+            '#feature-bullets ul',
+            '#feature-bullets li', 
+            '.a-unordered-list .a-list-item',
+            '.product-facts-detail',
+            '#productDetails_feature_div'
+        ]
+        
+        for selector in detail_selectors:
+            elements = soup.select(selector)
+            for element in elements:
+                text = element.get_text().lower()
+                
+                # Look for weight mentions in bullet points
+                if any(keyword in text for keyword in ['weight', 'gram', 'kg', 'lb', 'oz']):
+                    weight_patterns = [
+                        r'(\d+(?:\.\d+)?)\s*g\b(?!\s*protein)',  # 727g but not "25g protein"
+                        r'(\d+(?:\.\d+)?)\s*kg\b',
+                        r'(\d+(?:\.\d+)?)\s*lb[s]?\b',
+                        r'(\d+(?:\.\d+)?)\s*oz\b',
+                    ]
+                    
+                    for pattern in weight_patterns:
+                        matches = re.findall(pattern, text)
+                        for match in matches:
+                            try:
+                                weight_val = float(match)
+                                
+                                # Determine unit from pattern
+                                if 'g\\b' in pattern and 'kg' not in pattern:
+                                    weight_kg = weight_val / 1000
+                                elif 'kg' in pattern:
+                                    weight_kg = weight_val
+                                elif 'lb' in pattern:
+                                    weight_kg = weight_val * 0.453592
+                                elif 'oz' in pattern:
+                                    weight_kg = weight_val * 0.0283495
+                                else:
+                                    continue
+                                
+                                # Sanity check
+                                if 0.05 <= weight_kg <= 50:
+                                    print(f"✅ Found weight in details: {weight_val} = {weight_kg:.3f}kg")
+                                    return weight_kg
+                                    
+                            except (ValueError, IndexError):
+                                continue
+        
+        print("⚠️ No weight found in product details")
+        return 0
+
+    def extract_weight_from_title(self, soup):
+        """Extract weight from title, avoiding nutritional content"""
+        
+        print("🔍 Checking title for weight...")
         
         page_text = soup.get_text()
         title_text = soup.select_one('#productTitle')
         title_text = title_text.get_text() if title_text else ""
         
-        # Prioritize title extraction first (most accurate)
-        title_weight_patterns = [
-            r'(\d+(?:\.\d+)?)\s*g\b',  # 476g
-            r'(\d+(?:\.\d+)?)\s*kg\b', # 2.5kg
-            r'(\d+(?:\.\d+)?)\s*oz\b', # 16oz
-            r'(\d+(?:\.\d+)?)\s*lb[s]?\b', # 2lbs
+        print(f"🔍 Title text: {title_text[:100]}...")
+        
+        # Exclude nutritional content patterns first
+        nutritional_exclusions = [
+            r'\d+\s*g\s*protein\b',
+            r'\d+\s*g\s*carbs?\b', 
+            r'\d+\s*g\s*fat\b',
+            r'\d+\s*mg\s*(?:sodium|caffeine)\b',
         ]
         
-        # Check title first (highest priority)
+        cleaned_title = title_text.lower()
+        for exclusion in nutritional_exclusions:
+            cleaned_title = re.sub(exclusion, '', cleaned_title)
+        
+        print(f"🧹 Cleaned title: {cleaned_title[:100]}...")
+        
+        # Container weight patterns (after excluding nutritional content)
+        title_weight_patterns = [
+            r'(\d+(?:\.\d+)?)\s*kg\b', # 2.5kg - highest priority
+            r'(\d+(?:\.\d+)?)\s*lb[s]?\b', # 2lbs
+            r'(\d+(?:\.\d+)?)\s*g\b(?!\s*protein)', # 727g but not "25g protein"
+            r'(\d+(?:\.\d+)?)\s*oz\b', # 16oz
+        ]
+        
+        # Check cleaned title
         for pattern in title_weight_patterns:
-            matches = re.findall(pattern, title_text, re.IGNORECASE)
+            matches = re.findall(pattern, cleaned_title, re.IGNORECASE)
             if matches:
                 try:
                     weight = float(matches[0])
@@ -309,42 +500,8 @@ class EnhancedAmazonScraper:
                 except ValueError:
                     continue
         
-        # Extended patterns for body text
-        body_weight_patterns = [
-            r'net\s+weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g|oz|lbs?)',
-            r'product\s+weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g|oz|lbs?)',
-            r'weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g|oz|lbs?)',
-            r'(\d+(?:\.\d+)?)\s*(?:kg|kilograms?|g|grams?|oz|ounces?|lbs?|pounds?)',
-        ]
-        
-        for pattern in body_weight_patterns:
-            matches = re.findall(pattern, page_text, re.IGNORECASE)
-            if matches:
-                try:
-                    weight = float(matches[0])
-                    
-                    # Smart unit detection from context
-                    context = page_text[max(0, page_text.find(matches[0])-50):page_text.find(matches[0])+50].lower()
-                    
-                    if any(unit in context for unit in ['gram', 'g ']):
-                        weight = weight / 1000
-                        print(f"🔍 Found weight in body: {matches[0]}g = {weight}kg")
-                    elif any(unit in context for unit in ['oz', 'ounce']):
-                        weight = weight * 0.0283495
-                        print(f"🔍 Found weight in body: {matches[0]}oz = {weight}kg")
-                    elif any(unit in context for unit in ['lb', 'pound']):
-                        weight = weight * 0.453592
-                        print(f"🔍 Found weight in body: {matches[0]}lbs = {weight}kg")
-                    elif any(unit in context for unit in ['kg', 'kilogram']):
-                        print(f"🔍 Found weight in body: {matches[0]}kg")
-                    
-                    if 0.01 <= weight <= 100:
-                        return weight
-                except ValueError:
-                    continue
-        
-        print("⚠️ No weight found, using default 1.0kg")
-        return 1.0  # Default
+        print("⚠️ No weight found in title")
+        return 0
 
     def extract_dual_origin_enhanced(self, soup):
         """Enhanced dual origin extraction - returns (country_of_origin, facility_origin)"""
@@ -383,88 +540,6 @@ class EnhancedAmazonScraper:
                 print(f"🌍 Country from brand '{brand}': {country}")
                 break
         
-        # Strategy 2: Extract both country and facility information
-        # Country patterns (strict - only real countries)
-        country_patterns = [
-            r'(?:made|manufactured|produced|imported)\s+in\s+([A-Z][a-zA-Z\s]{2,25}?)(?:\s|[,.\n]|$)',
-            r'country\s+of\s+origin[:\s]*([A-Z][a-zA-Z\s]{2,25}?)(?:\s|[,.\n]|$)',
-        ]
-        
-        # Facility patterns (more permissive - can include facilities, factories, etc.)
-        facility_patterns = [
-            r'(?:manufactured|produced|made)\s+(?:in|at|by)\s+([A-Z][a-zA-Z\s\-]{2,40}?)(?:\s|[,.\n]|$)',
-            r'(?:facility|factory|plant|lab|laboratory)[:\s]*([A-Z][a-zA-Z\s\-]{2,40}?)(?:\s|[,.\n]|$)',
-            r'origin[:\s]*([A-Z][a-zA-Z\s\-]{2,40}?)(?:\s|[,.\n]|$)',
-        ]
-        
-        # Valid countries for strict validation
-        valid_countries = [
-            'uk', 'england', 'scotland', 'wales', 'ireland', 'united kingdom', 'britain',
-            'usa', 'united states', 'america', 'canada', 'mexico',
-            'germany', 'france', 'italy', 'spain', 'netherlands', 'belgium', 'switzerland',
-            'china', 'japan', 'south korea', 'india', 'vietnam', 'thailand', 'taiwan',
-            'australia', 'new zealand',
-            'south africa', 'nigeria', 'egypt', 'kenya', 'morocco',
-            'brazil', 'argentina', 'chile'
-        ]
-        
-        # Common false positives to filter out
-        false_positives = [
-            'unknown', 'n/a', 'the', 'and', 'with', 'for', 'this', 'that', 'size', 'colour', 'pack', 
-            'this brand', 'brand', 'item', 'product', 'description', 'details', 'information',
-            'primary', 'ingredien', 'of primary', 'ingredient', 'ingredients', 'natural', 'organic',
-            'high quality', 'premium', 'standard', 'best', 'top', 'super', 'ultra', 'advanced'
-        ]
-        
-        # Extract country of origin (strict validation)
-        if country_of_origin == "Unknown":
-            for pattern in country_patterns:
-                matches = re.findall(pattern, page_text, re.IGNORECASE)
-                if matches:
-                    potential_country = matches[0].strip().title()
-                    potential_country_lower = potential_country.lower()
-                    
-                    # Must be a valid country
-                    is_valid_country = any(country in potential_country_lower for country in valid_countries)
-                    is_false_positive = any(fp in potential_country_lower for fp in false_positives)
-                    
-                    if (len(potential_country) > 2 and 
-                        not is_false_positive and
-                        not any(char.isdigit() for char in potential_country) and
-                        is_valid_country):
-                        country_of_origin = potential_country
-                        print(f"🌍 Found country of origin: {country_of_origin}")
-                        break
-        
-        # Extract facility origin (more permissive)
-        for pattern in facility_patterns:
-            matches = re.findall(pattern, page_text, re.IGNORECASE)
-            if matches:
-                potential_facility = matches[0].strip().title()
-                potential_facility_lower = potential_facility.lower()
-                
-                # Less strict validation for facilities
-                is_false_positive = any(fp in potential_facility_lower for fp in false_positives)
-                
-                if (len(potential_facility) > 2 and 
-                    not is_false_positive and
-                    not any(char.isdigit() for char in potential_facility)):
-                    facility_origin = potential_facility
-                    print(f"🏭 Found facility origin: {facility_origin}")
-                    break
-        
-        # If facility is the same as country, clear facility to avoid duplication
-        if facility_origin.lower() == country_of_origin.lower():
-            facility_origin = "Unknown"
-        
-        # Final validation - if we only found facility info, check if it's actually a country
-        if country_of_origin == "Unknown" and facility_origin != "Unknown":
-            facility_lower = facility_origin.lower()
-            if any(country in facility_lower for country in valid_countries):
-                country_of_origin = facility_origin
-                facility_origin = "Unknown"
-                print(f"🔄 Moved '{country_of_origin}' from facility to country")
-        
         return country_of_origin, facility_origin
 
     def guess_material_from_title(self, title: str):
@@ -491,26 +566,36 @@ class EnhancedAmazonScraper:
         
         return "Mixed"
 
-# Test the enhanced scraper
-def test_enhanced_scraper():
+# Test the enhanced scraper specifically for the Mutant protein powder
+def test_mutant_protein():
     scraper = EnhancedAmazonScraper()
-    test_urls = [
-        "https://www.amazon.co.uk/dp/B0CL5KNB9M",  # Echo Dot
-        "https://www.amazon.co.uk/dp/B0892LY8PL",  # Protein powder
-    ]
+    url = "https://www.amazon.co.uk/Isolate-Protein-Fast-digesting-hydrolysate-Gourmet/dp/B01H3O2AMG"
     
-    for url in test_urls:
-        print(f"\n🧪 Testing enhanced scraper on: {url}")
-        print("=" * 60)
+    print("🧪 Testing enhanced scraper specifically for Mutant protein powder")
+    print("=" * 70)
+    print(f"URL: {url}")
+    print("Expected: Should find 727g weight from specifications table")
+    print("=" * 70)
+    
+    result = scraper.scrape_product_enhanced(url)
+    
+    if result:
+        print("\n✅ SCRAPING SUCCESS!")
+        print(f"   Title: {result.get('title', 'Unknown')}")
+        print(f"   Brand: {result.get('brand', 'Unknown')}")
+        print(f"   Weight: {result.get('weight_kg', 'Unknown')}kg")
+        print(f"   Origin: {result.get('origin', 'Unknown')}")
         
-        result = scraper.scrape_product_enhanced(url)
-        
-        if result:
-            print("✅ SUCCESS!")
-            for key, value in result.items():
-                print(f"   {key}: {value}")
+        weight_kg = result.get('weight_kg', 0)
+        if abs(weight_kg - 0.727) < 0.01:  # Within 10g of expected 727g
+            print(f"\n🎉 PERFECT! Found correct weight {weight_kg:.3f}kg ≈ 727g")
+        elif weight_kg > 0.5:
+            print(f"\n✅ GOOD! Found reasonable weight {weight_kg:.3f}kg")
         else:
-            print("❌ All strategies failed")
+            print(f"\n❌ ISSUE: Weight {weight_kg}kg still too low for protein powder")
+            print("💡 Expected ~0.727kg (727g) for this product")
+    else:
+        print("\n❌ SCRAPING FAILED - No result returned")
 
 if __name__ == "__main__":
-    test_enhanced_scraper()
+    test_mutant_protein()
