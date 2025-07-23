@@ -35,7 +35,13 @@ export default function HomePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Unknown error");
 
-      setResult(data.data);
+      // Include the product title from the top level
+      const resultWithTitle = {
+        ...data.data,
+        title: data.title || "Unknown Product"
+      };
+      
+      setResult(resultWithTitle);
     } catch (err) {
       setError(err.message || "Failed to contact backend.");
     } finally {

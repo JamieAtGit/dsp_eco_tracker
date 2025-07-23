@@ -268,53 +268,143 @@ class EnhancedAmazonScraper:
         return default
 
     def extract_weight_enhanced(self, soup):
-        """Enhanced weight extraction"""
-        
-        # Look in technical details
-        weight_patterns = [
-            r'(\d+(?:\.\d+)?)\s*(?:kg|kilograms?|g|grams?)',
-            r'weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g)',
-            r'(\d+(?:\.\d+)?)\s*(?:lbs?|pounds?)',
-        ]
+        """Enhanced weight extraction with better pattern matching"""
         
         page_text = soup.get_text()
+        title_text = soup.select_one('#productTitle')
+        title_text = title_text.get_text() if title_text else ""
         
-        for pattern in weight_patterns:
-            matches = re.findall(pattern, page_text, re.IGNORECASE)
+        # Prioritize title extraction first (most accurate)
+        title_weight_patterns = [
+            r'(\d+(?:\.\d+)?)\s*g\b',  # 476g
+            r'(\d+(?:\.\d+)?)\s*kg\b', # 2.5kg
+            r'(\d+(?:\.\d+)?)\s*oz\b', # 16oz
+            r'(\d+(?:\.\d+)?)\s*lb[s]?\b', # 2lbs
+        ]
+        
+        # Check title first (highest priority)
+        for pattern in title_weight_patterns:
+            matches = re.findall(pattern, title_text, re.IGNORECASE)
             if matches:
                 try:
                     weight = float(matches[0])
-                    # Convert grams to kg, pounds to kg
+                    
+                    # Convert to kg based on unit
                     if 'g' in pattern and 'kg' not in pattern:
-                        weight = weight / 1000
-                    elif 'lb' in pattern or 'pound' in pattern:
-                        weight = weight * 0.453592
+                        weight = weight / 1000  # grams to kg
+                        print(f"🔍 Found weight in title: {matches[0]}g = {weight}kg")
+                    elif 'oz' in pattern:
+                        weight = weight * 0.0283495  # oz to kg
+                        print(f"🔍 Found weight in title: {matches[0]}oz = {weight}kg")
+                    elif 'lb' in pattern:
+                        weight = weight * 0.453592  # lbs to kg
+                        print(f"🔍 Found weight in title: {matches[0]}lbs = {weight}kg")
+                    else:
+                        print(f"🔍 Found weight in title: {matches[0]}kg")
                     
                     if 0.01 <= weight <= 100:  # Reasonable weight range
                         return weight
                 except ValueError:
                     continue
         
+        # Extended patterns for body text
+        body_weight_patterns = [
+            r'net\s+weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g|oz|lbs?)',
+            r'product\s+weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g|oz|lbs?)',
+            r'weight[:\s]*(\d+(?:\.\d+)?)\s*(?:kg|g|oz|lbs?)',
+            r'(\d+(?:\.\d+)?)\s*(?:kg|kilograms?|g|grams?|oz|ounces?|lbs?|pounds?)',
+        ]
+        
+        for pattern in body_weight_patterns:
+            matches = re.findall(pattern, page_text, re.IGNORECASE)
+            if matches:
+                try:
+                    weight = float(matches[0])
+                    
+                    # Smart unit detection from context
+                    context = page_text[max(0, page_text.find(matches[0])-50):page_text.find(matches[0])+50].lower()
+                    
+                    if any(unit in context for unit in ['gram', 'g ']):
+                        weight = weight / 1000
+                        print(f"🔍 Found weight in body: {matches[0]}g = {weight}kg")
+                    elif any(unit in context for unit in ['oz', 'ounce']):
+                        weight = weight * 0.0283495
+                        print(f"🔍 Found weight in body: {matches[0]}oz = {weight}kg")
+                    elif any(unit in context for unit in ['lb', 'pound']):
+                        weight = weight * 0.453592
+                        print(f"🔍 Found weight in body: {matches[0]}lbs = {weight}kg")
+                    elif any(unit in context for unit in ['kg', 'kilogram']):
+                        print(f"🔍 Found weight in body: {matches[0]}kg")
+                    
+                    if 0.01 <= weight <= 100:
+                        return weight
+                except ValueError:
+                    continue
+        
+        print("⚠️ No weight found, using default 1.0kg")
         return 1.0  # Default
 
     def extract_origin_enhanced(self, soup):
-        """Enhanced origin extraction"""
-        
-        origin_patterns = [
-            r'(?:made|manufactured|produced)\s+in\s+([a-zA-Z\s]+)',
-            r'origin[:\s]*([a-zA-Z\s]+)',
-            r'country[:\s]*([a-zA-Z\s]+)',
-        ]
+        """Enhanced origin extraction with multiple strategies"""
         
         page_text = soup.get_text()
+        
+        # Strategy 1: Brand-based origin guessing (most reliable for known brands)
+        brand_origins = {
+            'usn': 'South Africa',
+            'optimum nutrition': 'USA',
+            'myprotein': 'UK', 
+            'prozis': 'Portugal',
+            'biotech': 'Hungary',
+            'scitec': 'Hungary',
+            'dymatize': 'USA',
+            'bsn': 'USA',
+            'mutant': 'Canada',
+            'kinetica': 'Ireland'
+        }
+        
+        title_text = soup.select_one('#productTitle')
+        title_text = title_text.get_text().lower() if title_text else ""
+        
+        for brand, origin in brand_origins.items():
+            if brand in title_text:
+                print(f"🌍 Inferred origin from brand '{brand}': {origin}")
+                return origin
+        
+        # Strategy 2: Look for explicit origin statements
+        origin_patterns = [
+            r'(?:made|manufactured|produced|imported)\s+in\s+([a-zA-Z\s]{3,20})',
+            r'country\s+of\s+origin[:\s]*([a-zA-Z\s]{3,20})',
+            r'origin[:\s]*([a-zA-Z\s]{3,20})',
+            r'from\s+([a-zA-Z\s]{3,20})(?:\s|$)',
+        ]
         
         for pattern in origin_patterns:
             matches = re.findall(pattern, page_text, re.IGNORECASE)
             if matches:
                 origin = matches[0].strip().title()
-                if len(origin) > 2 and origin not in ['Unknown', 'N/A']:
+                # Filter out common false positives
+                false_positives = ['unknown', 'n/a', 'the', 'and', 'with', 'for', 'this', 'that', 'size', 'colour', 'pack', 
+                                 'this brand', 'brand', 'item', 'product', 'description', 'details', 'information']
+                if (len(origin) > 2 and 
+                    origin.lower() not in false_positives and
+                    not any(char.isdigit() for char in origin)):
+                    print(f"🌍 Found origin: {origin}")
                     return origin
         
+        # Strategy 2: Look in product details section
+        details_sections = soup.select('.a-section, .pdTab, #detailBullets_feature_div')
+        for section in details_sections:
+            section_text = section.get_text()
+            for pattern in origin_patterns:
+                matches = re.findall(pattern, section_text, re.IGNORECASE)
+                if matches:
+                    origin = matches[0].strip().title()
+                    if len(origin) > 2 and origin.lower() not in ['unknown', 'n/a']:
+                        print(f"🌍 Found origin in details: {origin}")
+                        return origin
+        
+        print("🌍 No origin found, using Unknown")
         return "Unknown"
 
     def guess_material_from_title(self, title: str):

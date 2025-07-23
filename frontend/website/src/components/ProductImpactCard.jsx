@@ -39,13 +39,20 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
               🌍 Impact Analysis Complete
             </h3>
           </div>
-          {/* Product Name Display */}
-          {result.title && (
-            <div className="ml-8">
-              <p className="text-sm text-slate-400 mb-1">Product Analyzed:</p>
+          {/* Product Name Display - MAIN INSTANCE */}
+          {result.title && result.title !== "Unknown Product" && (
+            <div className="ml-8 p-3 bg-slate-800/50 rounded-lg border border-slate-700" data-component="main-product-title">
+              <p className="text-sm text-slate-400 mb-2 flex items-center gap-2">
+                <span>📦</span> Product Analyzed:
+              </p>
               <p className="text-lg font-medium text-cyan-300 leading-relaxed">
                 {result.title}
               </p>
+              {result.attributes?.brand && result.attributes.brand !== "Unknown" && (
+                <p className="text-sm text-slate-400 mt-1">
+                  by <span className="text-amber-400">{result.attributes.brand}</span>
+                </p>
+              )}
             </div>
           )}
         </div>

@@ -1,32 +1,20 @@
 #!/usr/bin/env python3
 """
-🔧 PyTest Configuration & Shared Fixtures
-=========================================
-
-Central configuration for the testing framework with shared fixtures,
-mock data, and testing utilities used across all test modules.
-
-Features:
-- Mock Amazon product data
-- Test configuration management
-- Shared testing utilities
-- Performance test markers
-- Coverage configuration
+Pytest configuration and shared fixtures
 """
 
 import pytest
-import os
 import sys
+import os
+import tempfile
 import json
 from typing import Dict, Any, List
 from unittest.mock import Mock, patch
-import tempfile
-import time
+import pandas as pd
+import numpy as np
 
 # Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 # Test markers
 def pytest_configure(config):
