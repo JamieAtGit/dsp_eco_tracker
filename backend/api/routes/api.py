@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from backend.scrapers.amazon.scrape_amazon_titles import scrape_amazon_product_page, haversine, origin_hubs, uk_hub
+from backend.scrapers.amazon.unified_scraper import scrape_amazon_product_page
+from backend.scrapers.amazon.integrated_scraper import haversine, origin_hubs, uk_hub
 import pgeocode
 from backend.scrapers.amazon.guess_material import smart_guess_material
 

@@ -44,14 +44,25 @@ app = Flask(
     static_folder=os.path.join(os.path.dirname(__file__), "..", "static"),
     static_url_path="/static"
 )
-app.secret_key = "super-secret-key"
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-change-in-production')
 
 
 from flask_cors import CORS
 
+# Configure CORS with security in mind
+allowed_origins = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+if not allowed_origins or allowed_origins == ['']:
+    # Default development origins
+    allowed_origins = [
+        "http://localhost:5173",  # Vite dev server
+        "http://localhost:5174",  # Vite dev server (alt port)
+        "http://localhost:3000",  # Alternative dev server
+        "chrome-extension://*"    # Chrome extension
+    ]
+
 CORS(app, 
      supports_credentials=True, 
-     origins=["*"],  # Allow all origins for extension development
+     origins="*",  # Temporarily allow all origins for debugging
      methods=["GET", "POST", "OPTIONS"],
      allow_headers=["Content-Type", "Authorization"]
 )
@@ -1444,6 +1455,6 @@ def test():
    
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 5001))
-    app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
  

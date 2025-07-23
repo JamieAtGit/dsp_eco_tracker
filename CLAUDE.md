@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-DSP Eco Tracker is a comprehensive environmental impact assessment system for Amazon products. Users input Amazon product URLs and their postcode to get detailed carbon emission calculations. The system combines web scraping, machine learning, geographic analysis, and dual validation (ML vs rule-based) to provide accurate sustainability insights.
+DSP Eco Tracker is an environmental impact assessment system for Amazon products. Users input Amazon product URLs and their postcode to calculate carbon emissions. The system combines web scraping, machine learning, and geographic analysis.
+
+**Current Grade: 55-58% | Target: 95%**
 
 ## Core System Components
 
@@ -154,28 +156,26 @@ else: transport = "air" (0.5 kg CO2/kg·km)
 - **`backend/data/processing/feature_enhancer.py`**: ML feature generation
 - **`common/data/csv/expanded_eco_dataset.csv`**: Main training dataset
 
-## Current Development Status
+## Critical Issues (Blocking 95% Grade)
 
-### ✅ Working Components
-- Website URL + postcode emission estimation
-- XGBoost ML model with 85.8% accuracy
-- Amazon product scraping with anti-detection
-- Geographic distance calculations  
-- Dual prediction comparison (ML vs rule-based)
-- Admin interface for data review
-- Chrome extension basic functionality
+### 🚨 Architecture Debt
+- **14 competing scrapers** (need 1 production scraper)
+- **3 duplicate Flask apps** (app.py, app_corrected.py, app_enhanced.py)
+- **Import errors throughout** - missing __init__.py files
+- **0.1% test coverage** - only 1 test file exists
 
-### ⚠️ Partial Implementation
-- Extension material tooltips (needs more materials database)
-- Brand location database (incomplete coverage)
-- Real-time scraping (limited by anti-bot measures)
-- User authentication system (basic implementation)
+### 🚨 Data Quality Issues  
+- Scrapers return "Unknown" for most fields
+- No data validation pipeline
+- No confidence scoring on extracted data
+- No fallback mechanisms
 
-### ❌ Needs Work
-- Extension tooltip confidence accuracy
-- Automated model retraining pipeline
-- Material database expansion for better tooltip coverage
-- User session persistence and security hardening
+### 🚨 Engineering Practices
+- **No CI/CD pipeline**
+- **Hardcoded secrets** in code
+- **No error handling** - cascade failures
+- **No logging framework**
+- **No type checking or linting**
 
 ## Academic Project Context (DSP Module UFCFXK-30-3)
 
@@ -234,474 +234,157 @@ else: transport = "air" (0.5 kg CO2/kg·km)
 3. **Technical Deep Dive** (5 min): ML model insights, feature engineering, confidence scoring
 4. **Q&A Preparation**: ML mathematics, system design decisions, scalability considerations
 
-## 🚀 Path to 95% Technical Excellence
+## 🎯 IMMEDIATE ACTION PLAN: 55% → 95%
 
-### Critical Enhancement Areas (Priority Order)
+### PHASE 1: CRITICAL FIXES (Week 1) - Impact: +20 marks
 
-#### 1. **Scraping Accuracy Enhancement** (25 points impact)
-
-**Current Issue**: Scraped data returning "Unknown" instead of actual Amazon product values
-**Target**: 95%+ accuracy for origin, weight, material, dimensions extraction
-
-**Enhancement Strategy**:
-- **Structured Data Extraction**: Parse Amazon's technical specifications table with multiple fallback selectors
-- **Advanced Selenium Patterns**: Implement explicit waits, dynamic content handling, element presence validation
-- **Amazon Format Parsing**: Handle all Amazon product detail variations (bullet points, dimensions format, tech specs)
-- **Multi-Source Validation**: Cross-validate scraped data against multiple page sections
-- **Confidence Scoring**: Track extraction confidence for each field with source attribution
-
-```python
-# Enhanced extraction hierarchy:
-# 1. Technical specifications table (highest confidence)
-# 2. Product details section (high confidence)  
-# 3. Feature bullets (medium confidence)
-# 4. Product description (low confidence)
-# 5. Brand intelligence fallback (medium confidence)
-```
-
-#### 2. **ML Model Engineering Rigor** (20 points impact)
-
-**Current**: Basic XGBoost with 85.8% accuracy
-**Target**: 90%+ accuracy with statistical validation and uncertainty quantification
-
-**Enhancements**:
-- **Cross-Validation Framework**: K-fold CV with statistical significance testing
-- **Feature Engineering**: Advanced feature interactions, polynomial features, temporal features
-- **Model Uncertainty**: Monte Carlo dropout, prediction intervals, confidence bounds
-- **Bias Detection**: Performance analysis across product categories, price ranges, origins
-- **Ensemble Methods**: XGBoost + Random Forest + Neural Network voting classifier
-
-#### 3. **Data Quality Pipeline** (15 points impact)
-
-**Current**: Limited validation of scraped data quality
-**Target**: Comprehensive data validation with automated quality scoring
-
-**Pipeline Components**:
-- **Input Validation**: Amazon URL format validation, product page verification
-- **Extraction Validation**: Field completeness scoring, data type verification
-- **Cross-Reference Validation**: Brand-origin consistency, weight-dimension correlation
-- **Quality Scoring**: Overall confidence metric for each scraped product
-- **Automated Cleaning**: Outlier detection, format standardization, duplicate handling
-
-#### 4. **Production-Grade Error Handling** (10 points impact)
-
-**Enhancements**:
-- **Graceful Degradation**: Fallback mechanisms when primary extraction fails
-- **Retry Logic**: Exponential backoff for failed requests
-- **Anti-Bot Resilience**: User-agent rotation, realistic browsing patterns, CAPTCHA handling
-- **Structured Logging**: Detailed extraction provenance and error tracking
-- **Performance Monitoring**: Scraping success rates, extraction time metrics
-
-### 🎯 Implementation Priority Queue
-
-#### **Week 1-2: Core Scraping Enhancement**
-1. **Enhanced Structured Data Extraction** - Fix weight/origin/material extraction accuracy
-2. **Advanced Selenium Patterns** - Robust element detection and dynamic content handling  
-3. **Amazon Format Parser** - Handle all product detail table variations
-4. **Multi-Source Validation** - Cross-validate extracted data for consistency
-
-#### **Week 3-4: ML Engineering Excellence** 
-1. **Cross-Validation Framework** - Proper statistical validation of model performance
-2. **Feature Engineering Pipeline** - Advanced feature interactions and transformations
-3. **Model Uncertainty Quantification** - Prediction intervals and confidence bounds
-4. **Ensemble Methods** - Multi-model voting for improved accuracy
-
-#### **Week 5-6: System Integration & Testing**
-1. **Comprehensive Testing Framework** - Unit, integration, and E2E tests
-2. **Data Quality Pipeline** - Automated validation and quality scoring
-3. **Performance Optimization** - Scraping speed, ML inference optimization
-4. **Production Error Handling** - Robust fault tolerance and monitoring
-
-### 📊 Success Metrics for 95% Grade
-
-**Technical Metrics**:
-- Scraping accuracy: 95%+ for origin, weight, material extraction
-- ML model accuracy: 90%+ with proper cross-validation
-- Data completeness: <5% "Unknown" values in final dataset
-- System reliability: 99%+ uptime with graceful error handling
-
-**Academic Metrics**:
-- Code quality: Comprehensive documentation, testing, error handling
-- Innovation: Novel dual validation approach with statistical comparison
-- Rigor: Proper ML validation, bias detection, uncertainty quantification
-- Impact: Real-world applicability with measurable environmental benefit
-
-### 🔧 Key Technical Files to Enhance
-
-#### **Scraping Core** (`backend/scrapers/amazon/`)
-- `scrape_amazon_titles.py` - Main scraping logic enhancement
-- `structured_extraction.py` - New: Amazon format parsing
-- `validation_pipeline.py` - New: Data quality validation
-
-#### **ML Pipeline** (`backend/ml/`)
-- `train_xgboost.py` - Enhanced with cross-validation and uncertainty
-- `feature_engineering.py` - Advanced feature pipeline
-- `model_evaluation.py` - New: Comprehensive evaluation framework
-
-#### **Data Processing** (`backend/data/processing/`)
-- `enhanced_cleaning.py` - New: Advanced data cleaning with quality scoring
-- `validation_engine.py` - New: Multi-source data validation
-- `confidence_tracker.py` - New: Extraction confidence monitoring
-
-### 💡 Innovation Highlights for Academic Excellence
-
-1. **Dual Validation Framework**: Statistical comparison of ML vs rule-based predictions
-2. **Confidence-Aware Extraction**: Source attribution and reliability scoring for all data
-3. **Global Logistics Modeling**: Distance-based transport mode selection with real-world accuracy
-4. **Compound Material Analysis**: Multi-material recyclability assessment
-5. **Context-Aware Brand Intelligence**: Product-specific manufacturing pattern detection
-
-This roadmap positions your project for 95% by addressing the core technical deficiencies while maintaining the strong academic foundation you've already built.
-
----
-
-## 🏗️ **TECHNICAL DEBT ELIMINATION ROADMAP** 
-*Professional Engineering Standards for First-Class Dissertation*
-
-### **Current Technical Assessment: 58-62% (Lower 2:2)**
-
-#### **Critical Deficiencies Identified:**
-- ❌ **Non-functional core system**: All scrapers broken with import/dependency errors
-- ❌ **Amateur error handling**: Cascade failures, no graceful degradation
-- ❌ **Architecture chaos**: 8+ competing scrapers, massive code duplication
-- ❌ **ML implementation issues**: Feature engineering weak, overfitting risk
-- ❌ **Zero testing coverage**: No automated tests, manual verification only
-- ❌ **Data quality nightmare**: "Unknown" values everywhere, no validation
-
----
-
-### **🎯 SYSTEMATIC ENGINEERING PHASES**
-
-#### **PHASE 1: SYSTEM STABILIZATION** 🚨
-**Status**: In Progress | **Target**: 1-2 weeks | **Impact**: +15-20 marks
-
-**Objectives:**
-- ✅ Create ONE reliable, production-grade scraper
-- ✅ Fix all import/dependency issues
-- ✅ Implement proper error handling and logging
-- ✅ Establish data validation pipeline
-
-**Technical Deliverables:**
-```python
-# Unified Scraper Interface
-class ProductScraper:
-    def scrape(self, url: str) -> ScrapingResult:
-        """Single method, multiple strategies, guaranteed result"""
-        pass
-
-# Error Handling Framework  
-class ScrapingException(Exception):
-    """Custom exceptions with context and recovery strategies"""
-    pass
-
-# Data Validation Pipeline
-class ProductValidator:
-    def validate(self, product_data: Dict) -> ValidationResult:
-        """Comprehensive data quality assessment"""
-        pass
-```
-
-**Success Criteria:**
-- 95%+ scraping success rate
-- Zero import/dependency errors
-- All errors logged with context
-- Data completeness >90%
-
----
-
-#### **PHASE 2: ARCHITECTURE CLEANUP** 🏗️
-**Status**: Pending | **Target**: 2-3 weeks | **Impact**: +10-15 marks
-
-**Objectives:**
-- 🔧 Consolidate 8 scrapers into clean interface hierarchy
-- 🔧 Implement dependency injection and strategy pattern
-- 🔧 Create standardized data models and APIs
-- 🔧 Eliminate code duplication (target: <5% duplicate code)
-
-**Technical Deliverables:**
-```python
-# Strategy Pattern Implementation
-class ScrapingStrategy(ABC):
-    @abstractmethod
-    def can_handle(self, url: str) -> bool:
-    def scrape(self, url: str) -> ProductData:
-
-# Dependency Injection Container
-class ScrapingContainer:
-    def __init__(self):
-        self.strategies = [RequestsStrategy(), SeleniumStrategy(), ...]
-    
-# Standardized Product Data Model
-@dataclass
-class ProductData:
-    title: str
-    origin: str  
-    weight_kg: float
-    confidence_scores: Dict[str, float]
-    extraction_metadata: ExtractionMetadata
-```
-
-**Success Criteria:**
-- Single entry point for all scraping
-- Strategy pattern with fallback chain
-- 100% consistent data models
-- <5% code duplication
-
----
-
-#### **PHASE 3: TESTING FRAMEWORK** 🧪
-**Status**: Pending | **Target**: 1-2 weeks | **Impact**: +10-12 marks
-
-**Objectives:**
-- 🧪 Unit tests for all critical functions (target: 80%+ coverage)
-- 🧪 Integration tests for API endpoints
-- 🧪 ML model validation tests
-- 🧪 CI/CD pipeline with automated testing
-
-**Technical Deliverables:**
-```python
-# Comprehensive Test Suite
-class TestProductScraper(unittest.TestCase):
-    def test_scraping_accuracy(self):
-    def test_error_handling(self):
-    def test_data_validation(self):
-
-class TestMLPipeline(unittest.TestCase):
-    def test_model_accuracy(self):
-    def test_cross_validation(self):
-    def test_bias_detection(self):
-
-# Performance Benchmarks
-class TestPerformance(unittest.TestCase):
-    def test_scraping_speed(self):
-    def test_memory_usage(self):
-    def test_concurrent_requests(self):
-```
-
-**Success Criteria:**
-- 80%+ test coverage
-- All tests passing in CI/CD
-- Performance benchmarks established
-- Automated regression detection
-
----
-
-#### **PHASE 4: ML ENGINEERING RIGOR** 📊
-**Status**: Pending | **Target**: 2-3 weeks | **Impact**: +8-12 marks
-
-**Objectives:**
-- 📊 Implement proper cross-validation with statistical significance
-- 📊 Add model uncertainty quantification
-- 📊 Bias detection across product categories
-- 📊 Ensemble methods for improved accuracy
-
-**Technical Deliverables:**
-```python
-# Statistical Validation Framework
-class MLValidator:
-    def cross_validate(self, model, X, y, cv=10) -> ValidationResults:
-        """K-fold CV with confidence intervals"""
-    
-    def statistical_significance_test(self, model_a, model_b) -> float:
-        """McNemar's test for model comparison"""
-    
-    def bias_analysis(self, model, X, y, protected_attrs) -> BiasReport:
-        """Fairness analysis across categories"""
-
-# Model Uncertainty
-class UncertaintyQuantifier:
-    def prediction_intervals(self, X) -> Tuple[float, float, float]:
-        """Returns (prediction, lower_bound, upper_bound)"""
-```
-
-**Success Criteria:**
-- Model accuracy >90% with statistical validation
-- Uncertainty quantification implemented
-- Bias analysis completed
-- Ensemble methods deployed
-
----
-
-#### **PHASE 5: PRODUCTION READINESS** 🚀
-**Status**: Pending | **Target**: 1-2 weeks | **Impact**: +8-10 marks
-
-**Objectives:**
-- 🚀 Async processing and caching layer
-- 🚀 Monitoring and alerting system
-- 🚀 Performance optimization
-- 🚀 Docker containerization and deployment
-
-**Technical Deliverables:**
-```python
-# Async Processing
-class AsyncScraper:
-    async def scrape_batch(self, urls: List[str]) -> List[ProductData]:
-        """Concurrent scraping with rate limiting"""
-
-# Caching Layer
-class ProductCache:
-    def get_cached_product(self, url: str) -> Optional[ProductData]:
-    def cache_product(self, url: str, data: ProductData, ttl: int):
-
-# Monitoring System
-class MetricsCollector:
-    def track_scraping_success_rate(self):
-    def track_model_performance(self):
-    def track_response_times(self):
-```
-
-**Success Criteria:**
-- 3x performance improvement
-- 99%+ uptime monitoring
-- Automated alerts for failures
-- One-command deployment
-
----
-
-### **🎯 ENGINEERING PRINCIPLES**
-
-#### **Code Quality Standards:**
-```python
-# Every function MUST have:
-def scrape_product(url: str) -> ProductData:
-    """
-    Scrapes Amazon product data with guaranteed fallback.
-    
-    Args:
-        url: Valid Amazon product URL
-        
-    Returns:
-        ProductData with confidence scores
-        
-    Raises:
-        ScrapingException: When all strategies fail
-        
-    Examples:
-        >>> data = scrape_product("https://amazon.co.uk/dp/B123")
-        >>> assert data.confidence_scores['origin'] > 0.8
-    """
-    pass
-```
-
-#### **Error Handling Standards:**
-```python
-# Every operation MUST handle errors gracefully
-try:
-    result = risky_operation()
-except SpecificException as e:
-    logger.error(f"Operation failed: {e}", extra={"context": context})
-    return fallback_result()
-except Exception as e:
-    logger.critical(f"Unexpected error: {e}", exc_info=True)
-    raise SystemException("Critical system failure") from e
-```
-
-#### **Testing Standards:**
-```python
-# Every function MUST have tests
-class TestProductScraper:
-    def test_valid_url_returns_data(self):
-        """Test normal operation"""
-        
-    def test_invalid_url_raises_exception(self):
-        """Test error cases"""
-        
-    def test_rate_limiting_respected(self):
-        """Test performance constraints"""
-```
-
----
-
-### **📊 TECHNICAL DEBT METRICS**
-
-#### **Current State:**
-- **Lines of duplicated code**: ~2,000+
-- **Test coverage**: 0%  
-- **Import errors**: 15-20 major issues
-- **Performance**: 60+ second scraping times
-- **Error handling**: Inconsistent/missing
-- **Documentation**: <20% coverage
-
-#### **Target State:**
-- **Lines of duplicated code**: <100
-- **Test coverage**: 80%+
-- **Import errors**: 0
-- **Performance**: <5 second scraping times  
-- **Error handling**: 100% graceful degradation
-- **Documentation**: 95% coverage
-
----
-
-### **💻 PROFESSIONAL DEVELOPMENT ENVIRONMENT**
-
-#### **Required Tools & Dependencies:**
 ```bash
-# Development Environment Setup
-python -m venv .venv
-source .venv/bin/activate
+# DAY 1-2: Architecture Cleanup
+□ Delete 13 redundant scrapers (keep only unified_scraper.py)
+□ Delete app_corrected.py and app_enhanced.py (keep only app.py)
+□ Fix all imports - create proper __init__.py files
+□ Remove ALL hardcoded secrets → use .env file
 
-# Core dependencies (managed properly)  
-pip install -r requirements/base.txt
-pip install -r requirements/dev.txt  # Testing, linting, type checking
-pip install -r requirements/ml.txt   # ML/AI dependencies
+# DAY 3-4: Fix Data Extraction  
+□ Test unified_scraper.py with 10 real Amazon URLs
+□ Fix extraction to get ACTUAL data (not "Unknown")
+□ Add fallback mechanisms for failed extractions
+□ Implement confidence scoring for each field
 
-# Development tools
-pre-commit install  # Automated code quality
-pytest --cov=backend tests/  # Test coverage
-mypy backend/  # Type checking
-black backend/  # Code formatting
-flake8 backend/  # Linting
+# DAY 5: Basic Testing
+□ Set up pytest infrastructure
+□ Write tests for unified_scraper.py
+□ Add GitHub Actions CI/CD pipeline
+□ Target: 30% test coverage
 ```
 
-#### **CI/CD Pipeline:**
+### PHASE 2: ENGINEERING EXCELLENCE (Week 2-3) - Impact: +15 marks
+
+```python
+# Testing Framework (Target: 80% coverage)
+backend/tests/
+├── unit/
+│   ├── test_scrapers.py
+│   ├── test_ml_models.py  
+│   └── test_api_routes.py
+├── integration/
+│   └── test_full_pipeline.py
+└── e2e/
+    └── test_user_flows.py
+
+# Error Handling Pattern
+class ScrapingService:
+    def scrape_with_fallback(self, url: str) -> ProductData:
+        try:
+            return self.primary_scraper.scrape(url)
+        except ScrapingException:
+            logger.warning(f"Primary scraper failed for {url}")
+            return self.fallback_scraper.scrape(url)
+```
+
+### PHASE 3: ML RIGOR (Week 4) - Impact: +10 marks
+
+```python
+# Current: Basic training with no validation
+# Target: Statistical rigor
+
+class MLPipeline:
+    def train_with_validation(self):
+        # 1. K-fold cross-validation
+        scores = cross_val_score(model, X, y, cv=10)
+        print(f"CV Score: {scores.mean():.3f} (+/- {scores.std() * 2:.3f})")
+        
+        # 2. Statistical significance test
+        mcnemar_test(model_a, model_b)
+        
+        # 3. Bias detection
+        bias_metrics = check_bias_across_categories(model, X_test, y_test)
+```
+
+### PHASE 4: PRODUCTION READY (Week 5-6) - Impact: +10 marks
+
 ```yaml
-# .github/workflows/test.yml
-name: Test & Lint
+# .github/workflows/ci.yml
+name: CI Pipeline
 on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v3
-      - name: Run tests
+      - name: Run Tests
         run: |
-          pip install -r requirements/dev.txt
-          pytest --cov=backend tests/
-          mypy backend/
-          black --check backend/
-          flake8 backend/
+          pytest --cov=backend --cov-report=xml
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
 ```
 
----
+## 📋 DAILY CHECKLIST
 
-### **🎯 WEEKLY MILESTONES & DELIVERABLES**
+### Today's Critical Tasks
+1. [ ] Delete redundant scrapers (keep unified_scraper.py)
+2. [ ] Fix imports with __init__.py files
+3. [ ] Test scraper with real URLs - verify it works
+4. [ ] Remove hardcoded secrets → .env file
+5. [ ] Set up basic pytest
 
-#### **Week 1: System Stabilization** 
-- ✅ Fix all import/dependency issues
-- ✅ Create unified scraper interface
-- ✅ Implement comprehensive error handling
-- ✅ Add structured logging throughout
+### Success Criteria
+- ✅ Only 1 scraper in codebase
+- ✅ No import errors when running app.py
+- ✅ Scraper returns real data (not "Unknown")
+- ✅ Tests can run with `pytest`
+- ✅ No secrets in git history
 
-#### **Week 2-3: Architecture & Testing**
-- 🔧 Consolidate scrapers using strategy pattern
-- 🧪 Build comprehensive test suite (80%+ coverage)
-- 📊 Implement data validation pipeline
-- 🚀 Add performance monitoring
+## 🚀 Commands to Run Right Now
 
-#### **Week 4-5: ML Engineering Excellence**
-- 📊 Statistical model validation framework  
-- 🧠 Model uncertainty quantification
-- 🔍 Bias detection and fairness analysis
-- 🏆 Ensemble methods implementation
+```bash
+# 1. Clean up scrapers
+cd backend/scrapers/amazon
+mkdir archive
+mv *.py archive/  # Move all scrapers
+mv archive/unified_scraper.py .  # Keep only unified
 
-#### **Week 6: Production & Documentation**
-- 🚀 Async processing and caching
-- 📖 Complete API documentation
-- 🐳 Docker containerization
-- 🎯 Performance optimization to <5s
+# 2. Fix imports
+touch backend/__init__.py
+touch backend/scrapers/__init__.py
+touch backend/scrapers/amazon/__init__.py
+touch backend/ml/__init__.py
+touch backend/api/__init__.py
 
----
+# 3. Test the scraper
+python debug_scraper.py  # Create this to test
 
-**This systematic engineering approach transforms the codebase from prototype to production-grade system worthy of First-Class honors.**
+# 4. Set up testing
+pip install pytest pytest-cov pytest-mock
+pytest --version
+
+# 5. Create .env file
+echo "FLASK_SECRET_KEY=$(openssl rand -hex 32)" > .env
+echo "FLASK_ENV=development" >> .env
+```
+
+## Key Files to Monitor
+
+### Scraper (Primary Focus)
+- `backend/scrapers/amazon/unified_scraper.py` - Main scraper to fix
+
+### Flask API  
+- `backend/api/app.py` - Main API (remove duplicates)
+
+### ML Models
+- `backend/ml/training/train_xgboost.py` - Add proper validation
+- `backend/ml/models/` - Model storage
+
+### Tests (Create These)
+- `backend/tests/unit/test_scrapers.py`
+- `backend/tests/unit/test_ml_models.py`
+- `backend/tests/integration/test_pipeline.py`
+
+## Remember: Engineering Excellence = 95%
+
+The difference between 55% and 95% is not features, it's:
+- Clean architecture (1 scraper, not 14)
+- 80% test coverage (not 0.1%)
+- Proper ML validation (not just accuracy)
+- Production engineering (error handling, logging, monitoring)
+- Professional practices (CI/CD, code reviews, documentation)
