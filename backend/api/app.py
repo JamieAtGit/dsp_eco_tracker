@@ -18,11 +18,20 @@ from backend.api.routes.api import calculate_eco_score
 
 
 import pandas as pd
-# Import new production-grade unified scraper
-from backend.scrapers.amazon.unified_scraper import (
-    scrape_amazon_product_page,  # Drop-in replacement with enhanced capabilities
-    UnifiedProductScraper
-)
+# Import enhanced scraper with dual origin system
+try:
+    # Add project root to Python path for enhanced scraper
+    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+    from enhanced_scraper_fix import EnhancedAmazonScraper
+    ENHANCED_SCRAPER_AVAILABLE = True
+    print("✅ Enhanced scraper with dual origins loaded")
+except ImportError as e:
+    from backend.scrapers.amazon.unified_scraper import (
+        scrape_amazon_product_page,  # Fallback scraper
+        UnifiedProductScraper
+    )
+    ENHANCED_SCRAPER_AVAILABLE = False
+    print(f"⚠️ Using fallback unified scraper (enhanced not found: {e})")
 from backend.scrapers.amazon.integrated_scraper import (
     estimate_origin_country,
     resolve_brand_origin,
@@ -1024,10 +1033,23 @@ def estimate_emissions():
         if not url or not postcode:
             return jsonify({"error": "Missing URL or postcode"}), 400
 
-        # Scrape product with debugging using enhanced stealth scraper
-        # Use production-grade unified scraper (already imported)
+        # Scrape product using enhanced scraper with dual origins
         print(f"🔍 Scraping URL: {url}")
-        product = scrape_amazon_product_page(url)
+        
+        if ENHANCED_SCRAPER_AVAILABLE:
+            # Use enhanced scraper with dual origin system
+            enhanced_scraper = EnhancedAmazonScraper()
+            result = enhanced_scraper.scrape_product_enhanced(url)
+            
+            if result and result.get('title', 'Unknown Product') != 'Unknown Product':
+                print(f"✅ Enhanced scraper success: {result.get('title', '')[:50]}...")
+                product = result
+            else:
+                print("⚠️ Enhanced scraper failed, using fallback")
+                product = scrape_amazon_product_page(url)
+        else:
+            # Use fallback unified scraper
+            product = scrape_amazon_product_page(url)
         
         # Debug what the scraper returned
         print("🔍 DEBUG: Scraper returned:")
@@ -1044,6 +1066,70 @@ def estimate_emissions():
                 print(f"🧠 Fallback guessed material: {guessed}")
                 material = guessed.title()
         product["material_type"] = material
+        
+        # Enhanced fallback for protein powder products
+        title = product.get("title", "").lower()
+        if any(keyword in title for keyword in ['protein', 'powder', 'supplement', 'whey', 'casein', 'meal shake']):
+            print("🥤 Detected protein powder, applying enhanced fallbacks...")
+            
+            # Fix weight if too low for protein powder
+            current_weight = product.get("weight_kg", 0)
+            if current_weight < 0.5:  # Protein powder should be at least 500g
+                import re
+                # Try to extract weight from title
+                weight_matches = re.findall(r'(\d+(?:\.\d+)?)\s*(kg|g|lb)', title)
+                if weight_matches:
+                    weight_val, unit = weight_matches[0]
+                    weight_val = float(weight_val)
+                    
+                    if unit == 'kg' and 0.5 <= weight_val <= 5:
+                        product["weight_kg"] = weight_val
+                        print(f"🔧 Fixed protein weight to {weight_val}kg from title")
+                    elif unit == 'g' and weight_val >= 500:
+                        product["weight_kg"] = weight_val / 1000
+                        print(f"🔧 Fixed protein weight to {weight_val/1000}kg from title")
+                    else:
+                        # Default protein powder weight
+                        product["weight_kg"] = 1.0
+                        print("🔧 Applied default protein weight: 1.0kg")
+                else:
+                    product["weight_kg"] = 1.0
+                    print("🔧 Applied default protein weight: 1.0kg")
+            
+            # Fix origin for known brands
+            current_origin = product.get("origin", "Unknown")
+            if current_origin == "Unknown":
+                brand = product.get("brand", "").lower()
+                title_lower = title.lower()
+                
+                # Enhanced brand detection from title
+                protein_brands = {
+                    'whole supp': 'UK',
+                    'wholesupp': 'UK', 
+                    'myprotein': 'England',
+                    'bulk powders': 'England',
+                    'optimum nutrition': 'USA',
+                    'dymatize': 'USA',
+                    'usn': 'South Africa',
+                    'sci-mx': 'UK',
+                    'phd nutrition': 'UK'
+                }
+                
+                detected_origin = None
+                for brand_name, origin in protein_brands.items():
+                    if brand_name in title_lower or brand_name in brand:
+                        detected_origin = origin
+                        print(f"🔧 Detected brand '{brand_name}' -> origin: {origin}")
+                        break
+                
+                if detected_origin:
+                    product["origin"] = detected_origin
+                    product["country_of_origin"] = detected_origin
+                else:
+                    # Default UK for unknown protein brands
+                    product["origin"] = "UK"
+                    product["country_of_origin"] = "UK"
+                    print("🔧 Applied default UK origin for protein powder")
 
         if not product:
             return jsonify({"error": "Could not fetch product"}), 500
@@ -1057,8 +1143,9 @@ def estimate_emissions():
 
         user_lat, user_lon = location.latitude, location.longitude
 
-        # Get origin coordinates - use scraper result first
-        origin_country = product.get("origin") or product.get("brand_estimated_origin", "UK")
+        # Get origin coordinates - use country_of_origin for distance calculation
+        origin_country = product.get("country_of_origin") or product.get("origin") or product.get("brand_estimated_origin", "UK")
+        facility_origin = product.get("facility_origin", "Unknown")
         
         # For UK internal deliveries, determine specific region from postcode
         if origin_country == "UK" and postcode:
@@ -1365,6 +1452,8 @@ def estimate_emissions():
                     "weight_kg": convert_numpy_types(round(weight, 2)),
                     "raw_product_weight_kg": convert_numpy_types(round(raw_weight, 2)),
                     "origin": origin_country,
+                    "country_of_origin": origin_country,
+                    "facility_origin": facility_origin,
                     "origin_source": product.get("origin_source", "brand_db"),
 
                     # Distance fields

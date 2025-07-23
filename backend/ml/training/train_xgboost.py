@@ -4,9 +4,11 @@ import numpy as np
 import pandas as pd
 import xgboost as xgb
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, cross_val_score, StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import classification_report, confusion_matrix, f1_score
+from sklearn.metrics import classification_report, confusion_matrix, f1_score, accuracy_score
+from scipy import stats
+from scipy.stats import friedmanchisquare
 from imblearn.over_sampling import SMOTE
 from collections import Counter
 import json
@@ -110,7 +112,12 @@ total = sum(counter.values())
 class_weights = {cls: total / count for cls, count in counter.items()}
 sample_weights = [class_weights[i] for i in y_train]
 
-# === XGBoost Model + Hyperparameter Search
+# === Enhanced ML Validation with Statistical Rigor ===
+print("\n🧪 STATISTICAL VALIDATION PHASE")
+print("=" * 50)
+
+# 1. K-Fold Cross-Validation (Academic Standard)
+skf = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
 base_model = xgb.XGBClassifier(
     use_label_encoder=False,
     eval_metric="mlogloss",
@@ -122,38 +129,182 @@ base_model = xgb.XGBClassifier(
     random_state=42
 )
 
+# Cross-validation scores
+cv_scores = cross_val_score(base_model, X_balanced, y_balanced, cv=skf, scoring='f1_macro')
+print(f"\n📊 10-Fold Cross-Validation Results:")
+print(f"   Mean F1: {cv_scores.mean():.4f} (±{cv_scores.std() * 2:.4f})")
+print(f"   Individual folds: {[round(score, 4) for score in cv_scores]}")
+
+# Statistical significance test
+if cv_scores.std() > 0:
+    t_stat, p_value = stats.ttest_1samp(cv_scores, 0.5)  # Test against random chance
+    print(f"   Statistical significance: p={p_value:.6f} {'✅ Significant' if p_value < 0.05 else '❌ Not significant'}")
+
+# 2. Hyperparameter Optimization with Cross-Validation
+print(f"\n🔧 Hyperparameter Optimization:")
 params = {
-    "n_estimators": [200, 300],
-    "max_depth": [6, 7],
-    "learning_rate": [0.05, 0.08],
-    "subsample": [0.7, 0.85],
-    "colsample_bytree": [0.7, 0.85]
+    "n_estimators": [200, 300, 400],
+    "max_depth": [6, 7, 8],
+    "learning_rate": [0.05, 0.08, 0.1],
+    "subsample": [0.7, 0.85, 0.9],
+    "colsample_bytree": [0.7, 0.85, 0.9]
 }
 
-search = RandomizedSearchCV(base_model, params, scoring="f1_macro", n_iter=5, cv=3)
+search = RandomizedSearchCV(
+    base_model, 
+    params, 
+    scoring="f1_macro", 
+    n_iter=20,  # More thorough search
+    cv=5,  # 5-fold for hyperparameter search
+    n_jobs=-1,
+    random_state=42
+)
 search.fit(X_train, y_train, sample_weight=sample_weights)
 model = search.best_estimator_
+print(f"   Best parameters: {search.best_params_}")
+print(f"   Best CV score: {search.best_score_:.4f}")
 
-# === Evaluate
+# === Comprehensive Model Evaluation ===
+print(f"\n📈 FINAL MODEL EVALUATION")
+print("=" * 50)
+
 y_pred = model.predict(X_test)
-acc = model.score(X_test, y_test)
+y_pred_proba = model.predict_proba(X_test)
+
+# Basic metrics
+acc = accuracy_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred, average="macro")
+f1_weighted = f1_score(y_test, y_pred, average="weighted")
 report = classification_report(y_test, y_pred, target_names=encoders['label'].classes_, output_dict=True)
 
-print(f"✅ Accuracy: {acc:.4f}")
-print(f"✅ F1 Score: {f1:.4f}")
+# Confidence intervals for accuracy (Wilson score interval)
+n = len(y_test)
+p = acc
+z = 1.96  # 95% confidence
+wilson_center = (p + z**2/(2*n)) / (1 + z**2/n)
+wilson_width = z * np.sqrt((p*(1-p) + z**2/(4*n)) / n) / (1 + z**2/n)
+conf_lower = wilson_center - wilson_width
+conf_upper = wilson_center + wilson_width
+
+print(f"\n🎯 Performance Metrics:")
+print(f"   Accuracy: {acc:.4f} (95% CI: [{conf_lower:.4f}, {conf_upper:.4f}])")
+print(f"   Macro F1: {f1:.4f}")
+print(f"   Weighted F1: {f1_weighted:.4f}")
+
+# Per-class performance
+print(f"\n📊 Per-Class Performance:")
+for class_name in encoders['label'].classes_:
+    if class_name in report:
+        precision = report[class_name]['precision']
+        recall = report[class_name]['recall']
+        f1_class = report[class_name]['f1-score']
+        support = report[class_name]['support']
+        print(f"   {class_name}: P={precision:.3f}, R={recall:.3f}, F1={f1_class:.3f} (n={support})")
+
+# Feature importance analysis
+if hasattr(model, 'feature_importances_'):
+    importance_df = pd.DataFrame({
+        'feature': feature_cols,
+        'importance': model.feature_importances_
+    }).sort_values('importance', ascending=False)
+    
+    print(f"\n🔍 Top 5 Most Important Features:")
+    for idx, row in importance_df.head().iterrows():
+        print(f"   {row['feature']:20}: {row['importance']:.4f}")
 
 # === Save model + encoders
 joblib.dump(model, os.path.join(model_dir, "eco_model.pkl"))
 for name, enc in encoders.items():
     joblib.dump(enc, os.path.join(encoders_dir, f"{name}_encoder.pkl"))
 
-# === Save metrics
-with open(os.path.join(model_dir, "xgb_metrics.json"), "w") as f:
-    json.dump({
-        "accuracy": round(acc, 4),
-        "f1_score": round(f1, 4),
-        "report": report
-    }, f, indent=2)
+# === Model Comparison & Bias Analysis ===
+print(f"\n🔬 BIAS AND ROBUSTNESS ANALYSIS")
+print("=" * 50)
+
+# Check for bias across different categories
+bias_results = {}
+
+# Origin bias analysis
+if 'origin_encoded' in X_test.columns:
+    origins = X_test['origin_encoded'].unique()
+    origin_performance = {}
+    for origin in origins:
+        mask = X_test['origin_encoded'] == origin
+        if mask.sum() > 5:  # Only analyze if sufficient samples
+            origin_acc = accuracy_score(y_test[mask], y_pred[mask])
+            origin_name = encoders['origin'].inverse_transform([origin])[0]
+            origin_performance[origin_name] = {
+                'accuracy': round(origin_acc, 4),
+                'sample_count': int(mask.sum())
+            }
+    
+    bias_results['origin_bias'] = origin_performance
+    print(f"\n📍 Performance by Origin:")
+    for origin, perf in origin_performance.items():
+        print(f"   {origin:15}: {perf['accuracy']:.4f} (n={perf['sample_count']})")
+
+# Material bias analysis
+if 'material_encoded' in X_test.columns:
+    materials = X_test['material_encoded'].unique()
+    material_performance = {}
+    for material in materials:
+        mask = X_test['material_encoded'] == material
+        if mask.sum() > 5:
+            material_acc = accuracy_score(y_test[mask], y_pred[mask])
+            material_name = encoders['material'].inverse_transform([material])[0]
+            material_performance[material_name] = {
+                'accuracy': round(material_acc, 4),
+                'sample_count': int(mask.sum())
+            }
+    
+    bias_results['material_bias'] = material_performance
+    print(f"\n🧱 Performance by Material:")
+    for material, perf in material_performance.items():
+        print(f"   {material:15}: {perf['accuracy']:.4f} (n={perf['sample_count']})")
+
+# === Enhanced Metrics for Academic Rigor ===
+enhanced_metrics = {
+    # Basic performance
+    "accuracy": round(acc, 4),
+    "accuracy_95_ci_lower": round(conf_lower, 4),
+    "accuracy_95_ci_upper": round(conf_upper, 4),
+    "f1_macro": round(f1, 4),
+    "f1_weighted": round(f1_weighted, 4),
+    
+    # Cross-validation results
+    "cv_mean_f1": round(cv_scores.mean(), 4),
+    "cv_std_f1": round(cv_scores.std(), 4),
+    "cv_scores": [round(score, 4) for score in cv_scores],
+    
+    # Statistical significance
+    "statistical_significance_p": round(p_value, 6) if 'p_value' in locals() else None,
+    "significantly_better_than_random": p_value < 0.05 if 'p_value' in locals() else None,
+    
+    # Model details
+    "best_hyperparameters": search.best_params_,
+    "best_cv_score": round(search.best_score_, 4),
+    "feature_count": len(feature_cols),
+    "training_samples": len(X_train),
+    "test_samples": len(X_test),
+    
+    # Feature importance
+    "feature_importance": importance_df.to_dict('records') if 'importance_df' in locals() else None,
+    
+    # Bias analysis
+    "bias_analysis": bias_results,
+    
+    # Full classification report
+    "detailed_report": report
+}
+
+# Save enhanced metrics
+with open(os.path.join(model_dir, "xgb_metrics_enhanced.json"), "w") as f:
+    json.dump(enhanced_metrics, f, indent=2)
+
+print(f"\n✅ ACADEMIC-GRADE MODEL COMPLETE")
+print(f"   📊 10-fold CV F1: {cv_scores.mean():.4f} ±{cv_scores.std()*2:.4f}")
+print(f"   🎯 Test Accuracy: {acc:.4f} (95% CI: [{conf_lower:.4f}, {conf_upper:.4f}])")
+print(f"   📈 Statistical Significance: {'✅ Yes' if p_value < 0.05 else '❌ No'} (p={p_value:.6f})" if 'p_value' in locals() else "")
+print(f"   💾 Enhanced metrics saved to xgb_metrics_enhanced.json")
 
 print("✅ Model, encoders, and metrics saved successfully.")

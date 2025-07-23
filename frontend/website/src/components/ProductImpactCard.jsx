@@ -170,11 +170,23 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
               </span>
             </div>
             
-            <div className="flex justify-between items-center p-3 glass-card rounded-lg">
-              <span className="text-slate-400">Origin:</span>
-              <ModernBadge variant="default" size="sm">
-                {attr.origin}
-              </ModernBadge>
+            <div className="p-3 glass-card rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-slate-400">Country of Origin:</span>
+                <ModernBadge variant="default" size="sm">
+                  {attr.country_of_origin || attr.origin}
+                </ModernBadge>
+              </div>
+              {attr.facility_origin && attr.facility_origin !== "Unknown" && (
+                <div className="pt-2 border-t border-slate-700">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-slate-500">Manufacturing Facility:</span>
+                    <span className="text-xs text-slate-300 font-medium">
+                      {attr.facility_origin}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="p-3 glass-card rounded-lg">

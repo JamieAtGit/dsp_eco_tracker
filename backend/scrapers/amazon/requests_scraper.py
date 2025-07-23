@@ -166,6 +166,41 @@ class RequestsScraper:
         # Smart material detection - check for protein powder first
         if any(keyword in title.lower() for keyword in ['protein', 'powder', 'mass gainer', 'supplement', 'whey', 'casein']):
             material = "Plastic"  # Protein powder containers are typically plastic
+            
+            # For protein powder, if weight is suspiciously low, try better extraction
+            if weight < 0.5:  # Protein powder should be at least 500g
+                print(f"⚠️ Protein powder weight seems low ({weight}kg), trying enhanced extraction...")
+                
+                # Look for common protein powder weights in title/text
+                protein_weight_patterns = [
+                    r'(\d+(?:\.\d+)?)\s*kg\b',  # "1kg", "2.5kg"
+                    r'(\d+(?:\.\d+)?)\s*g\b',   # "900g", "1000g"
+                    r'(\d+(?:\.\d+)?)\s*lbs?\b', # "5lb", "2.2lbs"
+                ]
+                
+                for pattern in protein_weight_patterns:
+                    matches = re.findall(pattern, title.lower())
+                    if matches:
+                        try:
+                            weight_val = float(matches[0])
+                            if pattern.endswith('g\\b'):  # Grams
+                                if weight_val >= 500:  # At least 500g
+                                    weight = weight_val / 1000
+                                    print(f"⚖️ Found better protein weight in title: {weight}kg")
+                                    break
+                            elif pattern.endswith('kg\\b'):  # Kilograms
+                                if 0.5 <= weight_val <= 5:  # Reasonable protein weight
+                                    weight = weight_val
+                                    print(f"⚖️ Found better protein weight in title: {weight}kg")
+                                    break
+                            elif pattern.endswith('lbs?\\b'):  # Pounds
+                                weight_kg = weight_val * 0.453592
+                                if 0.5 <= weight_kg <= 5:  # Reasonable protein weight
+                                    weight = weight_kg
+                                    print(f"⚖️ Found better protein weight in title: {weight}kg")
+                                    break
+                        except:
+                            continue
         else:
             material = self.detect_material(title, all_text)
         
@@ -351,8 +386,10 @@ class RequestsScraper:
             'applied nutrition': 'UK',
             'phd nutrition': 'UK',
             'sci-mx': 'UK',
+            'sci mx': 'UK',
             'free soul': 'England',     # London-based
             'grenade': 'England',       # Birmingham-based
+            'nxt nutrition': 'UK',      # UK-based supplement company
             'usn uk': 'England',        # UK operations
             'usn': 'South Africa',
             'mutant': 'Canada',
@@ -361,6 +398,8 @@ class RequestsScraper:
             'weider': 'Germany',
             'esn': 'Germany',
             'biotech usa': 'Hungary',
+            'whole supp': 'UK',         # UK-based supplement company
+            'wholesupp': 'UK',          # Alternative brand format
             # Electronics
             'samsung': 'South Korea',
             'apple': 'China',

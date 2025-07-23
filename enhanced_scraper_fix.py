@@ -231,9 +231,11 @@ class EnhancedAmazonScraper:
         weight = self.extract_weight_enhanced(soup)
         data['weight_kg'] = weight
         
-        # Origin extraction
-        origin = self.extract_origin_enhanced(soup)
-        data['origin'] = origin
+        # Dual origin extraction
+        country_origin, facility_origin = self.extract_dual_origin_enhanced(soup)
+        data['country_of_origin'] = country_origin
+        data['facility_origin'] = facility_origin
+        data['origin'] = country_origin  # Keep backward compatibility
         
         # Material guessing based on title
         data['material_type'] = self.guess_material_from_title(title)
@@ -344,12 +346,14 @@ class EnhancedAmazonScraper:
         print("⚠️ No weight found, using default 1.0kg")
         return 1.0  # Default
 
-    def extract_origin_enhanced(self, soup):
-        """Enhanced origin extraction with multiple strategies"""
+    def extract_dual_origin_enhanced(self, soup):
+        """Enhanced dual origin extraction - returns (country_of_origin, facility_origin)"""
         
         page_text = soup.get_text()
+        title_text = soup.select_one('#productTitle')
+        title_text = title_text.get_text().lower() if title_text else ""
         
-        # Strategy 1: Brand-based origin guessing (most reliable for known brands)
+        # Strategy 1: Brand-based country mapping (most reliable)
         brand_origins = {
             'usn': 'South Africa',
             'optimum nutrition': 'USA',
@@ -357,55 +361,111 @@ class EnhancedAmazonScraper:
             'prozis': 'Portugal',
             'biotech': 'Hungary',
             'scitec': 'Hungary',
+            'sci-mx': 'UK',  # Add SCI-MX as UK-based
             'dymatize': 'USA',
             'bsn': 'USA',
             'mutant': 'Canada',
-            'kinetica': 'Ireland'
+            'kinetica': 'Ireland',
+            'nxt nutrition': 'UK',
+            'grenade': 'UK',
+            'bulk': 'UK',
+            'phd': 'UK',
+            'applied nutrition': 'UK'
         }
         
-        title_text = soup.select_one('#productTitle')
-        title_text = title_text.get_text().lower() if title_text else ""
+        country_of_origin = "Unknown"
+        facility_origin = "Unknown"
         
-        for brand, origin in brand_origins.items():
+        # Check brand-based country mapping
+        for brand, country in brand_origins.items():
             if brand in title_text:
-                print(f"🌍 Inferred origin from brand '{brand}': {origin}")
-                return origin
+                country_of_origin = country
+                print(f"🌍 Country from brand '{brand}': {country}")
+                break
         
-        # Strategy 2: Look for explicit origin statements
-        origin_patterns = [
-            r'(?:made|manufactured|produced|imported)\s+in\s+([a-zA-Z\s]{3,20})',
-            r'country\s+of\s+origin[:\s]*([a-zA-Z\s]{3,20})',
-            r'origin[:\s]*([a-zA-Z\s]{3,20})',
-            r'from\s+([a-zA-Z\s]{3,20})(?:\s|$)',
+        # Strategy 2: Extract both country and facility information
+        # Country patterns (strict - only real countries)
+        country_patterns = [
+            r'(?:made|manufactured|produced|imported)\s+in\s+([A-Z][a-zA-Z\s]{2,25}?)(?:\s|[,.\n]|$)',
+            r'country\s+of\s+origin[:\s]*([A-Z][a-zA-Z\s]{2,25}?)(?:\s|[,.\n]|$)',
         ]
         
-        for pattern in origin_patterns:
+        # Facility patterns (more permissive - can include facilities, factories, etc.)
+        facility_patterns = [
+            r'(?:manufactured|produced|made)\s+(?:in|at|by)\s+([A-Z][a-zA-Z\s\-]{2,40}?)(?:\s|[,.\n]|$)',
+            r'(?:facility|factory|plant|lab|laboratory)[:\s]*([A-Z][a-zA-Z\s\-]{2,40}?)(?:\s|[,.\n]|$)',
+            r'origin[:\s]*([A-Z][a-zA-Z\s\-]{2,40}?)(?:\s|[,.\n]|$)',
+        ]
+        
+        # Valid countries for strict validation
+        valid_countries = [
+            'uk', 'england', 'scotland', 'wales', 'ireland', 'united kingdom', 'britain',
+            'usa', 'united states', 'america', 'canada', 'mexico',
+            'germany', 'france', 'italy', 'spain', 'netherlands', 'belgium', 'switzerland',
+            'china', 'japan', 'south korea', 'india', 'vietnam', 'thailand', 'taiwan',
+            'australia', 'new zealand',
+            'south africa', 'nigeria', 'egypt', 'kenya', 'morocco',
+            'brazil', 'argentina', 'chile'
+        ]
+        
+        # Common false positives to filter out
+        false_positives = [
+            'unknown', 'n/a', 'the', 'and', 'with', 'for', 'this', 'that', 'size', 'colour', 'pack', 
+            'this brand', 'brand', 'item', 'product', 'description', 'details', 'information',
+            'primary', 'ingredien', 'of primary', 'ingredient', 'ingredients', 'natural', 'organic',
+            'high quality', 'premium', 'standard', 'best', 'top', 'super', 'ultra', 'advanced'
+        ]
+        
+        # Extract country of origin (strict validation)
+        if country_of_origin == "Unknown":
+            for pattern in country_patterns:
+                matches = re.findall(pattern, page_text, re.IGNORECASE)
+                if matches:
+                    potential_country = matches[0].strip().title()
+                    potential_country_lower = potential_country.lower()
+                    
+                    # Must be a valid country
+                    is_valid_country = any(country in potential_country_lower for country in valid_countries)
+                    is_false_positive = any(fp in potential_country_lower for fp in false_positives)
+                    
+                    if (len(potential_country) > 2 and 
+                        not is_false_positive and
+                        not any(char.isdigit() for char in potential_country) and
+                        is_valid_country):
+                        country_of_origin = potential_country
+                        print(f"🌍 Found country of origin: {country_of_origin}")
+                        break
+        
+        # Extract facility origin (more permissive)
+        for pattern in facility_patterns:
             matches = re.findall(pattern, page_text, re.IGNORECASE)
             if matches:
-                origin = matches[0].strip().title()
-                # Filter out common false positives
-                false_positives = ['unknown', 'n/a', 'the', 'and', 'with', 'for', 'this', 'that', 'size', 'colour', 'pack', 
-                                 'this brand', 'brand', 'item', 'product', 'description', 'details', 'information']
-                if (len(origin) > 2 and 
-                    origin.lower() not in false_positives and
-                    not any(char.isdigit() for char in origin)):
-                    print(f"🌍 Found origin: {origin}")
-                    return origin
+                potential_facility = matches[0].strip().title()
+                potential_facility_lower = potential_facility.lower()
+                
+                # Less strict validation for facilities
+                is_false_positive = any(fp in potential_facility_lower for fp in false_positives)
+                
+                if (len(potential_facility) > 2 and 
+                    not is_false_positive and
+                    not any(char.isdigit() for char in potential_facility)):
+                    facility_origin = potential_facility
+                    print(f"🏭 Found facility origin: {facility_origin}")
+                    break
         
-        # Strategy 2: Look in product details section
-        details_sections = soup.select('.a-section, .pdTab, #detailBullets_feature_div')
-        for section in details_sections:
-            section_text = section.get_text()
-            for pattern in origin_patterns:
-                matches = re.findall(pattern, section_text, re.IGNORECASE)
-                if matches:
-                    origin = matches[0].strip().title()
-                    if len(origin) > 2 and origin.lower() not in ['unknown', 'n/a']:
-                        print(f"🌍 Found origin in details: {origin}")
-                        return origin
+        # If facility is the same as country, clear facility to avoid duplication
+        if facility_origin.lower() == country_of_origin.lower():
+            facility_origin = "Unknown"
         
-        print("🌍 No origin found, using Unknown")
-        return "Unknown"
+        # Final validation - if we only found facility info, check if it's actually a country
+        if country_of_origin == "Unknown" and facility_origin != "Unknown":
+            facility_lower = facility_origin.lower()
+            if any(country in facility_lower for country in valid_countries):
+                country_of_origin = facility_origin
+                facility_origin = "Unknown"
+                print(f"🔄 Moved '{country_of_origin}' from facility to country")
+        
+        return country_of_origin, facility_origin
 
     def guess_material_from_title(self, title: str):
         """Guess material from product title"""

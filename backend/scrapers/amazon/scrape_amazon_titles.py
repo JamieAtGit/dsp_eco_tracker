@@ -221,6 +221,18 @@ origin_hubs = {
     "Canada": {"lat": 43.6532, "lon": -79.3832, "city": "Toronto", "region": "North America"},
     "Mexico": {"lat": 19.4326, "lon": -99.1332, "city": "Mexico City", "region": "North America"},
     "Brazil": {"lat": -23.5505, "lon": -46.6333, "city": "Sao Paulo", "region": "South America"},
+    
+    # 🌍 Africa
+    "South Africa": {"lat": -26.2041, "lon": 28.0473, "city": "Johannesburg", "region": "Africa"},
+    "Nigeria": {"lat": 6.5244, "lon": 3.3792, "city": "Lagos", "region": "Africa"},
+    "Egypt": {"lat": 30.0444, "lon": 31.2357, "city": "Cairo", "region": "Africa"},
+    "Kenya": {"lat": -1.2921, "lon": 36.8219, "city": "Nairobi", "region": "Africa"},
+    "Morocco": {"lat": 33.9716, "lon": -6.8498, "city": "Rabat", "region": "Africa"},
+    "Ghana": {"lat": 5.6037, "lon": -0.1870, "city": "Accra", "region": "Africa"},
+    "Ethiopia": {"lat": 9.1450, "lon": 40.4897, "city": "Addis Ababa", "region": "Africa"},
+    "Tanzania": {"lat": -6.7924, "lon": 39.2083, "city": "Dar es Salaam", "region": "Africa"},
+    "Uganda": {"lat": 0.3476, "lon": 32.5825, "city": "Kampala", "region": "Africa"},
+    "Zimbabwe": {"lat": -17.8252, "lon": 31.0335, "city": "Harare", "region": "Africa"},
 }
 uk_hub = {"lat": 51.8821, "lon": -0.5057, "city": "Dunstable"}
 
@@ -228,6 +240,13 @@ known_brand_origins = {
     "huel": "UK",
     "the bulk protein company": "UK",
     "bulk protein company": "UK",
+    "nxt nutrition": "UK",
+    "grenade": "UK",
+    "applied nutrition": "UK",
+    "phd nutrition": "UK",
+    "sci-mx": "UK",
+    "sci mx": "UK",
+    "myprotein": "UK",
     "mitre": "UK",
     "avm": "Germany",
     "anker": "China",
