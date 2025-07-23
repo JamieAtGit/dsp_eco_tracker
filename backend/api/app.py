@@ -176,28 +176,44 @@ def extract_enhanced_origins(product: dict, title: str) -> dict:
 
 def extract_facility_location(product: dict, title: str, country: str) -> str:
     """
-    Extract specific manufacturing facility locations
-    Looks for cities, regions, specific facilities mentioned in product details
+    Three-tier facility location system:
+    1. Specific city/location (Manchester, Paris, etc.)
+    2. Brand name as facility  
+    3. Product category description
     """
     # Get all available text for analysis
     all_text = f"{title} {product.get('description', '')}".lower()
+    brand = product.get('brand', '').strip()
     
     import re
     
-    # City/Location patterns (specific locations)
+    # === TIER 1: Specific Location Search ===
+    print("🏭 Tier 1: Searching for specific locations...")
+    
+    # City/Location patterns (ordered by country for better matching)
     location_patterns = [
-        # UK locations
+        # UK cities
         r'\b(manchester|birmingham|london|glasgow|edinburgh|cardiff|belfast|leeds|liverpool|bristol|sheffield|nottingham|coventry|leicester|bradford|wolverhampton|plymouth|stoke|derby|southampton|portsmouth|york|peterborough|warrington|slough|rochdale|rotherham|oldham|blackpool|grimsby|northampton|luton|milton keynes|swindon|crawley|gloucester|chester|reading|cambridge|oxford|preston|blackburn|huddersfield|stockport|burnley|carlisle|wakefield|wigan|mansfield|dartford|gillingham|st helens|woking|worthing|tamworth|chesterfield|basildon|shrewsbury|colchester|redditch|lincoln|runcorn|scunthorpe|watford|gateshead|eastbourne|ayr|paisley|kidderminster|bognor regis|rhondda|barry|caerphilly|newport|swansea|neath|merthyr tydfil|wrexham|bangor|conway|llandudno|aberystwyth|carmarthen|haverfordwest|pembroke|tenby|cardigan|lampeter|brecon|abergavenny|monmouth|chepstow|tredegar|ebbw vale|aberdare|pontypridd|penarth|cowbridge)\b',
         
-        # Major international cities
-        r'\b(paris|berlin|munich|hamburg|cologne|frankfurt|stuttgart|dusseldorf|leipzig|dresden|nuremberg|madrid|barcelona|valencia|seville|zaragoza|malaga|rome|milan|naples|turin|genoa|florence|venice|bologna|amsterdam|rotterdam|the hague|utrecht|eindhoven|groningen|brussels|antwerp|ghent|bruges|liege|copenhagen|aarhus|odense|aalborg|stockholm|gothenburg|malmo|uppsala|oslo|bergen|trondheim|stavanger|helsinki|espoo|tampere|vantaa|oulu|dublin|cork|galway|waterford|limerick|vienna|graz|salzburg|innsbruck|zurich|geneva|basel|bern|lausanne|lucerne|st gallen|prague|brno|ostrava|bratislava|warsaw|krakow|gdansk|wroclaw|poznan|lodz|vilnius|riga|tallinn|budapest|debrecen|szeged|pecs|budapest|istanbul|ankara|izmir|bursa|antalya|athens|thessaloniki|patras|heraklion)\b',
+        # French cities  
+        r'\b(paris|marseille|lyon|toulouse|nice|nantes|montpellier|strasbourg|bordeaux|lille|rennes|reims|saint-étienne|toulon|le havre|grenoble|dijon|angers|nîmes|villeurbanne|clermont-ferrand|aix-en-provence|brest|limoges|tours|amiens|metz|besançon|orléans|mulhouse|rouen|caen|nancy|argenteuil|montreuil|roubaix|dunkirk|nanterre|avignon|poitiers|créteil|pau|calais|la rochelle|champigny-sur-marne|antibes|béziers|saint-malo|cannes|colmar|bourges|mérignac|ajaccio|saint-nazaire|la seyne-sur-mer|quimper|valence|vénissieux|laval|évry|maisons-alfort|clichy)\b',
         
-        # US cities  
-        r'\b(new york|los angeles|chicago|houston|phoenix|philadelphia|san antonio|san diego|dallas|san jose|austin|jacksonville|fort worth|columbus|charlotte|san francisco|indianapolis|seattle|denver|washington|boston|el paso|detroit|nashville|memphis|portland|oklahoma city|las vegas|louisville|baltimore|milwaukee|albuquerque|tucson|fresno|sacramento|mesa|kansas city|atlanta|long beach|colorado springs|raleigh|miami|virginia beach|omaha|oakland|minneapolis|tulsa|arlington|new orleans|wichita|cleveland|tampa|honolulu|anaheim|lexington|stockton|corpus christi|henderson|riverside|santa ana|lincoln|greensboro|plano|newark|toledo|jersey city|chula vista|buffalo|fort wayne|st petersburg|laredo|madison|norfolk|chandler|birmingham|henderson|scottsdale|north las vegas|hialeah|chesapeake|orlando|garland|st louis|baton rouge|akron|rochester|aurora|yonkers|birmingham|richmond|spokane|des moines|tacoma|san bernardino|modesto|fontana|oxnard|moreno valley|huntsville|salt lake city|amarillo|glendale|huntington beach|grand rapids|montgomery|columbus|grand prairie|overland park|tallahassee|tempe|mckinney|mobile|cape coral|shreveport|fresco|knoxville|worcester|brownsville|fort lauderdale|providence|newport news|chattanooga|rancho cucamonga|santa rosa|oceanside|garden grove|vancouver|ontario|lancaster|elk grove|palmdale|salinas|hayward|corona|paterson|sunnyvale|lakewood|alexandria|pomona|rockford|peoria|escondido|kansas city|joliet|torrance|sioux falls|bridgeport|west valley city|irvine|rochester|naperville|fayetteville|bellevue|san mateo|concord|independence|abilene|odessa|columbia|pearland|richmond|arvada|topeka|carrollton|olathe|hartford|visalia|gainesville|thornton|cary|fullerton|thousand oaks|cedar rapids|waco|elizabeth|round rock|west jordan|pasadena|mcallen|charleston|boston|cambridge)\b',
+        # German cities
+        r'\b(berlin|munich|hamburg|cologne|frankfurt|stuttgart|düsseldorf|leipzig|dresden|nuremberg|hanover|bremen|duisburg|bochum|wuppertal|bielefeld|bonn|mannheim|karlsruhe|wiesbaden|münster|augsburg|aachen|mönchengladbach|braunschweig|krefeld|chemnitz|kiel|halle|magdeburg|oberhausen|lübeck|freiburg|hagen|erfurt|rostock|mainz|kassel|hamm|saarbrücken|ludwigshafen|leverkusen|oldenburg|osnabrück|heidelberg|darmstadt|würzburg|göttingen|regensburg|recklinghausen|bottrop|wolfsburg|ingolstadt|ulm|heilbronn|pforzheim|offenbach|siegen|jena|gera|hildesheim|erlangen)\b',
         
-        # Specific facility mentions
-        r'\b(facility|factory|plant|manufacturing plant|production facility|gmp facility|warehouse|distribution center|headquarters|hq)\s+(?:in|at|located in)?\s*([a-z\s]{3,30})\b',
-        r'\b(?:manufactured|made|produced)\s+(?:in|at)\s+([a-z\s]{3,30}?)\s+(?:facility|factory|plant)\b',
+        # Other EU cities (shorter list)
+        r'\b(madrid|barcelona|valencia|seville|milan|rome|naples|turin|amsterdam|rotterdam|brussels|antwerp|vienna|stockholm|copenhagen|oslo|dublin|lisbon|prague|warsaw|budapest|athens|helsinki|zurich|geneva)\b',
+        
+        # US cities (major ones)
+        r'\b(new york|los angeles|chicago|houston|phoenix|philadelphia|san antonio|san diego|dallas|san jose|austin|jacksonville|fort worth|columbus|charlotte|san francisco|indianapolis|seattle|denver|washington|boston|detroit|nashville|portland|las vegas|baltimore|milwaukee|atlanta|miami|oakland|minneapolis|cleveland|tampa|orlando|st louis|pittsburgh|cincinnati|kansas city|raleigh|richmond|sacramento|san bernardino|salt lake city)\b',
+        
+        # Asian cities
+        r'\b(tokyo|osaka|yokohama|nagoya|sapporo|kobe|kyoto|fukuoka|kawasaki|saitama|beijing|shanghai|guangzhou|shenzhen|tianjin|wuhan|chengdu|hong kong|taipei|seoul|busan|incheon|daegu|bangkok|singapore|kuala lumpur|jakarta|manila|ho chi minh|hanoi|mumbai|delhi|bangalore|chennai|kolkata|hyderabad|ahmedabad|pune|surat)\b',
+        
+        # Facility-specific patterns
+        r'\b(?:facility|factory|plant|manufacturing plant|production facility|gmp facility|warehouse|distribution center|headquarters|hq)\s+(?:in|at|located in)?\s*([a-z\s\-]{3,30})\b',
+        r'\b(?:manufactured|made|produced)\s+(?:in|at)\s+([a-z\s\-]{3,30}?)\s+(?:facility|factory|plant)\b',
+        r'\bmade\s+in\s+([a-z\s\-]{3,30}?)\s+facility\b',
     ]
     
     for pattern in location_patterns:
@@ -210,11 +226,89 @@ def extract_facility_location(product: dict, title: str, country: str) -> str:
             
             # Clean and validate location
             location = location.strip().title()
-            if len(location) > 2 and location.lower() not in ['the', 'and', 'or', 'of', 'in', 'at']:
-                print(f"🏭 Found specific facility location: {location}")
+            if len(location) > 2 and location.lower() not in ['the', 'and', 'or', 'of', 'in', 'at', 'a', 'an']:
+                print(f"🏭 ✅ Tier 1 Success: Found specific location '{location}'")
                 return location
     
-    # Fallback: Generic facility description based on country
+    # === TIER 2: Brand Name as Facility ===
+    print("🏭 Tier 2: Using brand name as facility...")
+    
+    # Clean up common brand prefixes/suffixes
+    if brand and brand.lower() not in ['unknown', 'visit the', '']:
+        # Remove common Amazon prefixes
+        clean_brand = re.sub(r'^(visit the|brand:|by)\s+', '', brand, flags=re.IGNORECASE)
+        clean_brand = re.sub(r'\s+(store|shop|official)$', '', clean_brand, flags=re.IGNORECASE)
+        clean_brand = clean_brand.strip()
+        
+        if clean_brand and len(clean_brand) > 1:
+            print(f"🏭 ✅ Tier 2 Success: Using brand '{clean_brand}'")
+            return f"{clean_brand} Facility"
+    
+    # Try extracting brand from title if not in product data
+    if not brand or brand.lower() == 'unknown':
+        # Common brand patterns in titles
+        brand_patterns = [
+            r'^([A-Z][a-zA-Z0-9\-&\s]+?)\s+(?:by|from|-)',  # "Nike by..." 
+            r'^([A-Z][a-zA-Z0-9\-&\s]+?)\s+[A-Z][a-z]+\s+[A-Z][a-z]+',  # "Sony Digital Camera"
+            r'^([A-Z][a-zA-Z0-9\-&]+)\s+',  # First capitalized word
+        ]
+        
+        for pattern in brand_patterns:
+            match = re.match(pattern, title)
+            if match:
+                potential_brand = match.group(1).strip()
+                if len(potential_brand) > 2 and len(potential_brand) < 30:
+                    print(f"🏭 ✅ Tier 2 Success: Extracted brand '{potential_brand}' from title")
+                    return f"{potential_brand} Facility"
+    
+    # === TIER 3: Product Category ===
+    print("🏭 Tier 3: Determining product category...")
+    
+    # Analyze title and content for product category
+    text_lower = (title + " " + all_text).lower()
+    
+    # Product category patterns
+    product_categories = [
+        # Food & Supplements
+        ('protein powder', ['protein', 'powder', 'whey', 'casein', 'supplement']),
+        ('vitamin supplement', ['vitamin', 'supplement', 'mineral', 'capsule', 'tablet']),
+        ('energy bar', ['energy bar', 'protein bar', 'nutrition bar']),
+        ('sports nutrition', ['pre-workout', 'post-workout', 'bcaa', 'creatine']),
+        
+        # Electronics
+        ('electronics', ['laptop', 'computer', 'phone', 'tablet', 'camera', 'tv', 'monitor', 'speaker', 'headphone']),
+        ('gaming device', ['playstation', 'xbox', 'nintendo', 'gaming', 'console']),
+        ('smart device', ['smart watch', 'smartwatch', 'fitness tracker', 'smart home']),
+        
+        # Fashion & Accessories
+        ('clothing', ['shirt', 'dress', 'pants', 'jacket', 'coat', 'sweater', 'jeans']),
+        ('footwear', ['shoes', 'boots', 'sneakers', 'sandals', 'heels']),
+        ('accessories', ['wallet', 'belt', 'watch', 'jewelry', 'bag', 'purse', 'backpack']),
+        
+        # Home & Kitchen  
+        ('kitchenware', ['pot', 'pan', 'knife', 'cutlery', 'cookware', 'bakeware']),
+        ('appliance', ['blender', 'mixer', 'toaster', 'coffee', 'microwave', 'refrigerator']),
+        ('furniture', ['chair', 'table', 'desk', 'sofa', 'bed', 'shelf', 'cabinet']),
+        
+        # Sports & Outdoors
+        ('sports equipment', ['ball', 'racket', 'golf', 'tennis', 'football', 'basketball']),
+        ('fitness equipment', ['dumbbell', 'weight', 'resistance', 'yoga', 'exercise']),
+        ('outdoor gear', ['tent', 'sleeping bag', 'backpack', 'hiking', 'camping']),
+        
+        # Other
+        ('book', ['book', 'novel', 'textbook', 'guide', 'manual']),
+        ('toy', ['toy', 'game', 'puzzle', 'lego', 'doll', 'action figure']),
+        ('beauty product', ['makeup', 'cosmetic', 'skincare', 'shampoo', 'lotion']),
+        ('tool', ['hammer', 'screwdriver', 'drill', 'saw', 'wrench']),
+    ]
+    
+    for category_name, keywords in product_categories:
+        if any(keyword in text_lower for keyword in keywords):
+            print(f"🏭 ✅ Tier 3 Success: Detected product category '{category_name}'")
+            return f"{category_name.title()} Manufacturing"
+    
+    # === FINAL FALLBACK ===
+    # If we have a country, use country-based facility
     if country and country != "Unknown":
         facility_map = {
             'UK': 'UK Manufacturing Facility',
@@ -227,10 +321,11 @@ def extract_facility_location(product: dict, title: str, country: str) -> str:
         }
         
         generic_facility = facility_map.get(country, f"{country} Manufacturing Facility")
-        print(f"🏭 Using generic facility: {generic_facility}")
+        print(f"🏭 Final fallback: Using generic facility '{generic_facility}'")
         return generic_facility
     
-    return "Unknown"
+    print("🏭 ❌ All tiers failed - returning 'Manufacturing Facility'")
+    return "Manufacturing Facility"
 
 
 from flask_cors import CORS
