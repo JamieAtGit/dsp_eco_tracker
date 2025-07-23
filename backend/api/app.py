@@ -55,6 +55,183 @@ app = Flask(
 )
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-change-in-production')
 
+def extract_weight_from_title(title: str) -> float:
+    """
+    Universal weight extraction from Amazon product titles
+    Works for ANY product type - no hardcoding
+    """
+    if not title:
+        return 0.0
+        
+    import re
+    title_lower = title.lower()
+    
+    # Comprehensive weight patterns (ordered by precision)
+    weight_patterns = [
+        # Most precise: explicit weight mentions
+        (r'(\d+(?:\.\d+)?)\s*kg\b', 'kg', 1.0),
+        (r'(\d+(?:\.\d+)?)\s*g\b(?!ram)', 'g', 0.001),  # Avoid "program"
+        (r'(\d+(?:\.\d+)?)\s*lb\b', 'lb', 0.453592),
+        (r'(\d+(?:\.\d+)?)\s*lbs\b', 'lb', 0.453592),
+        (r'(\d+(?:\.\d+)?)\s*oz\b', 'oz', 0.0283495),
+        
+        # Common Amazon formats
+        (r'(\d+(?:\.\d+)?)\s*kilograms?\b', 'kg', 1.0),
+        (r'(\d+(?:\.\d+)?)\s*grams?\b', 'g', 0.001),
+        (r'(\d+(?:\.\d+)?)\s*pounds?\b', 'lb', 0.453592),
+        (r'(\d+(?:\.\d+)?)\s*ounces?\b', 'oz', 0.0283495),
+    ]
+    
+    for pattern, unit, multiplier in weight_patterns:
+        matches = re.findall(pattern, title_lower)
+        if matches:
+            try:
+                weight_val = float(matches[0])
+                weight_kg = weight_val * multiplier
+                
+                # Sanity check - reasonable product weights
+                if 0.001 <= weight_kg <= 100:  # 1g to 100kg range
+                    print(f"⚖️ Extracted weight: {weight_val}{unit} = {weight_kg:.3f}kg")
+                    return weight_kg
+            except (ValueError, IndexError):
+                continue
+    
+    return 0.0
+
+def extract_enhanced_origins(product: dict, title: str) -> dict:
+    """
+    Universal origin extraction with priority system:
+    1. Scraped origin from product specs (highest priority)  
+    2. Brand locations database (fallback)
+    3. Confidence scoring when both match
+    """
+    results = {}
+    
+    # Get current values
+    scraped_origin = product.get("origin", "Unknown")
+    scraped_country = product.get("country_of_origin", "Unknown") 
+    scraped_facility = product.get("facility_origin", "Unknown")
+    brand = product.get("brand", "")
+    
+    print(f"🔍 Origin analysis - Scraped: '{scraped_origin}', Brand: '{brand}'")
+    
+    # 1. Priority: Use scraped origin if valid
+    country_origin = None
+    if scraped_origin != "Unknown" and len(scraped_origin) > 1:
+        country_origin = scraped_origin
+        print(f"✅ Using scraped origin: {country_origin}")
+    elif scraped_country != "Unknown" and len(scraped_country) > 1:
+        country_origin = scraped_country  
+        print(f"✅ Using scraped country: {country_origin}")
+    
+    # 2. Fallback: Brand locations database
+    brand_origin = None
+    if brand and brand != "Unknown":
+        brand_result = resolve_brand_origin(brand)
+        # Handle case where resolve_brand_origin returns a tuple
+        if isinstance(brand_result, tuple):
+            brand_origin = brand_result[0] if brand_result[0] != "Unknown" else None
+        else:
+            brand_origin = brand_result
+        
+        if brand_origin and brand_origin != "UK":  # Don't use UK default
+            print(f"📍 Brand database origin: {brand_origin}")
+    
+    # 3. Decision logic with confidence
+    final_origin = None
+    confidence_boost = False
+    
+    if country_origin and brand_origin:
+        if country_origin.lower() == brand_origin.lower():
+            final_origin = country_origin
+            confidence_boost = True
+            print(f"🎯 HIGH CONFIDENCE: Scraped '{country_origin}' matches brand '{brand_origin}'")
+        else:
+            final_origin = country_origin  # Scraped takes priority
+            print(f"⚠️ CONFLICT: Scraped '{country_origin}' vs Brand '{brand_origin}' - using scraped")
+    elif country_origin:
+        final_origin = country_origin
+        print(f"📊 Using scraped origin: {final_origin}")
+    elif brand_origin:
+        final_origin = brand_origin
+        print(f"📊 Using brand fallback: {final_origin}")
+    else:
+        final_origin = "Unknown"
+        print("❌ No origin detected")
+    
+    # 4. Enhanced facility extraction
+    facility_origin = extract_facility_location(product, title, final_origin)
+    
+    # Build results
+    if final_origin != "Unknown":
+        results["origin"] = final_origin
+        results["country_of_origin"] = final_origin
+        results["origin_confidence"] = "High" if confidence_boost else "Medium"
+        results["origin_source"] = "scraped_verified" if confidence_boost else ("scraped" if country_origin else "brand_db")
+    
+    if facility_origin != "Unknown":
+        results["facility_origin"] = facility_origin
+    
+    return results
+
+def extract_facility_location(product: dict, title: str, country: str) -> str:
+    """
+    Extract specific manufacturing facility locations
+    Looks for cities, regions, specific facilities mentioned in product details
+    """
+    # Get all available text for analysis
+    all_text = f"{title} {product.get('description', '')}".lower()
+    
+    import re
+    
+    # City/Location patterns (specific locations)
+    location_patterns = [
+        # UK locations
+        r'\b(manchester|birmingham|london|glasgow|edinburgh|cardiff|belfast|leeds|liverpool|bristol|sheffield|nottingham|coventry|leicester|bradford|wolverhampton|plymouth|stoke|derby|southampton|portsmouth|york|peterborough|warrington|slough|rochdale|rotherham|oldham|blackpool|grimsby|northampton|luton|milton keynes|swindon|crawley|gloucester|chester|reading|cambridge|oxford|preston|blackburn|huddersfield|stockport|burnley|carlisle|wakefield|wigan|mansfield|dartford|gillingham|st helens|woking|worthing|tamworth|chesterfield|basildon|shrewsbury|colchester|redditch|lincoln|runcorn|scunthorpe|watford|gateshead|eastbourne|ayr|paisley|kidderminster|bognor regis|rhondda|barry|caerphilly|newport|swansea|neath|merthyr tydfil|wrexham|bangor|conway|llandudno|aberystwyth|carmarthen|haverfordwest|pembroke|tenby|cardigan|lampeter|brecon|abergavenny|monmouth|chepstow|tredegar|ebbw vale|aberdare|pontypridd|penarth|cowbridge)\b',
+        
+        # Major international cities
+        r'\b(paris|berlin|munich|hamburg|cologne|frankfurt|stuttgart|dusseldorf|leipzig|dresden|nuremberg|madrid|barcelona|valencia|seville|zaragoza|malaga|rome|milan|naples|turin|genoa|florence|venice|bologna|amsterdam|rotterdam|the hague|utrecht|eindhoven|groningen|brussels|antwerp|ghent|bruges|liege|copenhagen|aarhus|odense|aalborg|stockholm|gothenburg|malmo|uppsala|oslo|bergen|trondheim|stavanger|helsinki|espoo|tampere|vantaa|oulu|dublin|cork|galway|waterford|limerick|vienna|graz|salzburg|innsbruck|zurich|geneva|basel|bern|lausanne|lucerne|st gallen|prague|brno|ostrava|bratislava|warsaw|krakow|gdansk|wroclaw|poznan|lodz|vilnius|riga|tallinn|budapest|debrecen|szeged|pecs|budapest|istanbul|ankara|izmir|bursa|antalya|athens|thessaloniki|patras|heraklion)\b',
+        
+        # US cities  
+        r'\b(new york|los angeles|chicago|houston|phoenix|philadelphia|san antonio|san diego|dallas|san jose|austin|jacksonville|fort worth|columbus|charlotte|san francisco|indianapolis|seattle|denver|washington|boston|el paso|detroit|nashville|memphis|portland|oklahoma city|las vegas|louisville|baltimore|milwaukee|albuquerque|tucson|fresno|sacramento|mesa|kansas city|atlanta|long beach|colorado springs|raleigh|miami|virginia beach|omaha|oakland|minneapolis|tulsa|arlington|new orleans|wichita|cleveland|tampa|honolulu|anaheim|lexington|stockton|corpus christi|henderson|riverside|santa ana|lincoln|greensboro|plano|newark|toledo|jersey city|chula vista|buffalo|fort wayne|st petersburg|laredo|madison|norfolk|chandler|birmingham|henderson|scottsdale|north las vegas|hialeah|chesapeake|orlando|garland|st louis|baton rouge|akron|rochester|aurora|yonkers|birmingham|richmond|spokane|des moines|tacoma|san bernardino|modesto|fontana|oxnard|moreno valley|huntsville|salt lake city|amarillo|glendale|huntington beach|grand rapids|montgomery|columbus|grand prairie|overland park|tallahassee|tempe|mckinney|mobile|cape coral|shreveport|fresco|knoxville|worcester|brownsville|fort lauderdale|providence|newport news|chattanooga|rancho cucamonga|santa rosa|oceanside|garden grove|vancouver|ontario|lancaster|elk grove|palmdale|salinas|hayward|corona|paterson|sunnyvale|lakewood|alexandria|pomona|rockford|peoria|escondido|kansas city|joliet|torrance|sioux falls|bridgeport|west valley city|irvine|rochester|naperville|fayetteville|bellevue|san mateo|concord|independence|abilene|odessa|columbia|pearland|richmond|arvada|topeka|carrollton|olathe|hartford|visalia|gainesville|thornton|cary|fullerton|thousand oaks|cedar rapids|waco|elizabeth|round rock|west jordan|pasadena|mcallen|charleston|boston|cambridge)\b',
+        
+        # Specific facility mentions
+        r'\b(facility|factory|plant|manufacturing plant|production facility|gmp facility|warehouse|distribution center|headquarters|hq)\s+(?:in|at|located in)?\s*([a-z\s]{3,30})\b',
+        r'\b(?:manufactured|made|produced)\s+(?:in|at)\s+([a-z\s]{3,30}?)\s+(?:facility|factory|plant)\b',
+    ]
+    
+    for pattern in location_patterns:
+        matches = re.findall(pattern, all_text)
+        if matches:
+            if isinstance(matches[0], tuple):
+                location = matches[0][1] if len(matches[0]) > 1 else matches[0][0]
+            else:
+                location = matches[0]
+            
+            # Clean and validate location
+            location = location.strip().title()
+            if len(location) > 2 and location.lower() not in ['the', 'and', 'or', 'of', 'in', 'at']:
+                print(f"🏭 Found specific facility location: {location}")
+                return location
+    
+    # Fallback: Generic facility description based on country
+    if country and country != "Unknown":
+        facility_map = {
+            'UK': 'UK Manufacturing Facility',
+            'England': 'English Manufacturing Facility', 
+            'Germany': 'German Production Facility',
+            'USA': 'US Manufacturing Plant',
+            'France': 'French Production Facility',
+            'China': 'Chinese Manufacturing Facility',
+            'South Africa': 'South African Production Facility'
+        }
+        
+        generic_facility = facility_map.get(country, f"{country} Manufacturing Facility")
+        print(f"🏭 Using generic facility: {generic_facility}")
+        return generic_facility
+    
+    return "Unknown"
+
 
 from flask_cors import CORS
 
@@ -1067,69 +1244,25 @@ def estimate_emissions():
                 material = guessed.title()
         product["material_type"] = material
         
-        # Enhanced fallback for protein powder products
-        title = product.get("title", "").lower()
-        if any(keyword in title for keyword in ['protein', 'powder', 'supplement', 'whey', 'casein', 'meal shake']):
-            print("🥤 Detected protein powder, applying enhanced fallbacks...")
-            
-            # Fix weight if too low for protein powder
-            current_weight = product.get("weight_kg", 0)
-            if current_weight < 0.5:  # Protein powder should be at least 500g
-                import re
-                # Try to extract weight from title
-                weight_matches = re.findall(r'(\d+(?:\.\d+)?)\s*(kg|g|lb)', title)
-                if weight_matches:
-                    weight_val, unit = weight_matches[0]
-                    weight_val = float(weight_val)
-                    
-                    if unit == 'kg' and 0.5 <= weight_val <= 5:
-                        product["weight_kg"] = weight_val
-                        print(f"🔧 Fixed protein weight to {weight_val}kg from title")
-                    elif unit == 'g' and weight_val >= 500:
-                        product["weight_kg"] = weight_val / 1000
-                        print(f"🔧 Fixed protein weight to {weight_val/1000}kg from title")
-                    else:
-                        # Default protein powder weight
-                        product["weight_kg"] = 1.0
-                        print("🔧 Applied default protein weight: 1.0kg")
-                else:
-                    product["weight_kg"] = 1.0
-                    print("🔧 Applied default protein weight: 1.0kg")
-            
-            # Fix origin for known brands
-            current_origin = product.get("origin", "Unknown")
-            if current_origin == "Unknown":
-                brand = product.get("brand", "").lower()
-                title_lower = title.lower()
-                
-                # Enhanced brand detection from title
-                protein_brands = {
-                    'whole supp': 'UK',
-                    'wholesupp': 'UK', 
-                    'myprotein': 'England',
-                    'bulk powders': 'England',
-                    'optimum nutrition': 'USA',
-                    'dymatize': 'USA',
-                    'usn': 'South Africa',
-                    'sci-mx': 'UK',
-                    'phd nutrition': 'UK'
-                }
-                
-                detected_origin = None
-                for brand_name, origin in protein_brands.items():
-                    if brand_name in title_lower or brand_name in brand:
-                        detected_origin = origin
-                        print(f"🔧 Detected brand '{brand_name}' -> origin: {origin}")
-                        break
-                
-                if detected_origin:
-                    product["origin"] = detected_origin
-                    product["country_of_origin"] = detected_origin
-                else:
-                    # Default UK for unknown protein brands
-                    product["origin"] = "UK"
-                    product["country_of_origin"] = "UK"
-                    print("🔧 Applied default UK origin for protein powder")
+        # Universal product enhancement (no product-specific hardcoding)
+        print("🔧 Applying universal product data enhancement...")
+        
+        # Enhanced weight extraction if missing or seems incorrect
+        title = product.get("title", "")
+        current_weight = product.get("weight_kg", 0)
+        
+        if current_weight <= 0.1:  # Universal threshold for suspicious weight
+            import re
+            enhanced_weight = extract_weight_from_title(title)
+            if enhanced_weight > 0:
+                product["weight_kg"] = enhanced_weight
+                print(f"🔧 Enhanced weight extraction: {enhanced_weight}kg from title")
+        
+        # Enhanced origin extraction with priority system
+        enhanced_origins = extract_enhanced_origins(product, title)
+        if enhanced_origins:
+            product.update(enhanced_origins)
+            print(f"🔧 Enhanced origins: {enhanced_origins}")
 
         if not product:
             return jsonify({"error": "Could not fetch product"}), 500
