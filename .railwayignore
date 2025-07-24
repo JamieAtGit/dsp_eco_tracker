@@ -1,0 +1,8 @@
+# Ignore frontend files so Railway detects this as Python-only
+frontend/
+*.json
+node_modules/
+package*.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
