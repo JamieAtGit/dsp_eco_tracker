@@ -264,6 +264,94 @@ def create_app(config_name='production'):
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     
+    @app.route('/api/dashboard-metrics', methods=['GET'])
+    def dashboard_metrics():
+        """Dashboard metrics for frontend analytics"""
+        try:
+            total_products = Product.query.count()
+            total_scraped = ScrapedProduct.query.count()
+            total_calculations = EmissionCalculation.query.count()
+            
+            return jsonify({
+                'success': True,
+                'data': {
+                    'total_products': total_products,
+                    'total_scraped_products': total_scraped,
+                    'total_calculations': total_calculations,
+                    'database_status': 'connected'
+                }
+            })
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/insights', methods=['GET'])
+    def insights():
+        """Analytics insights for dashboard"""
+        try:
+            # Get top materials
+            material_stats = db.session.query(
+                Product.material,
+                db.func.count(Product.id).label('count')
+            ).group_by(Product.material).limit(10).all()
+            
+            # Get recent calculations
+            recent_calculations = EmissionCalculation.query.order_by(
+                EmissionCalculation.id.desc()
+            ).limit(10).all()
+            
+            return jsonify({
+                'success': True,
+                'material_distribution': [
+                    {'material': material or 'Unknown', 'count': count} 
+                    for material, count in material_stats
+                ],
+                'recent_calculations': [
+                    {
+                        'id': calc.id,
+                        'co2_estimate': calc.co2_estimate,
+                        'created_at': calc.created_at.isoformat() if calc.created_at else None
+                    } for calc in recent_calculations
+                ]
+            })
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    @app.route('/api/eco-data', methods=['GET'])
+    def eco_data():
+        """Eco data for tables and analytics"""
+        try:
+            page = request.args.get('page', 1, type=int)
+            per_page = min(request.args.get('per_page', 50, type=int), 100)
+            
+            # Get products with pagination
+            products = Product.query.paginate(
+                page=page,
+                per_page=per_page,
+                error_out=False
+            )
+            
+            return jsonify({
+                'success': True,
+                'data': [
+                    {
+                        'id': product.id,
+                        'title': product.title,
+                        'material': product.material,
+                        'origin_country': product.origin_country,
+                        'weight': product.weight,
+                        'price': product.price
+                    } for product in products.items
+                ],
+                'pagination': {
+                    'page': page,
+                    'pages': products.pages,
+                    'per_page': per_page,
+                    'total': products.total
+                }
+            })
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
     # Create tables on startup
     with app.app_context():
         db.create_all()
