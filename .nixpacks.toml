@@ -2,10 +2,17 @@
 nixPkgs = ['python311', 'pip']
 
 [phases.install]
-cmds = ['pip install -r requirements.txt']
+cmds = [
+  'pip install --upgrade pip',
+  'pip install -r requirements.txt',
+  'pip show gunicorn'
+]
 
 [phases.build]
 cmds = ['echo "Build phase complete"']
 
 [start]
 cmd = './start.sh'
+
+[variables]
+PYTHONPATH = '/app'
