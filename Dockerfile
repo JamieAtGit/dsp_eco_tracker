@@ -51,10 +51,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Add backend/ to Python module search path
-ENV PYTHONPATH="${PYTHONPATH}:/app/backend"
+ENV PYTHONPATH="${PYTHONPATH}:/app"
 
-# Expose port 5000 (for Flask/Gunicorn)
-EXPOSE 5000
+# Expose port (Railway sets PORT env var)
+EXPOSE $PORT
 
 # Start the app with Gunicorn (production-ready)
-CMD ["gunicorn", "api.app:app", "--bind", "0.0.0.0:5000"]
+CMD ["sh", "-c", "gunicorn main:app --bind 0.0.0.0:$PORT"]
