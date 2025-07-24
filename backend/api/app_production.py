@@ -76,7 +76,7 @@ def create_app(config_name='production'):
     # Initialize extensions
     db.init_app(app)
     migrate = Migrate(app, db)
-    CORS(app, origins=['http://localhost:5173', 'https://your-domain.com'])
+    CORS(app, origins=['http://localhost:5173', 'https://silly-cuchufli-b154e2.netlify.app'])
     
     # Load ML models
     model_dir = os.path.join(BASE_DIR, "backend", "ml", "models")
