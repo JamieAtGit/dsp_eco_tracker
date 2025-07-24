@@ -1,4 +1,4 @@
-# DSP Eco Tracker - Complete Production Requirements
+# DSP Eco Tracker - Production Requirements v2.0 (with fake-useragent fix)
 
 # Flask Web Framework
 Flask==3.1.0
