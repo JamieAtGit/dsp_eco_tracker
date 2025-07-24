@@ -57,7 +57,11 @@ def create_app(config_name='production'):
                 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
                 print(f"✅ Database URL configured from DATABASE_URL")
             else:
-                raise RuntimeError("❌ No database configuration found. Set MYSQL_* variables or DATABASE_URL")
+                # Emergency fallback - use hardcoded Railway MySQL (temporary)
+                print("⚠️ Using emergency fallback MySQL connection")
+                database_url = "mysql+pymysql://root:cgQaUmXRHAEYDdFViOBDeazUaAznbVMd@maglev.proxy.rlwy.net:34274/railway"
+                app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+                print("✅ Emergency MySQL connection configured")
         
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'railway-production-key')
