@@ -39,9 +39,28 @@ def create_app(config_name='production'):
     
     # Configuration
     if config_name == 'production':
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+        # Railway MySQL connection - build DATABASE_URL from individual components
+        mysql_host = os.getenv('MYSQL_HOST')
+        mysql_port = os.getenv('MYSQL_PORT')
+        mysql_user = os.getenv('MYSQL_USER')
+        mysql_password = os.getenv('MYSQL_PASSWORD')
+        mysql_database = os.getenv('MYSQL_DATABASE')
+        
+        if all([mysql_host, mysql_port, mysql_user, mysql_password, mysql_database]):
+            database_url = f"mysql+pymysql://{mysql_user}:{mysql_password}@{mysql_host}:{mysql_port}/{mysql_database}"
+            app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+            print(f"✅ MySQL connection configured: {mysql_host}:{mysql_port}/{mysql_database}")
+        else:
+            # Fallback to DATABASE_URL if available
+            database_url = os.getenv('DATABASE_URL')
+            if database_url:
+                app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+                print(f"✅ Database URL configured from DATABASE_URL")
+            else:
+                raise RuntimeError("❌ No database configuration found. Set MYSQL_* variables or DATABASE_URL")
+        
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-        app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
+        app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'railway-production-key')
         app.config['DEBUG'] = False
     else:
         # Development configuration
