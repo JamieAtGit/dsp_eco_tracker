@@ -1307,7 +1307,7 @@ def fetch_eco_dataset():
         
         # Get limit from query parameter, default to 1000 for performance
         limit = request.args.get('limit', type=int, default=1000)
-        limit = min(limit, 10000)  # Cap at 10k for safety
+        limit = min(limit, 50000)  # Cap at 50k to allow full dataset access
         
         # Apply limit
         df_limited = df.head(limit)

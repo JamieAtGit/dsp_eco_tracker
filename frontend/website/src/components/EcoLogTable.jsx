@@ -12,15 +12,24 @@ export default function EcoLogTable() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    console.log("🔄 Fetching eco data from:", `${BASE_URL}/api/eco-data?limit=50000`);
     fetch(`${BASE_URL}/api/eco-data?limit=50000`)
-      .then((res) => res.json())
+      .then((res) => {
+        console.log("📡 Response status:", res.status);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then((response) => {
+        console.log("📦 Raw response:", response);
         // Handle new response format with products and metadata
         const products = response.products || response;
+        console.log("✅ Products extracted:", Array.isArray(products) ? products.length : "Not an array");
         setData(Array.isArray(products) ? products : []);
       })
       .catch((err) => {
-        console.error("Error loading eco data:", err);
+        console.error("❌ Error loading eco data:", err);
         setData([]);
       });
   }, []);
