@@ -876,7 +876,7 @@ def create_app(config_name='production'):
             """)
             db.session.execute(insert_sql, {
                 'username': username,
-                'email': None,  # Set email to NULL
+                'email': f"{username}@dsp-eco-tracker.com",  # Provide default email
                 'password_hash': hashed_password, 
                 'role': role
             })
