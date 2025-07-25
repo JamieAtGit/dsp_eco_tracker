@@ -115,10 +115,8 @@ def create_app(config_name='production'):
                 CREATE TABLE users (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     username VARCHAR(255) NOT NULL UNIQUE,
-                    email VARCHAR(255),
                     password_hash VARCHAR(255) NOT NULL,
-                    role ENUM('user', 'admin') DEFAULT 'user',
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    role ENUM('user', 'admin') DEFAULT 'user'
                 )
                 """)
                 db.session.execute(create_users_sql)
@@ -847,10 +845,8 @@ def create_app(config_name='production'):
                     CREATE TABLE IF NOT EXISTS users (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         username VARCHAR(255) NOT NULL UNIQUE,
-                        email VARCHAR(255),
                         password_hash VARCHAR(255) NOT NULL,
-                        role ENUM('user', 'admin') DEFAULT 'user',
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        role ENUM('user', 'admin') DEFAULT 'user'
                     )
                     """)
                     db.session.execute(create_users_sql)
@@ -868,11 +864,15 @@ def create_app(config_name='production'):
             
             # Create new user - RAW SQL with newer SQLAlchemy syntax
             hashed_password = generate_password_hash(password)
-            role = 'admin' if username == 'admin' else 'user'
+            role = 'admin' if username.upper() == 'ADMIN' else 'user'
+            
+            # For the fixed admin account, use the fixed password
+            if username.upper() == 'ADMIN' and password != 'ADMINTEST':
+                return jsonify({'error': 'Admin account requires password: ADMINTEST'}), 400
             
             insert_sql = text("""
-                INSERT INTO users (username, password_hash, role, created_at) 
-                VALUES (:username, :password_hash, :role, NOW())
+                INSERT INTO users (username, password_hash, role) 
+                VALUES (:username, :password_hash, :role)
             """)
             db.session.execute(insert_sql, {
                 'username': username,
