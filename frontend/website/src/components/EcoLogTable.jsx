@@ -14,8 +14,15 @@ export default function EcoLogTable() {
   useEffect(() => {
     fetch(`${BASE_URL}/api/eco-data`)
       .then((res) => res.json())
-      .then((rows) => setData(rows))
-      .catch((err) => console.error("Error loading eco data:", err));
+      .then((response) => {
+        // Handle new response format with products and metadata
+        const products = response.products || response;
+        setData(Array.isArray(products) ? products : []);
+      })
+      .catch((err) => {
+        console.error("Error loading eco data:", err);
+        setData([]);
+      });
   }, []);
 
   if (!Array.isArray(data)) {
