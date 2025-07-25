@@ -522,6 +522,22 @@ CORS(app,
      expose_headers=["Content-Type", "Authorization"]
 )
 
+# Additional CORS handler for all responses
+@app.after_request
+def after_request(response):
+    origin = request.headers.get('Origin')
+    if origin in [
+        'https://silly-cuchufli-b154e2.netlify.app',
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://localhost:3000'
+    ]:
+        response.headers.add('Access-Control-Allow-Origin', origin)
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+    return response
+
 
 
 

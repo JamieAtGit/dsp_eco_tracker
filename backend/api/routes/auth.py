@@ -52,13 +52,8 @@ def register_routes(app):
     @app.route("/signup", methods=["POST", "OPTIONS"])
     def signup():
         if request.method == "OPTIONS":
-            # Handle preflight CORS request
-            response = jsonify({})
-            response.headers.add('Access-Control-Allow-Origin', request.headers.get('Origin', '*'))
-            response.headers.add('Access-Control-Allow-Credentials', 'true')
-            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-            response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-            return response
+            # Handle preflight CORS request - handled by global after_request
+            return jsonify({}), 200
             
         data = request.get_json()
         username = data.get("username")
@@ -89,13 +84,8 @@ def register_routes(app):
     def login():
         try:
             if request.method == "OPTIONS":
-                # Handle preflight CORS request
-                response = jsonify({})
-                response.headers.add('Access-Control-Allow-Origin', request.headers.get('Origin', '*'))
-                response.headers.add('Access-Control-Allow-Credentials', 'true')
-                response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-                response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-                return response
+                # Handle preflight CORS request - handled by global after_request
+                return jsonify({}), 200
                 
             data = request.get_json()
             if not data:
