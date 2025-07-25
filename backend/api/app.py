@@ -1995,5 +1995,7 @@ def test():
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
+    print(f"🚀 Starting Flask server on port {port}")
+    print(f"🔧 CORS configured for production: {is_production}")
     app.run(host="0.0.0.0", port=port, debug=True)
  
