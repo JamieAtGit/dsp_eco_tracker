@@ -13,6 +13,7 @@ export default function EcoLogTable() {
 
   useEffect(() => {
     console.log("🔄 Fetching eco data from:", `${BASE_URL}/api/eco-data?limit=50000`);
+    console.log("🚀 Component mounted - loading Product Impact Database");
     fetch(`${BASE_URL}/api/eco-data?limit=50000`)
       .then((res) => {
         console.log("📡 Response status:", res.status);
