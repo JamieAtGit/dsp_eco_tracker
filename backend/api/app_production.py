@@ -124,69 +124,250 @@ def create_app(config_name='production'):
             'ml_model': 'loaded' if hasattr(app, 'xgb_model') and app.xgb_model else 'not loaded'
         })
     
-    @app.route('/estimate_emissions', methods=['POST'])
+    @app.route('/estimate_emissions', methods=['POST', 'OPTIONS'])
     def estimate_emissions():
-        """Main endpoint for estimating product emissions"""
+        """Main endpoint for estimating product emissions - matches localhost functionality"""
+        print("🔔 Route hit: /estimate_emissions")
+        
+        # Handle preflight OPTIONS request
+        if request.method == "OPTIONS":
+            response = jsonify({})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+            response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+            return response
+        
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Missing JSON in request"}), 400
+            
         try:
-            data = request.get_json()
-            amazon_url = data.get('amazon_url')
-            user_postcode = data.get('postcode', 'SW1A 1AA')  # Default to Westminster
+            url = data.get("amazon_url")
+            postcode = data.get("postcode")
+            include_packaging = data.get("include_packaging", True)
+            override_mode = data.get("override_transport_mode")
             
-            if not amazon_url:
-                return jsonify({'error': 'Amazon URL is required'}), 400
+            # Validate inputs
+            if not url or not postcode:
+                return jsonify({"error": "Missing URL or postcode"}), 400
             
-            # Step 1: Scrape product data
-            print(f"🔍 Scraping product from: {amazon_url}")
-            scraped_data = scrape_amazon_product_page(amazon_url)
+            # Scrape product - using unified scraper in production
+            print(f"🔍 Scraping URL: {url}")
+            product = scrape_amazon_product_page(url)
             
-            if not scraped_data or scraped_data.get('error'):
-                return jsonify({'error': 'Failed to scrape product data'}), 400
+            if not product or product.get('title', 'Unknown Product') == 'Unknown Product':
+                return jsonify({"error": "Failed to scrape product data"}), 400
+                
+            print(f"✅ Scraper success: {product.get('title', '')[:50]}...")
             
-            # Step 2: Enhance with material detection
-            if not scraped_data.get('material'):
-                scraped_data['material'] = smart_guess_material(scraped_data.get('title', ''))
+            # Debug what the scraper returned
+            print("🔍 DEBUG: Scraper returned:")
+            for key, value in product.items():
+                print(f"  {key}: {value}")
+            print("🔍 END DEBUG")
             
-            # Step 3: Save scraped product to database
-            scraped_product = save_scraped_product({
-                'amazon_url': amazon_url,
-                'asin': scraped_data.get('asin'),
-                'title': scraped_data.get('title'),
-                'price': scraped_data.get('price'),
-                'weight': scraped_data.get('weight'),
-                'material': scraped_data.get('material'),
-                'brand': scraped_data.get('brand'),
-                'origin_country': scraped_data.get('origin'),
-                'confidence_score': scraped_data.get('confidence', 0.5),
-                'scraping_status': 'success'
-            })
+            # Material detection if needed
+            material = product.get("material_type") or product.get("material")
+            if not material or material.lower() in ["unknown", "other", ""]:
+                guessed = smart_guess_material(product.get("title", ""))
+                if guessed:
+                    print(f"🧠 Guessed material: {guessed}")
+                    material = guessed.title()
+                    product["material_type"] = material
             
-            # Step 4: Calculate emissions
-            emission_result = calculate_emissions_for_product(scraped_data, user_postcode, app)
+            # Ensure material is set
+            if not product.get("material_type"):
+                product["material_type"] = material or "Mixed"
             
-            # Step 5: Save emission calculation
-            save_emission_calculation({
-                'scraped_product_id': scraped_product.id,
-                'user_postcode': user_postcode,
-                'transport_distance': emission_result.get('transport_distance'),
-                'transport_mode': emission_result.get('transport_mode'),
-                'ml_prediction': emission_result.get('ml_prediction'),
-                'rule_based_prediction': emission_result.get('rule_based_prediction'),
-                'final_emission': emission_result.get('final_emission'),
-                'confidence_level': emission_result.get('confidence'),
-                'calculation_method': emission_result.get('method')
-            })
+            # Get weight
+            raw_weight = product.get("weight_kg") or product.get("raw_product_weight_kg") or 0.5
+            weight = float(raw_weight)
+            print(f"🏋️ Using weight: {weight} kg from scraper")
+            if include_packaging:
+                weight *= 1.05
             
-            # Step 6: Return comprehensive result
-            return jsonify({
-                'success': True,
-                'product': scraped_data,
-                'emissions': emission_result,
-                'scraped_product_id': scraped_product.id
-            })
+            # Get user coordinates from postcode
+            geo = pgeocode.Nominatim("gb")
+            location = geo.query_postal_code(postcode)
+            if location.empty or pd.isna(location.latitude):
+                return jsonify({"error": "Invalid postcode"}), 400
+                
+            user_lat, user_lon = location.latitude, location.longitude
+            
+            # Get origin coordinates
+            origin_country = product.get("country_of_origin") or product.get("origin") or product.get("brand_estimated_origin", "UK")
+            
+            # For UK internal deliveries, determine specific region from postcode
+            if origin_country == "UK" and postcode:
+                postcode_upper = postcode.upper()
+                if postcode_upper.startswith(('CF', 'NP', 'SA', 'SY', 'LL', 'LD')):
+                    origin_country = "Wales"
+                elif postcode_upper.startswith(('EH', 'G', 'KA', 'ML', 'PA', 'PH', 'FK', 'KY', 'AB', 'DD', 'DG', 'TD', 'KW', 'IV', 'HS', 'ZE')):
+                    origin_country = "Scotland"
+                elif postcode_upper.startswith('BT'):
+                    origin_country = "Northern Ireland"
+                else:
+                    origin_country = "England"
+                print(f"🇬🇧 UK internal delivery - Origin: {origin_country}")
+            
+            print(f"🌍 Origin determined: {origin_country}")
+            origin_coords = origin_hubs.get(origin_country, uk_hub)
+            
+            # Distance calculations
+            origin_distance_km = round(haversine(origin_coords["lat"], origin_coords["lon"], user_lat, user_lon), 1)
+            uk_distance_km = round(haversine(uk_hub["lat"], uk_hub["lon"], user_lat, user_lon), 1)
+            
+            print(f"🌍 Distances → origin: {origin_distance_km} km | UK hub: {uk_distance_km} km")
+            
+            # Transport mode logic
+            def determine_transport_mode(distance_km, origin_country="Unknown"):
+                water_crossing_countries = ["Ireland", "France", "Germany", "Netherlands", "Belgium", "Denmark", 
+                                          "Sweden", "Norway", "Finland", "Spain", "Italy", "Poland"]
+                
+                if origin_country in water_crossing_countries:
+                    if distance_km < 500:
+                        return "Truck", 0.15
+                    elif distance_km < 3000:
+                        return "Ship", 0.03
+                    else:
+                        return "Air", 0.5
+                        
+                if distance_km < 1500:
+                    return "Truck", 0.15
+                elif distance_km < 6000:
+                    return "Ship", 0.03
+                else:
+                    return "Air", 0.5
+            
+            # Determine transport mode
+            mode_name, mode_factor = determine_transport_mode(origin_distance_km, origin_country)
+            if override_mode:
+                mode_name = override_mode
+                mode_factor = {"Truck": 0.15, "Ship": 0.03, "Air": 0.5}.get(override_mode, mode_factor)
+            
+            print(f"🚚 Transport: {mode_name} (factor: {mode_factor})")
+            
+            # Calculate emissions using ML model
+            try:
+                # Prepare features for ML prediction
+                ml_features = {
+                    'material': product.get('material_type', 'Mixed'),
+                    'transport_mode': mode_name,
+                    'weight': weight,
+                    'origin_country': origin_country,
+                    'recyclability': 'Medium',  # Default
+                    'weight_category': 'Medium' if weight < 2 else 'Heavy',
+                    'packaging_type': 'Standard',
+                    'size_category': 'Medium',
+                    'quality_level': 'Standard',
+                    'pack_size': 'Single',
+                    'material_confidence': 0.85
+                }
+                
+                # Use ML prediction if available
+                if hasattr(app, 'xgb_model') and app.xgb_model:
+                    features_df = pd.DataFrame([ml_features])
+                    
+                    # Encode features
+                    for col in ['material', 'transport_mode', 'recyclability', 'origin_country', 
+                               'weight_category', 'packaging_type', 'size_category', 'quality_level', 'pack_size']:
+                        if col in app.encoders:
+                            features_df[col] = app.encoders[col].transform(features_df[col])
+                    
+                    # Make prediction
+                    ml_prediction = app.xgb_model.predict(features_df)[0]
+                    ml_co2 = float(ml_prediction) * weight
+                else:
+                    # Fallback calculation
+                    ml_co2 = weight * (mode_factor * origin_distance_km)
+                    
+            except Exception as e:
+                print(f"ML prediction error: {e}")
+                ml_co2 = weight * (mode_factor * origin_distance_km)
+            
+            # Rule-based calculation
+            transport_co2 = weight * mode_factor * origin_distance_km
+            material_intensity = {"Plastic": 2.5, "Steel": 3.0, "Paper": 1.2, 
+                                "Glass": 1.5, "Wood": 0.8, "Other": 2.0}.get(material, 2.0)
+            material_co2 = weight * material_intensity
+            rule_co2 = transport_co2 + material_co2
+            
+            # Prepare response matching localhost format
+            response_data = {
+                "product": {
+                    "title": product.get("title", "Unknown Product"),
+                    "brand": product.get("brand", "Unknown"),
+                    "price": product.get("price", 0),
+                    "material_type": product.get("material_type", "Mixed"),
+                    "weight_kg": weight,
+                    "country_of_origin": origin_country,
+                    "facility_origin": product.get("facility_origin", "Unknown"),
+                    "brand_estimated_origin": product.get("brand_estimated_origin", origin_country),
+                    "asin": product.get("asin", ""),
+                    "dimensions": product.get("dimensions", {}),
+                    "packaging_material": product.get("packaging_material", "Unknown"),
+                    "image_url": product.get("image_url", ""),
+                    "product_details": product.get("product_details", {}),
+                    "manufacturer": product.get("manufacturer", "Unknown"),
+                    "category": product.get("category", "General"),
+                    "confidence_score": product.get("confidence_score", 0.85)
+                },
+                "emissions": {
+                    "ml_co2_kg": round(ml_co2, 2),
+                    "rule_based_co2_kg": round(rule_co2, 2),
+                    "combined_estimate_kg": round((ml_co2 + rule_co2) / 2, 2),
+                    "transport_co2_kg": round(transport_co2, 2),
+                    "material_co2_kg": round(material_co2, 2),
+                    "packaging_co2_kg": round(weight * 0.05 * material_intensity if include_packaging else 0, 2),
+                    "eco_score": "B",  # Placeholder
+                    "transport_mode": mode_name,
+                    "transport_distance_km": origin_distance_km,
+                    "confidence_level": "High" if product.get("confidence_score", 0.85) > 0.8 else "Medium"
+                },
+                "recommendations": [
+                    "Consider products made from recycled materials",
+                    "Look for items manufactured closer to your location",
+                    "Choose products with minimal packaging"
+                ],
+                "success": True
+            }
+            
+            # Save to database
+            try:
+                scraped_product = save_scraped_product({
+                    'amazon_url': url,
+                    'asin': product.get('asin'),
+                    'title': product.get('title'),
+                    'price': product.get('price'),
+                    'weight': weight,
+                    'material': material,
+                    'brand': product.get('brand'),
+                    'origin_country': origin_country,
+                    'confidence_score': product.get('confidence_score', 0.85),
+                    'scraping_status': 'success'
+                })
+                
+                save_emission_calculation({
+                    'scraped_product_id': scraped_product.id,
+                    'user_postcode': postcode,
+                    'transport_distance': origin_distance_km,
+                    'transport_mode': mode_name,
+                    'ml_prediction': ml_co2,
+                    'rule_based_prediction': rule_co2,
+                    'final_emission': (ml_co2 + rule_co2) / 2,
+                    'confidence_level': response_data['emissions']['confidence_level'],
+                    'calculation_method': 'combined'
+                })
+            except Exception as e:
+                print(f"Database save error: {e}")
+            
+            return jsonify(response_data)
             
         except Exception as e:
             print(f"❌ Error in estimate_emissions: {e}")
-            return jsonify({'error': str(e)}), 500
+            import traceback
+            traceback.print_exc()
+            return jsonify({"error": str(e)}), 500
     
     @app.route('/predict', methods=['POST'])
     def predict_ml():
