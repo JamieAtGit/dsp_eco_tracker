@@ -79,6 +79,41 @@ def create_app(config_name='production'):
     migrate = Migrate(app, db)
     CORS(app, origins=['http://localhost:5173', 'https://silly-cuchufli-b154e2.netlify.app'])
     
+    # IMMEDIATELY fix the database schema before any routes can be called
+    with app.app_context():
+        try:
+            print("🔄 IMMEDIATELY fixing users table schema...")
+            
+            # Drop and recreate users table with raw SQL
+            db.engine.execute('DROP TABLE IF EXISTS users')
+            print("✅ Dropped users table")
+            
+            create_users_sql = """
+            CREATE TABLE users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(255) NOT NULL UNIQUE,
+                email VARCHAR(255),
+                password_hash VARCHAR(255) NOT NULL,
+                role ENUM('user', 'admin') DEFAULT 'user',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+            db.engine.execute(create_users_sql)
+            print("✅ Created users table with username column")
+            
+            # Create all other tables
+            db.create_all()
+            print("✅ Database ready for signup requests")
+            
+        except Exception as e:
+            print(f"❌ Database setup error: {e}")
+            # Emergency fallback
+            try:
+                db.create_all()
+                print("⚠️ Using fallback table creation")
+            except Exception as e2:
+                print(f"❌ Complete database failure: {e2}")
+    
     # Load ML models
     model_dir = os.path.join(BASE_DIR, "backend", "ml", "models")
     encoders_dir = os.path.join(BASE_DIR, "backend", "ml", "encoders")
@@ -836,41 +871,7 @@ def create_app(config_name='production'):
             return jsonify({'error': 'Not logged in'}), 401
         return jsonify(user)
     
-    # AGGRESSIVE: Manually create users table with correct schema
-    with app.app_context():
-        try:
-            print("🔄 MANUALLY creating users table with correct schema...")
-            
-            # Drop the table completely
-            db.engine.execute('DROP TABLE IF EXISTS users')
-            print("✅ Dropped users table")
-            
-            # Manually create the correct table structure
-            create_users_sql = """
-            CREATE TABLE users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(255) NOT NULL UNIQUE,
-                email VARCHAR(255),
-                password_hash VARCHAR(255) NOT NULL,
-                role ENUM('user', 'admin') DEFAULT 'user',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-            """
-            db.engine.execute(create_users_sql)
-            print("✅ Manually created users table with username column")
-            
-            # Create other tables normally
-            db.create_all()
-            print("✅ All other tables created")
-            
-        except Exception as e:
-            print(f"❌ Manual creation error: {e}")
-            try:
-                # Last resort - just create all tables
-                db.create_all()
-                print("✅ Fallback creation")
-            except Exception as e2:
-                print(f"❌ All methods failed: {e2}")
+    # Database is already set up at app initialization
     
     return app
 
