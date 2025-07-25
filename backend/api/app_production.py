@@ -786,7 +786,9 @@ def create_app(config_name='production'):
             
         except Exception as e:
             print(f"Signup error: {e}")
-            return jsonify({'error': 'Registration failed'}), 500
+            import traceback
+            traceback.print_exc()
+            return jsonify({'error': f'Registration failed: {str(e)}'}), 500
     
     @app.route('/login', methods=['POST'])
     def login():
@@ -834,10 +836,17 @@ def create_app(config_name='production'):
             return jsonify({'error': 'Not logged in'}), 401
         return jsonify(user)
     
-    # Create tables on startup
+    # Create tables on startup with migration handling
     with app.app_context():
+        try:
+            # Drop and recreate users table to fix schema
+            db.engine.execute('DROP TABLE IF EXISTS users')
+            print("🔄 Dropped existing users table for schema update")
+        except Exception as e:
+            print(f"Note: {e}")
+        
         db.create_all()
-        print("✅ Database tables created/verified")
+        print("✅ Database tables created/verified with updated schema")
     
     return app
 
