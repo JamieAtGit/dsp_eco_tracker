@@ -470,7 +470,12 @@ def create_app(config_name='production'):
     
     @app.route('/admin/products', methods=['GET'])
     def admin_get_products():
-        """Admin endpoint to get all scraped products"""
+        """Admin endpoint to get all scraped products - REQUIRES ADMIN AUTH"""
+        # Check authentication
+        user = session.get('user')
+        if not user or user.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+            
         try:
             page = request.args.get('page', 1, type=int)
             per_page = request.args.get('per_page', 20, type=int)
@@ -492,7 +497,12 @@ def create_app(config_name='production'):
     
     @app.route('/admin/analytics', methods=['GET'])
     def admin_analytics():
-        """Admin analytics dashboard"""
+        """Admin analytics dashboard - REQUIRES ADMIN AUTH"""
+        # Check authentication
+        user = session.get('user')
+        if not user or user.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+            
         try:
             # Get basic stats
             total_products = ScrapedProduct.query.count()
@@ -634,7 +644,12 @@ def create_app(config_name='production'):
     
     @app.route('/admin/submissions', methods=['GET'])
     def admin_submissions():
-        """Get admin submissions matching local app.py behavior"""
+        """Get admin submissions - REQUIRES ADMIN AUTH"""
+        # Check authentication
+        user = session.get('user')
+        if not user or user.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+            
         try:
             # Get scraped products for admin review
             submissions = ScrapedProduct.query.order_by(ScrapedProduct.id.desc()).limit(50).all()
@@ -652,7 +667,12 @@ def create_app(config_name='production'):
     
     @app.route('/admin/update', methods=['POST'])
     def admin_update():
-        """Update admin submission"""
+        """Update admin submission - REQUIRES ADMIN AUTH"""
+        # Check authentication
+        user = session.get('user')
+        if not user or user.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+            
         try:
             data = request.json
             submission_id = data.get('id')
