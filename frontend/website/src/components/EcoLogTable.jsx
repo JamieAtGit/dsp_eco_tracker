@@ -26,7 +26,13 @@ export default function EcoLogTable() {
         // Handle new response format with products and metadata
         const products = response.products || response;
         console.log("✅ Products extracted:", Array.isArray(products) ? products.length : "Not an array");
-        setData(Array.isArray(products) ? products : []);
+        if (Array.isArray(products)) {
+          setData(products);
+          console.log("🎉 Data successfully set:", products.length, "items");
+        } else {
+          console.error("❌ Products is not an array:", typeof products, products);
+          setData([]);
+        }
       })
       .catch((err) => {
         console.error("❌ Error loading eco data:", err);
