@@ -54,7 +54,7 @@ export default function ExtensionPage() {
                     size="lg"
                     icon="⬇️"
                     className="min-w-64"
-                    onClick={() => window.open("http://localhost:5000/static/my-extension.zip", "_blank")}
+                    onClick={() => window.open(`${import.meta.env.VITE_API_BASE_URL}/static/my-extension.zip`, "_blank")}
                   >
                     Download Extension
                   </ModernButton>
