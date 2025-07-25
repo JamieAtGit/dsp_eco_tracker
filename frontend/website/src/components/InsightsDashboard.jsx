@@ -95,10 +95,14 @@ export default function InsightsDashboard() {
       })
       .catch((err) => {
         console.error("Failed to load dashboard metrics:", err);
-        // Fallback to insights endpoint if dashboard-metrics fails
-        fetch(`${BASE_URL}/insights`)
+        // Fallback to eco-data endpoint with metadata
+        fetch(`${BASE_URL}/api/eco-data?limit=5000`)
           .then((res) => res.json())
-          .then((data) => {
+          .then((response) => {
+            // Handle new response format with metadata
+            const data = response.products || response;
+            const metadata = response.metadata || {};
+            
             if (!Array.isArray(data)) return;
 
             const scores = data.map((d) => d.true_eco_score).filter(Boolean);
@@ -125,15 +129,17 @@ export default function InsightsDashboard() {
             }, []);
             setMaterialData(deduped.sort((a, b) => b.value - a.value).slice(0, 10));
             
-            // Set basic stats from fallback data
+            // Use metadata for accurate total count
             setStats({
-              total_products: data.length,
+              total_products: metadata.total_products_in_dataset || data.length,
               total_materials: deduped.length,
               total_predictions: 0,
               recent_activity: 0
             });
+            
+            console.log(`📊 Dashboard loaded: ${metadata.products_returned || data.length} of ${metadata.total_products_in_dataset || 'unknown'} total products`);
           })
-          .catch(() => console.error("Both dashboard endpoints failed"));
+          .catch(() => console.error("All dashboard endpoints failed"));
       });
   }, []);
 

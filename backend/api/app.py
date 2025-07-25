@@ -1305,10 +1305,24 @@ def fetch_eco_dataset():
         # Replace NaN values with None/null for JSON serialization
         df = df.where(pd.notnull(df), None)
         
-        # Limit to prevent huge responses
-        df = df.head(1000)
+        # Get limit from query parameter, default to 1000 for performance
+        limit = request.args.get('limit', type=int, default=1000)
+        limit = min(limit, 10000)  # Cap at 10k for safety
         
-        return jsonify(df.to_dict(orient="records"))
+        # Apply limit
+        df_limited = df.head(limit)
+        
+        # Add metadata about the dataset
+        response_data = {
+            "products": df_limited.to_dict(orient="records"),
+            "metadata": {
+                "total_products_in_dataset": len(df),
+                "products_returned": len(df_limited),
+                "limit_applied": limit
+            }
+        }
+        
+        return jsonify(response_data)
         
     except Exception as e:
         print(f"❌ Error in eco-data endpoint: {e}")  
