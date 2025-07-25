@@ -871,12 +871,11 @@ def create_app(config_name='production'):
             role = 'admin' if username == 'admin' else 'user'
             
             insert_sql = text("""
-                INSERT INTO users (username, email, password_hash, role, created_at) 
-                VALUES (:username, :email, :password_hash, :role, NOW())
+                INSERT INTO users (username, password_hash, role, created_at) 
+                VALUES (:username, :password_hash, :role, NOW())
             """)
             db.session.execute(insert_sql, {
                 'username': username,
-                'email': f"{username}@dsp-eco-tracker.com",  # Provide default email
                 'password_hash': hashed_password, 
                 'role': role
             })
