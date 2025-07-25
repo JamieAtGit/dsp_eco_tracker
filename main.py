@@ -5,7 +5,7 @@ Main entry point for Railway deployment
 import os
 import sys
 
-print("🚀 Starting DSP Eco Tracker backend v2.1...")
+print("🚀 Starting DSP Eco Tracker backend v2.2...")
 print(f"Python version: {sys.version}")
 print(f"Current working directory: {os.getcwd()}")
 print(f"Python path: {sys.path}")
