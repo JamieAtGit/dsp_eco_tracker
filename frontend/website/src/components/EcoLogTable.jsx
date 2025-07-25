@@ -12,7 +12,7 @@ export default function EcoLogTable() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/eco-data`)
+    fetch(`${BASE_URL}/api/eco-data?limit=50000`)
       .then((res) => res.json())
       .then((response) => {
         // Handle new response format with products and metadata
@@ -25,10 +25,7 @@ export default function EcoLogTable() {
       });
   }, []);
 
-  if (!Array.isArray(data)) {
-    console.error("❌ Expected array but got:", data);
-    return <p>Failed to load data.</p>;
-  }
+  // Data is now guaranteed to be an array from the useEffect handler
   
   const filteredData = data.filter((row) => {
     // Filter out invalid rows (like header rows that got mixed in)
