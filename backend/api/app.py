@@ -61,7 +61,12 @@ app = Flask(
     static_folder=os.path.join(os.path.dirname(__file__), "..", "static"),
     static_url_path="/static"
 )
+# Configure Flask with production security settings
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-change-in-production')
+app.config['SESSION_COOKIE_SECURE'] = os.getenv('FLASK_ENV') == 'production'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv('FLASK_ENV') == 'production' else 'Lax'
+app.config['PERMANENT_SESSION_LIFETIME'] = 7200  # 2 hours
 
 def extract_weight_from_title(title: str) -> float:
     """

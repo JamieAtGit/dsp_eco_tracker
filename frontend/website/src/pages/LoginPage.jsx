@@ -16,23 +16,49 @@ export default function LogOnPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-    fetch(`${BASE_URL}/login`, {
+    
+    try {
+      const res = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ username, password })
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.user.role === "admin") {
-            navigate("/admin");
-          } else {
-            navigate("/");
-          }
-        })
-        .catch(err => {
-          console.error("Login failed", err);
-    });
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+      
+      // Store user data in localStorage for persistence
+      localStorage.setItem("user", JSON.stringify(data.user));
+      
+      // Show welcome message
+      const welcomeMessage = `Welcome back, ${data.user.username}! 🎉`;
+      
+      // Create a temporary welcome notification
+      const welcomeDiv = document.createElement('div');
+      welcomeDiv.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-bounce';
+      welcomeDiv.textContent = welcomeMessage;
+      document.body.appendChild(welcomeDiv);
+      
+      // Remove welcome message after 3 seconds
+      setTimeout(() => {
+        document.body.removeChild(welcomeDiv);
+      }, 3000);
+      
+      // Navigate based on role
+      if (data.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+      
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError(err.message || "Login failed. Please check your credentials.");
+    }
   }
       
   return (
