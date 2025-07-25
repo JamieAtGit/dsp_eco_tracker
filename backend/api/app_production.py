@@ -836,17 +836,38 @@ def create_app(config_name='production'):
             return jsonify({'error': 'Not logged in'}), 401
         return jsonify(user)
     
-    # Create tables on startup with migration handling
+    # Create tables on startup with proper migration handling
     with app.app_context():
         try:
-            # Drop and recreate users table to fix schema
-            db.engine.execute('DROP TABLE IF EXISTS users')
-            print("🔄 Dropped existing users table for schema update")
+            # Check if username column exists, if not migrate
+            result = db.engine.execute("SHOW COLUMNS FROM users LIKE 'username'")
+            username_exists = result.fetchone() is not None
+            
+            if not username_exists:
+                print("🔄 Migrating users table to add username column...")
+                # Add username column
+                db.engine.execute("ALTER TABLE users ADD COLUMN username VARCHAR(255)")
+                # Copy email to username for existing users (if any)
+                db.engine.execute("UPDATE users SET username = email WHERE username IS NULL")
+                # Make username unique and not null
+                db.engine.execute("ALTER TABLE users ADD UNIQUE INDEX idx_username (username)")
+                # Make email nullable
+                db.engine.execute("ALTER TABLE users MODIFY COLUMN email VARCHAR(255) NULL")
+                print("✅ Successfully migrated users table schema")
+            else:
+                print("✅ Users table already has correct schema")
+                
         except Exception as e:
-            print(f"Note: {e}")
+            print(f"⚠️ Migration error, dropping and recreating table: {e}")
+            try:
+                # If migration fails, drop and recreate
+                db.engine.execute('DROP TABLE IF EXISTS users')
+                print("🔄 Dropped users table for clean recreation")
+            except:
+                pass
         
         db.create_all()
-        print("✅ Database tables created/verified with updated schema")
+        print("✅ Database tables created/verified")
     
     return app
 
