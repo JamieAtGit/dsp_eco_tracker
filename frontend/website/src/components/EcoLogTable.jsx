@@ -100,7 +100,7 @@ export default function EcoLogTable() {
         <div className="flex items-center gap-3">
           <div className="status-indicator status-success"></div>
           <h2 className="text-xl font-display text-slate-200">
-            Product Impact Database
+            Product Impact Database ({data.length} products)
           </h2>
         </div>
         <ModernButton
