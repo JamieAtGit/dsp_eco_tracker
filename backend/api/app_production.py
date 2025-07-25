@@ -86,22 +86,44 @@ def create_app(config_name='production'):
             
             # Drop and recreate users table with raw SQL
             from sqlalchemy import text
-            db.session.execute(text('DROP TABLE IF EXISTS users'))
-            print("✅ Dropped users table")
             
-            create_users_sql = text("""
-            CREATE TABLE users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(255) NOT NULL UNIQUE,
-                email VARCHAR(255),
-                password_hash VARCHAR(255) NOT NULL,
-                role ENUM('user', 'admin') DEFAULT 'user',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-            """)
-            db.session.execute(create_users_sql)
-            db.session.commit()
-            print("✅ Created users table with username column")
+            # First check if table exists
+            check_table_sql = text("SHOW TABLES LIKE 'users'")
+            result = db.session.execute(check_table_sql)
+            table_exists = result.fetchone() is not None
+            print(f"🔍 Users table exists: {table_exists}")
+            
+            if table_exists:
+                # Check if username column exists
+                check_column_sql = text("SHOW COLUMNS FROM users LIKE 'username'")
+                result = db.session.execute(check_column_sql)
+                username_exists = result.fetchone() is not None
+                print(f"🔍 Username column exists: {username_exists}")
+                
+                if not username_exists:
+                    print("🔨 Adding username column to existing table")
+                    # Add username column to existing table
+                    add_column_sql = text("ALTER TABLE users ADD COLUMN username VARCHAR(255) NOT NULL UNIQUE")
+                    db.session.execute(add_column_sql)
+                    db.session.commit()
+                    print("✅ Added username column to existing table")
+                else:
+                    print("✅ Users table with username column already exists")
+            else:
+                print("🔨 Creating new users table")
+                create_users_sql = text("""
+                CREATE TABLE users (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    username VARCHAR(255) NOT NULL UNIQUE,
+                    email VARCHAR(255),
+                    password_hash VARCHAR(255) NOT NULL,
+                    role ENUM('user', 'admin') DEFAULT 'user',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+                """)
+                db.session.execute(create_users_sql)
+                db.session.commit()
+                print("✅ Created new users table with username column")
             
             # Create all other tables
             db.create_all()
