@@ -790,7 +790,7 @@ def create_app(config_name='production'):
     # Authentication endpoints
     @app.route('/signup', methods=['POST'])
     def signup():
-        """User registration endpoint"""
+        """User registration endpoint - USING RAW SQL TO BYPASS MODEL ISSUES"""
         try:
             data = request.get_json()
             username = data.get('username')
@@ -799,23 +799,21 @@ def create_app(config_name='production'):
             if not username or not password:
                 return jsonify({'error': 'Username and password required'}), 400
             
-            # Check if user already exists
-            existing_user = User.query.filter_by(username=username).first()
-            if existing_user:
+            # Check if user already exists - RAW SQL
+            check_sql = "SELECT COUNT(*) FROM users WHERE username = %s"
+            result = db.engine.execute(check_sql, (username,))
+            if result.fetchone()[0] > 0:
                 return jsonify({'error': 'User already exists'}), 400
             
-            # Create new user
+            # Create new user - RAW SQL
             hashed_password = generate_password_hash(password)
             role = 'admin' if username == 'admin' else 'user'
             
-            new_user = User(
-                username=username,
-                password_hash=hashed_password,
-                role=role
-            )
-            
-            db.session.add(new_user)
-            db.session.commit()
+            insert_sql = """
+                INSERT INTO users (username, password_hash, role, created_at) 
+                VALUES (%s, %s, %s, NOW())
+            """
+            db.engine.execute(insert_sql, (username, hashed_password, role))
             
             return jsonify({'message': '✅ User registered successfully'}), 200
             
@@ -827,7 +825,7 @@ def create_app(config_name='production'):
     
     @app.route('/login', methods=['POST'])
     def login():
-        """User login endpoint"""
+        """User login endpoint - USING RAW SQL"""
         try:
             data = request.get_json()
             username = data.get('username')
@@ -836,16 +834,19 @@ def create_app(config_name='production'):
             if not username or not password:
                 return jsonify({'error': 'Username and password required'}), 400
             
-            # Find user
-            user = User.query.filter_by(username=username).first()
-            if not user or not check_password_hash(user.password_hash, password):
+            # Find user - RAW SQL
+            find_sql = "SELECT id, username, password_hash, role FROM users WHERE username = %s"
+            result = db.engine.execute(find_sql, (username,))
+            user_row = result.fetchone()
+            
+            if not user_row or not check_password_hash(user_row[2], password):
                 return jsonify({'error': 'Invalid credentials'}), 401
             
             # Create session
             session['user'] = {
-                'id': user.id,
-                'username': user.username,
-                'role': user.role
+                'id': user_row[0],
+                'username': user_row[1],
+                'role': user_row[3]
             }
             
             return jsonify({
