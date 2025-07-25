@@ -25,6 +25,7 @@ from backend.scrapers.amazon.integrated_scraper import (
     estimate_origin_country, resolve_brand_origin, haversine, origin_hubs, uk_hub
 )
 from backend.scrapers.amazon.guess_material import smart_guess_material
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import joblib
 import pandas as pd
@@ -730,6 +731,88 @@ def create_app(config_name='production'):
             return jsonify({'success': True, 'message': 'Thank you for your feedback!'})
         except Exception as e:
             return jsonify({'error': str(e)}), 500
+    
+    # Authentication endpoints
+    @app.route('/signup', methods=['POST'])
+    def signup():
+        """User registration endpoint"""
+        try:
+            data = request.get_json()
+            username = data.get('username')
+            password = data.get('password')
+            
+            if not username or not password:
+                return jsonify({'error': 'Username and password required'}), 400
+            
+            # Check if user already exists
+            existing_user = User.query.filter_by(username=username).first()
+            if existing_user:
+                return jsonify({'error': 'User already exists'}), 400
+            
+            # Create new user
+            hashed_password = generate_password_hash(password)
+            role = 'admin' if username == 'admin' else 'user'
+            
+            new_user = User(
+                username=username,
+                password_hash=hashed_password,
+                role=role
+            )
+            
+            db.session.add(new_user)
+            db.session.commit()
+            
+            return jsonify({'message': '✅ User registered successfully'}), 200
+            
+        except Exception as e:
+            print(f"Signup error: {e}")
+            return jsonify({'error': 'Registration failed'}), 500
+    
+    @app.route('/login', methods=['POST'])
+    def login():
+        """User login endpoint"""
+        try:
+            data = request.get_json()
+            username = data.get('username')
+            password = data.get('password')
+            
+            if not username or not password:
+                return jsonify({'error': 'Username and password required'}), 400
+            
+            # Find user
+            user = User.query.filter_by(username=username).first()
+            if not user or not check_password_hash(user.password_hash, password):
+                return jsonify({'error': 'Invalid credentials'}), 401
+            
+            # Create session
+            session['user'] = {
+                'id': user.id,
+                'username': user.username,
+                'role': user.role
+            }
+            
+            return jsonify({
+                'message': '✅ Logged in successfully',
+                'user': session['user']
+            }), 200
+            
+        except Exception as e:
+            print(f"Login error: {e}")
+            return jsonify({'error': 'Login failed'}), 500
+    
+    @app.route('/logout', methods=['POST'])
+    def logout():
+        """User logout endpoint"""
+        session.pop('user', None)
+        return jsonify({'message': 'Logged out successfully'})
+    
+    @app.route('/me', methods=['GET'])
+    def me():
+        """Get current user info"""
+        user = session.get('user')
+        if not user:
+            return jsonify({'error': 'Not logged in'}), 401
+        return jsonify(user)
     
     # Create tables on startup
     with app.app_context():
