@@ -823,8 +823,44 @@ def create_app(config_name='production'):
             if not username or not password:
                 return jsonify({'error': 'Username and password required'}), 400
             
-            # Check if user already exists - RAW SQL with newer SQLAlchemy syntax
+            # ENSURE USERS TABLE HAS USERNAME COLUMN BEFORE PROCEEDING
             from sqlalchemy import text
+            try:
+                # First check if table exists and has username column
+                check_column_sql = text("SHOW COLUMNS FROM users LIKE 'username'")
+                result = db.session.execute(check_column_sql)
+                username_exists = result.fetchone() is not None
+                
+                if not username_exists:
+                    print("🔨 EMERGENCY: Adding username column during signup")
+                    # Add username column to existing table
+                    add_column_sql = text("ALTER TABLE users ADD COLUMN username VARCHAR(255) NOT NULL UNIQUE FIRST")
+                    db.session.execute(add_column_sql)
+                    db.session.commit()
+                    print("✅ EMERGENCY: Added username column")
+                    
+            except Exception as schema_error:
+                print(f"⚠️ Schema check/fix failed: {schema_error}")
+                # Try to create the table from scratch
+                try:
+                    create_users_sql = text("""
+                    CREATE TABLE IF NOT EXISTS users (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        username VARCHAR(255) NOT NULL UNIQUE,
+                        email VARCHAR(255),
+                        password_hash VARCHAR(255) NOT NULL,
+                        role ENUM('user', 'admin') DEFAULT 'user',
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                    """)
+                    db.session.execute(create_users_sql)
+                    db.session.commit()
+                    print("✅ EMERGENCY: Created users table from scratch")
+                except Exception as create_error:
+                    print(f"❌ Failed to create table: {create_error}")
+                    return jsonify({'error': 'Database schema error'}), 500
+            
+            # Check if user already exists - RAW SQL with newer SQLAlchemy syntax
             check_sql = text("SELECT COUNT(*) FROM users WHERE username = :username")
             result = db.session.execute(check_sql, {'username': username})
             if result.fetchone()[0] > 0:
