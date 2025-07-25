@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test - Product Impact Database</title>
+</head>
+<body>
+    <h1>Testing API Endpoint</h1>
+    <button onclick="testAPI()">Test /api/eco-data?limit=50000</button>
+    <div id="results"></div>
+
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Loading...</p>';
+            
+            try {
+                // Replace with your Railway backend URL
+                const response = await fetch('https://your-railway-url.railway.app/api/eco-data?limit=50000');
+                console.log('Response status:', response.status);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                resultsDiv.innerHTML = `
+                    <h3>✅ API Response Successful</h3>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>Total Products in Dataset:</strong> ${data.metadata?.total_products_in_dataset || 'N/A'}</p>
+                    <p><strong>Products Returned:</strong> ${data.metadata?.products_returned || data.length || 'N/A'}</p>
+                    <p><strong>Limit Applied:</strong> ${data.metadata?.limit_applied || 'N/A'}</p>
+                    <p><strong>Response Type:</strong> ${typeof data}</p>
+                    <p><strong>Has Products Array:</strong> ${Array.isArray(data.products) ? 'Yes' : 'No'}</p>
+                `;
+            } catch (error) {
+                console.error('API Error:', error);
+                resultsDiv.innerHTML = `
+                    <h3>❌ API Error</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
