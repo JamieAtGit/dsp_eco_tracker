@@ -85,10 +85,11 @@ def create_app(config_name='production'):
             print("🔄 IMMEDIATELY fixing users table schema...")
             
             # Drop and recreate users table with raw SQL
-            db.engine.execute('DROP TABLE IF EXISTS users')
+            from sqlalchemy import text
+            db.session.execute(text('DROP TABLE IF EXISTS users'))
             print("✅ Dropped users table")
             
-            create_users_sql = """
+            create_users_sql = text("""
             CREATE TABLE users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(255) NOT NULL UNIQUE,
@@ -97,8 +98,9 @@ def create_app(config_name='production'):
                 role ENUM('user', 'admin') DEFAULT 'user',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-            """
-            db.engine.execute(create_users_sql)
+            """)
+            db.session.execute(create_users_sql)
+            db.session.commit()
             print("✅ Created users table with username column")
             
             # Create all other tables
@@ -799,21 +801,27 @@ def create_app(config_name='production'):
             if not username or not password:
                 return jsonify({'error': 'Username and password required'}), 400
             
-            # Check if user already exists - RAW SQL
-            check_sql = "SELECT COUNT(*) FROM users WHERE username = %s"
-            result = db.engine.execute(check_sql, (username,))
+            # Check if user already exists - RAW SQL with newer SQLAlchemy syntax
+            from sqlalchemy import text
+            check_sql = text("SELECT COUNT(*) FROM users WHERE username = :username")
+            result = db.session.execute(check_sql, {'username': username})
             if result.fetchone()[0] > 0:
                 return jsonify({'error': 'User already exists'}), 400
             
-            # Create new user - RAW SQL
+            # Create new user - RAW SQL with newer SQLAlchemy syntax
             hashed_password = generate_password_hash(password)
             role = 'admin' if username == 'admin' else 'user'
             
-            insert_sql = """
+            insert_sql = text("""
                 INSERT INTO users (username, password_hash, role, created_at) 
-                VALUES (%s, %s, %s, NOW())
-            """
-            db.engine.execute(insert_sql, (username, hashed_password, role))
+                VALUES (:username, :password_hash, :role, NOW())
+            """)
+            db.session.execute(insert_sql, {
+                'username': username, 
+                'password_hash': hashed_password, 
+                'role': role
+            })
+            db.session.commit()
             
             return jsonify({'message': '✅ User registered successfully'}), 200
             
@@ -834,9 +842,10 @@ def create_app(config_name='production'):
             if not username or not password:
                 return jsonify({'error': 'Username and password required'}), 400
             
-            # Find user - RAW SQL
-            find_sql = "SELECT id, username, password_hash, role FROM users WHERE username = %s"
-            result = db.engine.execute(find_sql, (username,))
+            # Find user - RAW SQL with newer SQLAlchemy syntax
+            from sqlalchemy import text
+            find_sql = text("SELECT id, username, password_hash, role FROM users WHERE username = :username")
+            result = db.session.execute(find_sql, {'username': username})
             user_row = result.fetchone()
             
             if not user_row or not check_password_hash(user_row[2], password):
