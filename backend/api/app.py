@@ -525,18 +525,27 @@ CORS(app,
 # Additional CORS handler for all responses
 @app.after_request
 def after_request(response):
-    origin = request.headers.get('Origin')
-    if origin in [
-        'https://silly-cuchufli-b154e2.netlify.app',
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://localhost:3000'
-    ]:
-        response.headers.add('Access-Control-Allow-Origin', origin)
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+    try:
+        origin = request.headers.get('Origin')
+        if origin in [
+            'https://silly-cuchufli-b154e2.netlify.app',
+            'http://localhost:5173',
+            'http://localhost:5174',
+            'http://localhost:3000'
+        ]:
+            response.headers.add('Access-Control-Allow-Origin', origin)
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
+            response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+    except Exception as e:
+        print(f"⚠️ CORS header error: {e}")
     return response
+
+# Global error handler to prevent crashes from affecting other routes
+@app.errorhandler(500)
+def handle_500_error(e):
+    print(f"❌ 500 Error handled: {e}")
+    return jsonify({"error": "Internal server error"}), 500
 
 
 
@@ -1274,16 +1283,39 @@ def fuzzy_match_origin(origin):
 def fetch_eco_dataset():
     try:
         dataset_path = os.path.join(BASE_DIR, "common", "data", "csv", "expanded_eco_dataset.csv")
+        
+        # Check if file exists
+        if not os.path.exists(dataset_path):
+            print(f"⚠️ Dataset file not found: {dataset_path}")
+            # Return empty dataset instead of crashing
+            return jsonify([])
+        
         df = pd.read_csv(dataset_path)
-        df = df.dropna(subset=["material", "true_eco_score", "co2_emissions"])
+        
+        # Handle missing columns gracefully
+        required_cols = ["material", "true_eco_score", "co2_emissions"]
+        existing_cols = [col for col in required_cols if col in df.columns]
+        
+        if not existing_cols:
+            print("⚠️ No required columns found in dataset")
+            return jsonify([])
+        
+        df = df.dropna(subset=existing_cols)
         
         # Replace NaN values with None/null for JSON serialization
         df = df.where(pd.notnull(df), None)
         
+        # Limit to prevent huge responses
+        df = df.head(1000)
+        
         return jsonify(df.to_dict(orient="records"))
+        
     except Exception as e:
-        print(f"❌ Failed to return eco dataset: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"❌ Error in eco-data endpoint: {e}")  
+        import traceback
+        print(traceback.format_exc())
+        # Return empty array instead of 500 error
+        return jsonify([]), 200
 
 
 
