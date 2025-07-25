@@ -21,8 +21,16 @@ def save_users(users):
 
 def register_routes(app):
 
-    @app.route("/signup", methods=["POST"])
+    @app.route("/signup", methods=["POST", "OPTIONS"])
     def signup():
+        if request.method == "OPTIONS":
+            # Handle preflight CORS request
+            response = jsonify({})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+            response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+            return response
+            
         data = request.get_json()
         username = data.get("username")
         password = data.get("password")
@@ -43,8 +51,16 @@ def register_routes(app):
         save_users(users)
         return jsonify({"message": "✅ User registered"}), 200
 
-    @app.route("/login", methods=["POST"])
+    @app.route("/login", methods=["POST", "OPTIONS"])
     def login():
+        if request.method == "OPTIONS":
+            # Handle preflight CORS request
+            response = jsonify({})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+            response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+            return response
+            
         data = request.get_json()
         username = data.get("username")
         password = data.get("password")
