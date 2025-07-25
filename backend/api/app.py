@@ -63,9 +63,14 @@ app = Flask(
 )
 # Configure Flask with production security settings
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-change-in-production')
-app.config['SESSION_COOKIE_SECURE'] = os.getenv('FLASK_ENV') == 'production'
+
+# For Railway deployment, we need to handle HTTPS properly
+is_production = os.getenv('FLASK_ENV') == 'production' or os.getenv('RAILWAY_ENVIRONMENT') == 'production'
+
+app.config['SESSION_COOKIE_SECURE'] = is_production  # Only require HTTPS in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv('FLASK_ENV') == 'production' else 'Lax'
+app.config['SESSION_COOKIE_SAMESITE'] = 'None' if is_production else 'Lax'
+app.config['SESSION_COOKIE_DOMAIN'] = None  # Allow cross-domain cookies
 app.config['PERMANENT_SESSION_LIFETIME'] = 7200  # 2 hours
 
 def extract_weight_from_title(title: str) -> float:
@@ -501,11 +506,20 @@ if not allowed_origins or allowed_origins == ['']:
         "chrome-extension://*"    # Chrome extension
     ]
 
+# Configure CORS with proper production settings
 CORS(app, 
-     supports_credentials=True, 
-     origins="*",  # Temporarily allow all origins for debugging
-     methods=["GET", "POST", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"]
+     supports_credentials=True,
+     origins=[
+         "http://localhost:5173",
+         "http://localhost:5174", 
+         "http://localhost:3000",
+         "https://silly-cuchufli-b154e2.netlify.app",  # Your Netlify domain
+         "https://*.netlify.app",  # All Netlify preview deployments
+         "chrome-extension://*"
+     ],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+     expose_headers=["Content-Type", "Authorization"]
 )
 
 
