@@ -19,7 +19,7 @@ document.getElementById("analyze").addEventListener("click", async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         amazon_url: url,
-        postcode: postcode,
+        postcode: postcode || "SW1A 1AA",
         include_packaging: true
       })
     });

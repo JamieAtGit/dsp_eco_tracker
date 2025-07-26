@@ -36,8 +36,8 @@
         "https://www.amazon.co.uk/*",
         "https://www.amazon.com/*"
       ],
-      "js": ["assets/content.js"],
-      "css": ["tooltip.css"]
+      "js": ["src/contentScript.js"],
+      "css": ["src/styles/tooltip.css"]
     }
   ],
 

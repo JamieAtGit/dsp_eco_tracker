@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Create database tables in Railway MySQL
+Create database tables in Railway MySQL .
 """
 import os
 import sys

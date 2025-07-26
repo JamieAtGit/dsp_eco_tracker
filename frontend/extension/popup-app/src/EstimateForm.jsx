@@ -2,27 +2,6 @@ import { useEffect, useState } from "react";
 import "./refined.css";
 import MLvsDefraChart from "./MLvsDefraChart";
 
-function smartGuessMaterial(title = "") {
-  const lower = title.toLowerCase();
-
-  const guesses = [
-    { keywords: ["headphones", "earbuds"], material: "plastic" },
-    { keywords: ["table", "desk", "shelf"], material: "wood" },
-    { keywords: ["skateboard", "longboard"], material: "wood" },
-    { keywords: ["fan", "air circulator"], material: "plastic" },
-    { keywords: ["knife", "cutlery", "blade"], material: "steel" },
-    { keywords: ["bottle", "jug"], material: "plastic" },
-    { keywords: ["glass", "mirror", "window"], material: "glass" },
-  ];
-
-  for (const guess of guesses) {
-    if (guess.keywords.some((kw) => lower.includes(kw))) {
-      return guess.material;
-    }
-  }
-
-  return null;
-}
 
 export default function EstimateForm() {
   const [url, setUrl] = useState("");
@@ -31,9 +10,7 @@ export default function EstimateForm() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [includePackaging, setIncludePackaging] = useState(true);
   const [equivalenceView, setEquivalenceView] = useState(0);
-  const [selectedMode, setSelectedMode] = useState("Ship");
   const [materialInsights, setMaterialInsights] = useState({});
 
   useEffect(() => {
@@ -60,14 +37,14 @@ export default function EstimateForm() {
     localStorage.setItem("postcode", postcode);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/estimate_emissions", {
+      const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+      const res = await fetch(`${BASE_URL}/estimate_emissions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amazon_url: url || "",
-          postcode: postcode || "",
-          include_packaging: includePackaging,
-          override_transport_mode: selectedMode,
+          postcode: postcode || "SW1A 1AA",
+          include_packaging: true,
         }),
       });
 
@@ -89,25 +66,7 @@ export default function EstimateForm() {
   const attributes = result?.data?.attributes || {};
   const productTitle = result?.data?.title || result?.title || "Untitled Product";
 
-  const rawMaterial = attributes.material_type?.toLowerCase() || "other";
-  let guessedMaterial = rawMaterial;
-  if (guessedMaterial === "other" || guessedMaterial === "unknown") {
-    const guess = smartGuessMaterial(productTitle);
-    if (guess) guessedMaterial = guess;
-  }
-
-  const materialAliasMap = {
-    plastics: "plastic",
-    polyethylene: "plastic",
-    aluminium: "aluminum",
-    vegtan: "leather",
-    "veg tan leather": "leather",
-    "buffalo leather": "leather",
-    cardboard: "paper",
-  };
-
-  const canonicalMaterial = materialAliasMap[guessedMaterial] || guessedMaterial;
-  const materialInsight = materialInsights[canonicalMaterial];
+  const materialInsight = materialInsights[attributes.material_type?.toLowerCase()] || {};
 
   return (
     <div className="glass-container">
@@ -119,16 +78,6 @@ export default function EstimateForm() {
 
       <h2 className="title-gradient">Amazon Shipping<br />Emissions Estimator</h2>
 
-      <div className="form-section">
-        <label className="input-label">
-          Change Shipping Mode:
-          <select className="input-field select-field" value={selectedMode} onChange={(e) => setSelectedMode(e.target.value)}>
-            <option value="Ship">Ship 🚢</option>
-            <option value="Air">Air ✈️</option>
-            <option value="Truck">Truck 🚚</option>
-          </select>
-        </label>
-      </div>
 
       <form onSubmit={handleSubmit} className="estimate-form">
         <div className="input-group">
@@ -158,17 +107,6 @@ export default function EstimateForm() {
             onChange={(e) => setQuantity(parseInt(e.target.value))} 
           />
         </div>
-        <label className="checkbox-container">
-          <input 
-            type="checkbox" 
-            className="checkbox-field" 
-            checked={includePackaging} 
-            onChange={(e) => setIncludePackaging(e.target.checked)} 
-          />
-          <span className="checkmark"></span>
-          Include packaging weight
-          <div className="text-muted">(5% estimated extra weight for packaging)</div>
-        </label>
         <button type="submit" className={`btn-primary ${loading ? 'loading' : ''}`} disabled={loading}>
           {loading ? (
             <span>
@@ -207,8 +145,7 @@ export default function EstimateForm() {
               <div className="metric-item">
                 <span className="metric-label">Material Type:</span>
                 <span className="status-badge info" title={materialInsight?.description || "No material insight available"}>
-                  {canonicalMaterial.charAt(0).toUpperCase() + canonicalMaterial.slice(1)}
-                  {guessedMaterial !== rawMaterial && " (guessed)"}
+                  {attributes.material_type || "Unknown"}
                 </span>
               </div>
 
