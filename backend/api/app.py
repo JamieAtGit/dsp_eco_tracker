@@ -1494,6 +1494,9 @@ def estimate_emissions():
     print("🔔 Route hit: /estimate_emissions")
     
     # Flask-CORS handles OPTIONS requests automatically
+    # Return early for OPTIONS to avoid trying to parse JSON
+    if request.method == "OPTIONS":
+        return jsonify({}), 200
 
     data = request.get_json()
     if not data:
