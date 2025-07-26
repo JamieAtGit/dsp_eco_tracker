@@ -522,24 +522,8 @@ CORS(app,
      expose_headers=["Content-Type", "Authorization"]
 )
 
-# Additional CORS handler for all responses
-@app.after_request
-def after_request(response):
-    try:
-        origin = request.headers.get('Origin')
-        if origin in [
-            'https://silly-cuchufli-b154e2.netlify.app',
-            'http://localhost:5173',
-            'http://localhost:5174',
-            'http://localhost:3000'
-        ]:
-            response.headers.add('Access-Control-Allow-Origin', origin)
-            response.headers.add('Access-Control-Allow-Credentials', 'true')
-            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
-            response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-    except Exception as e:
-        print(f"⚠️ CORS header error: {e}")
-    return response
+# Flask-CORS already handles all CORS headers, so we don't need this
+# Removing duplicate CORS handler to fix "multiple values" error
 
 # Global error handler to prevent crashes from affecting other routes
 @app.errorhandler(500)
@@ -1509,13 +1493,7 @@ def map_score_to_grade(score):
 def estimate_emissions():
     print("🔔 Route hit: /estimate_emissions")
     
-    # Handle preflight OPTIONS request
-    if request.method == "OPTIONS":
-        response = jsonify({})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-        return response
+    # Flask-CORS handles OPTIONS requests automatically
 
     data = request.get_json()
     if not data:
