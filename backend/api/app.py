@@ -27,6 +27,12 @@ except ImportError as e:
     print(f"⚠️ Production scraper not available: {e}")
     PRODUCTION_SCRAPER_AVAILABLE = False
 
+# Always import unified scraper functions
+from backend.scrapers.amazon.unified_scraper import (
+    scrape_amazon_product_page,  # Final fallback scraper
+    UnifiedProductScraper
+)
+
 # Always try to load enhanced scraper as fallback
 try:
     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -34,12 +40,8 @@ try:
     ENHANCED_SCRAPER_AVAILABLE = True
     print("✅ Enhanced scraper with dual origins loaded (fallback)")
 except ImportError as e2:
-    from backend.scrapers.amazon.unified_scraper import (
-        scrape_amazon_product_page,  # Final fallback scraper
-        UnifiedProductScraper
-    )
     ENHANCED_SCRAPER_AVAILABLE = False
-    print(f"⚠️ Using unified scraper (final fallback: {e2})")
+    print(f"⚠️ Enhanced scraper not available: {e2}")
 from backend.scrapers.amazon.integrated_scraper import (
     estimate_origin_country,
     resolve_brand_origin,
