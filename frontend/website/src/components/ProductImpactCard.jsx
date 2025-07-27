@@ -204,7 +204,7 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
                     <div className="flex items-center gap-2">
                       <ModernBadge variant="info" size="sm">
                         {attr.materials.primary_material}
-                        {attr.materials.primary_percentage ? ` (${attr.materials.primary_percentage}%)` : ''}
+                        {attr.materials.primary_percentage && !isNaN(parseFloat(attr.materials.primary_percentage)) ? ` (${attr.materials.primary_percentage}%)` : ''}
                       </ModernBadge>
                     </div>
                   </div>
@@ -229,7 +229,7 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
                             key={index}
                             className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
                           >
-                            {material.name} {material.percentage ? `(${material.percentage}%)` : ''}
+                            {material.name} {material.percentage && !isNaN(parseFloat(material.percentage)) ? `(${material.percentage}%)` : ''}
                           </span>
                         ))}
                       </div>
@@ -280,7 +280,7 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
                             key={index}
                             className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
                           >
-                            {material.name} {material.weight ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
+                            {material.name} {material.weight && !isNaN(material.weight) ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
                           </span>
                         ))}
                       </div>
