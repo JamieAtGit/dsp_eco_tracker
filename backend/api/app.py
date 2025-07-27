@@ -1960,6 +1960,7 @@ def estimate_emissions():
                     # Product features
                     "dimensions_cm": product.get("dimensions_cm"),
                     "material_type": product.get("material_type"),
+                    "materials": product.get("materials", {}),
                     
                     "recyclability": product.get("recyclability"),
                     "recyclability_percentage": convert_numpy_types(product.get("recyclability_percentage", 30)),
