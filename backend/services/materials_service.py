@@ -71,33 +71,118 @@ class MaterialsIntelligenceService:
             'tent': {'primary': 'Polyester', 'secondary': ['Metal'], 'confidence': 0.85},
             'sleeping bag': {'primary': 'Polyester', 'secondary': ['Down'], 'confidence': 0.8},
             
-            # Electronics
+            # Electronics - MAJOR EXPANSION
             'phone': {'primary': 'Glass', 'secondary': ['Metal', 'Plastic'], 'confidence': 0.85},
+            'iphone': {'primary': 'Glass', 'secondary': ['Metal', 'Plastic'], 'confidence': 0.85},
+            'android': {'primary': 'Glass', 'secondary': ['Metal', 'Plastic'], 'confidence': 0.85},
             'laptop': {'primary': 'Metal', 'secondary': ['Plastic', 'Glass'], 'confidence': 0.85},
+            'macbook': {'primary': 'Metal', 'secondary': ['Glass'], 'confidence': 0.9},
+            'computer': {'primary': 'Metal', 'secondary': ['Plastic'], 'confidence': 0.8},
+            'tablet': {'primary': 'Glass', 'secondary': ['Metal'], 'confidence': 0.85},
+            'ipad': {'primary': 'Glass', 'secondary': ['Metal'], 'confidence': 0.85},
+            'tv': {'primary': 'Plastic', 'secondary': ['Glass', 'Metal'], 'confidence': 0.8},
+            'television': {'primary': 'Plastic', 'secondary': ['Glass', 'Metal'], 'confidence': 0.8},
+            'monitor': {'primary': 'Plastic', 'secondary': ['Glass', 'Metal'], 'confidence': 0.8},
             'headphones': {'primary': 'Plastic', 'secondary': ['Metal'], 'confidence': 0.8},
+            'earbuds': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.85},
+            'speaker': {'primary': 'Plastic', 'secondary': ['Fabric'], 'confidence': 0.8},
+            'charger': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.9},
+            'cable': {'primary': 'Plastic', 'secondary': ['Metal'], 'confidence': 0.85},
+            'keyboard': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.9},
+            'mouse': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.9},
             
-            # Kitchen & Home
+            # Books & Media - NEW CATEGORY
+            'book': {'primary': 'Paper', 'secondary': ['Cardboard'], 'confidence': 0.95},
+            'novel': {'primary': 'Paper', 'secondary': ['Cardboard'], 'confidence': 0.95},
+            'paperback': {'primary': 'Paper', 'secondary': [], 'confidence': 0.95},
+            'hardcover': {'primary': 'Paper', 'secondary': ['Cardboard'], 'confidence': 0.9},
+            'textbook': {'primary': 'Paper', 'secondary': ['Cardboard'], 'confidence': 0.9},
+            'magazine': {'primary': 'Paper', 'secondary': [], 'confidence': 0.95},
+            'notebook': {'primary': 'Paper', 'secondary': ['Cardboard'], 'confidence': 0.9},
+            'diary': {'primary': 'Paper', 'secondary': ['Leather'], 'confidence': 0.8},
+            
+            # Furniture - NEW CATEGORY
+            'chair': {'primary': 'Wood', 'secondary': ['Metal', 'Fabric'], 'confidence': 0.8},
+            'desk': {'primary': 'Metal', 'secondary': ['Wood'], 'confidence': 0.8},
+            'table': {'primary': 'Wood', 'secondary': ['Metal'], 'confidence': 0.8},
+            'sofa': {'primary': 'Fabric', 'secondary': ['Wood', 'Metal'], 'confidence': 0.85},
+            'couch': {'primary': 'Fabric', 'secondary': ['Wood', 'Metal'], 'confidence': 0.85},
+            'bed': {'primary': 'Wood', 'secondary': ['Metal', 'Fabric'], 'confidence': 0.8},
+            'mattress': {'primary': 'Fabric', 'secondary': ['Foam'], 'confidence': 0.85},
+            'bookshelf': {'primary': 'Wood', 'secondary': ['Metal'], 'confidence': 0.85},
+            'dresser': {'primary': 'Wood', 'secondary': [], 'confidence': 0.85},
+            'nightstand': {'primary': 'Wood', 'secondary': [], 'confidence': 0.85},
+            
+            # Automotive - NEW CATEGORY  
+            'tire': {'primary': 'Rubber', 'secondary': ['Metal'], 'confidence': 0.95},
+            'tires': {'primary': 'Rubber', 'secondary': ['Metal'], 'confidence': 0.95},
+            'battery': {'primary': 'Plastic', 'secondary': ['Metal'], 'confidence': 0.9},
+            'filter': {'primary': 'Paper', 'secondary': ['Plastic'], 'confidence': 0.8},
+            'oil': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.9},
+            'brake': {'primary': 'Metal', 'secondary': [], 'confidence': 0.9},
+            
+            # Beauty & Personal Care - NEW CATEGORY
+            'shampoo': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.95},
+            'conditioner': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.95},
+            'soap': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.8},
+            'lotion': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.9},
+            'cream': {'primary': 'Plastic', 'secondary': ['Glass'], 'confidence': 0.85},
+            'perfume': {'primary': 'Glass', 'secondary': ['Plastic'], 'confidence': 0.9},
+            'makeup': {'primary': 'Plastic', 'secondary': ['Metal'], 'confidence': 0.8},
+            'lipstick': {'primary': 'Plastic', 'secondary': ['Metal'], 'confidence': 0.85},
+            'foundation': {'primary': 'Plastic', 'secondary': ['Glass'], 'confidence': 0.85},
+            'mascara': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.9},
+            
+            # Sports & Fitness - EXPANDED
+            'basketball': {'primary': 'Rubber', 'secondary': [], 'confidence': 0.95},
+            'football': {'primary': 'Leather', 'secondary': ['Rubber'], 'confidence': 0.9},
+            'soccer': {'primary': 'Leather', 'secondary': ['Rubber'], 'confidence': 0.9},
+            'tennis': {'primary': 'Rubber', 'secondary': ['Fabric'], 'confidence': 0.85},
+            'yoga': {'primary': 'Rubber', 'secondary': [], 'confidence': 0.9},
+            'dumbbell': {'primary': 'Metal', 'secondary': ['Rubber'], 'confidence': 0.9},
+            'weights': {'primary': 'Metal', 'secondary': ['Rubber'], 'confidence': 0.9},
+            
+            # Kitchen & Home - EXPANDED
             'mug': {'primary': 'Ceramic', 'secondary': [], 'confidence': 0.85},
+            'cup': {'primary': 'Ceramic', 'secondary': ['Glass'], 'confidence': 0.8},
             'bottle': {'primary': 'Plastic', 'secondary': ['Metal'], 'confidence': 0.8},
             'plate': {'primary': 'Ceramic', 'secondary': ['Glass'], 'confidence': 0.8},
+            'bowl': {'primary': 'Ceramic', 'secondary': ['Glass'], 'confidence': 0.8},
+            'pot': {'primary': 'Metal', 'secondary': [], 'confidence': 0.9},
+            'pan': {'primary': 'Metal', 'secondary': [], 'confidence': 0.9},
+            'spoon': {'primary': 'Metal', 'secondary': [], 'confidence': 0.9},
+            'fork': {'primary': 'Metal', 'secondary': [], 'confidence': 0.9},
+            'spatula': {'primary': 'Rubber', 'secondary': ['Metal'], 'confidence': 0.8},
+            'cutting board': {'primary': 'Wood', 'secondary': ['Plastic'], 'confidence': 0.8},
+            
+            # Toys & Games - EXPANDED
+            'lego': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.95},
+            'puzzle': {'primary': 'Cardboard', 'secondary': ['Wood'], 'confidence': 0.8},
+            'doll': {'primary': 'Plastic', 'secondary': ['Fabric'], 'confidence': 0.8},
+            'toy': {'primary': 'Plastic', 'secondary': [], 'confidence': 0.8},
+            'plush': {'primary': 'Fabric', 'secondary': [], 'confidence': 0.9},
+            'teddy': {'primary': 'Fabric', 'secondary': [], 'confidence': 0.9},
+            'stuffed': {'primary': 'Fabric', 'secondary': [], 'confidence': 0.9},
+            'bear': {'primary': 'Fabric', 'secondary': [], 'confidence': 0.9},
+            'game': {'primary': 'Cardboard', 'secondary': ['Plastic'], 'confidence': 0.8},
         }
     
     def setup_keyword_patterns(self):
         """Enhanced keyword matching for material detection"""
         self.material_keywords = {
             'Stainless Steel': ['stainless steel', 'stainless', 'ss304', 'ss316'],
-            'Aluminum': ['aluminum', 'aluminium', 'al', 'alloy'],
+            'Aluminum': ['aluminum', 'aluminium'],  # Removed 'alloy' - too broad
             'Plastic': ['plastic', 'polypropylene', 'pp', 'pe', 'pet', 'abs', 'polycarbonate'],
             'Glass': ['glass', 'borosilicate', 'tempered glass'],
             'Cardboard': ['cardboard', 'carton', 'corrugated'],
-            'Paper': ['paper', 'pulp'],
-            'Cotton': ['cotton', '100% cotton', 'organic cotton'],
+            'Paper': ['paper', 'pulp', 'paperback', 'hardcover'],  # Added book-specific terms
+            'Cotton': ['cotton', '100% cotton', 'organic cotton', 'denim'],
             'Polyester': ['polyester', 'poly', 'synthetic'],
             'Leather': ['leather', 'genuine leather'],
             'Rubber': ['rubber', 'silicone'],
             'Wood': ['wood', 'wooden', 'oak', 'pine', 'bamboo'],
-            'Fabric': ['fabric', 'textile', 'cloth'],
-            'Metal': ['metal', 'metallic'],
+            'Fabric': ['fabric', 'textile', 'cloth', 'mesh'],
+            'Metal': ['metal', 'metallic', 'steel', 'iron'],  # More specific metal terms
             'Ceramic': ['ceramic', 'porcelain', 'clay']
         }
     
@@ -132,18 +217,18 @@ class MaterialsIntelligenceService:
                 result['tier_name'] = 'Detailed materials'
                 return result
         
-        # Tier 3: Single material detection (current system)
-        result = self._tier3_single_material(product_data)
-        if result and result['primary_material'] not in ['Mixed', 'Unknown']:
-            result['tier'] = 3
-            result['tier_name'] = 'Single material'
-            return result
-        
-        # Tier 4: Category-based intelligent guessing
+        # Tier 4: Category-based intelligent guessing (CHECK BEFORE TIER 3)
         result = self._tier4_category_based(product_data)
         if result:
             result['tier'] = 4
             result['tier_name'] = 'Category-based prediction'
+            return result
+        
+        # Tier 3: Single material detection (fallback to keyword matching)
+        result = self._tier3_single_material(product_data)
+        if result and result['primary_material'] not in ['Mixed', 'Unknown']:
+            result['tier'] = 3
+            result['tier_name'] = 'Single material'
             return result
         
         # Tier 5: Fallback defaults
