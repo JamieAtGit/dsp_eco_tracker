@@ -1,4 +1,35 @@
+// Handle extension icon clicks
+chrome.action.onClicked.addListener((tab) => {
+  // Only inject overlay on Amazon pages
+  if (tab.url.includes('amazon.co.uk') || tab.url.includes('amazon.com')) {
+    chrome.tabs.sendMessage(tab.id, {
+      type: 'TOGGLE_OVERLAY',
+      url: tab.url
+    });
+  } else {
+    // Show notification for non-Amazon pages
+    chrome.notifications.create({
+      type: 'basic',
+      iconUrl: 'icon48.png',
+      title: 'Eco Tracker',
+      message: 'Please visit an Amazon product page to use the Eco Tracker.'
+    });
+  }
+});
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.type === "OPEN_OVERLAY") {
+      // Send message to content script to show overlay
+      chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          type: 'TOGGLE_OVERLAY',
+          url: request.url
+        });
+      });
+      
+      sendResponse({ success: true });
+    }
+    
     if (request.type === "FETCH_ECO_INSIGHT") {
       const { href } = request.payload;
   

@@ -16,12 +16,36 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("dark-mode");
   });
 
-  // Auto-fill URL if on Amazon page
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tabUrl = tabs[0]?.url || "";
-    if (tabUrl.includes("amazon.co.uk") || tabUrl.includes("amazon.com")) {
-      urlInput.value = tabUrl;
-      currentUrl = tabUrl;
+  // Load saved data first, then auto-fill URL
+  chrome.storage.local.get(['lastAnalysisData', 'savedPostcode', 'currentPageUrl'], (data) => {
+    // Restore saved postcode
+    if (data.savedPostcode) {
+      postcodeInput.value = data.savedPostcode;
+    }
+    
+    // Restore last analysis if exists
+    if (data.lastAnalysisData) {
+      displayResults(data.lastAnalysisData);
+      urlInput.value = data.lastAnalysisData.url || '';
+      currentUrl = data.lastAnalysisData.url || '';
+    } else {
+      // Check if opened from leaf indicator first
+      const leafUrl = data.currentPageUrl;
+      if (leafUrl && (leafUrl.includes("amazon.co.uk") || leafUrl.includes("amazon.com"))) {
+        urlInput.value = leafUrl;
+        currentUrl = leafUrl;
+        // Clear the stored URL
+        chrome.storage.local.remove('currentPageUrl');
+      } else {
+        // Auto-fill current URL if no saved data
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const tabUrl = tabs[0]?.url || "";
+          if (tabUrl.includes("amazon.co.uk") || tabUrl.includes("amazon.com")) {
+            urlInput.value = tabUrl;
+            currentUrl = tabUrl;
+          }
+        });
+      }
     }
   });
   
@@ -86,7 +110,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (json?.data) {
         currentUrl = url; // Update the current URL after successful analysis
-        displayResults(json);
+        const analysisData = {
+          ...json,
+          url: url,
+          postcode: postcode || 'SW1A 1AA',
+          timestamp: Date.now()
+        };
+        
+        // Save analysis data for persistence
+        chrome.storage.local.set({ 
+          lastAnalysisData: analysisData,
+          savedPostcode: postcode || 'SW1A 1AA'
+        });
+        
+        displayResults(analysisData);
       } else {
         showError("No data received from the server.");
       }
@@ -125,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
             📦 ${productTitle}
           </div>
           <button class="new-analysis-btn" onclick="startNewAnalysis()">
-            ✨ New Analysis
+            🔄 Try Another Product
           </button>
         </div>
 
@@ -276,15 +313,35 @@ document.addEventListener("DOMContentLoaded", () => {
   function startNewAnalysis() {
     clearResults();
     urlInput.value = "";
-    postcodeInput.value = "";
     currentUrl = "";
     urlInput.focus(); // Auto-focus for better UX
+    
+    // Clear saved analysis but keep postcode
+    chrome.storage.local.remove('lastAnalysisData');
+    
+    // Auto-fill current URL if on Amazon
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabUrl = tabs[0]?.url || "";
+      if (tabUrl.includes("amazon.co.uk") || tabUrl.includes("amazon.com")) {
+        urlInput.value = tabUrl;
+        currentUrl = tabUrl;
+      }
+    });
+    
     showNotification("Enter a new product URL to analyze! 🚀");
   }
 
   function clearResults() {
     output.innerHTML = "";
   }
+  
+  // Save postcode when user types
+  postcodeInput.addEventListener('input', () => {
+    const postcode = postcodeInput.value.trim();
+    if (postcode) {
+      chrome.storage.local.set({ savedPostcode: postcode });
+    }
+  });
 
   function showNotification(message) {
     const notification = document.createElement('div');
