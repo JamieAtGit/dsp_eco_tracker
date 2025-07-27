@@ -158,14 +158,18 @@
     const distanceOrigin = attributes.distance_from_origin_km || 0;
     const distanceUK = attributes.distance_from_uk_hub_km || 0;
     
-    // Extract materials data
+    // Extract enhanced materials data from 5-tier system
     const materials = attributes.materials || {};
     const primaryMaterial = materials.primary_material || materialType || 'Unknown';
-    const allMaterials = materials.all_materials || [];
-    const secondaryMaterials = allMaterials.filter(m => m.name !== primaryMaterial);
+    const primaryPercentage = materials.primary_percentage;
+    const secondaryMaterials = materials.secondary_materials || [];
+    const tier = materials.tier || 5;
+    const tierName = materials.tier_name || 'Basic detection';
+    const confidence = materials.confidence || 0.5;
+    const hasPercentages = materials.has_percentages || false;
     
-    // If we have detailed materials data, use it; otherwise fall back to simple material_type
-    const showDetailedMaterials = primaryMaterial && primaryMaterial !== 'Mixed' && primaryMaterial !== 'Unknown';
+    // Determine display strategy based on tier and quality
+    const showDetailedMaterials = primaryMaterial && primaryMaterial !== 'Mixed' && primaryMaterial !== 'Unknown' && tier <= 4;
     const displayMaterial = showDetailedMaterials ? primaryMaterial : materialType;
     
     // Calculate trees
@@ -243,15 +247,24 @@
               <span style="color: white; font-size: 12px; font-weight: 600;">${origin}</span>
             </div>
             ${showDetailedMaterials ? `
-            <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
-              <span style="color: #a1a1aa; font-size: 12px;">Primary Material:</span>
-              <span style="color: white; font-size: 12px; font-weight: 600;">${primaryMaterial}</span>
+            <!-- Enhanced Materials Display with Tier Info -->
+            <div style="padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; margin-bottom: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="color: #a1a1aa; font-size: 12px;">Primary Material:</span>
+                <span style="color: white; font-size: 12px; font-weight: 600;">
+                  ${primaryMaterial}${primaryPercentage ? ` (${primaryPercentage}%)` : ''}
+                </span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #10b981; font-size: 10px;">Tier ${tier}: ${tierName}</span>
+                <span style="color: #10b981; font-size: 10px;">${(confidence * 100).toFixed(0)}% confidence</span>
+              </div>
             </div>
             ${secondaryMaterials.length > 0 ? `
             <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
               <span style="color: #a1a1aa; font-size: 12px;">Secondary Materials:</span>
               <span style="color: white; font-size: 12px; font-weight: 600;">${secondaryMaterials.map(m => 
-                m.weight ? `${m.name} (${(m.weight * 100).toFixed(0)}%)` : m.name
+                m.percentage ? `${m.name} (${m.percentage}%)` : m.name
               ).join(', ')}</span>
             </div>` : ''}` : `
             <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">

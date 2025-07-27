@@ -1592,6 +1592,54 @@ def estimate_emissions():
         print("🔍 DEBUG: Scraper returned:")
         for key, value in product.items():
             print(f"  {key}: {value}")
+        
+        # Apply 5-tier materials intelligence
+        try:
+            from backend.services.materials_service import detect_product_materials
+            print("🧬 Applying 5-tier materials intelligence...")
+            
+            # Extract existing materials data
+            amazon_materials = product.get('materials', {})
+            
+            # Prepare product data for analysis
+            product_analysis_data = {
+                'title': product.get('title', ''),
+                'description': product.get('description', ''),
+                'category': product.get('category', ''),
+                'brand': product.get('brand', '')
+            }
+            
+            # Get intelligent materials detection
+            materials_result = detect_product_materials(product_analysis_data, amazon_materials)
+            
+            # Update product with enhanced materials data
+            product['materials'] = {
+                'primary_material': materials_result['primary_material'],
+                'primary_percentage': materials_result.get('primary_percentage'),
+                'secondary_materials': materials_result.get('secondary_materials', []),
+                'all_materials': materials_result.get('all_materials', []),
+                'confidence': materials_result['confidence'],
+                'environmental_impact_score': materials_result.get('environmental_impact_score', 2.5),
+                'has_percentages': materials_result.get('has_percentages', False),
+                'tier': materials_result['tier'],
+                'tier_name': materials_result['tier_name'],
+                'prediction_method': materials_result.get('prediction_method', '')
+            }
+            
+            # Update the basic material_type with the primary material
+            if materials_result['primary_material'] not in ['Mixed', 'Unknown']:
+                product['material_type'] = materials_result['primary_material']
+            
+            print(f"✅ Materials intelligence: Tier {materials_result['tier']} - {materials_result['tier_name']}")
+            print(f"   Primary: {materials_result['primary_material']} (confidence: {materials_result['confidence']:.2f})")
+            if materials_result.get('secondary_materials'):
+                secondary_names = [m['name'] for m in materials_result['secondary_materials']]
+                print(f"   Secondary: {', '.join(secondary_names)}")
+            
+        except Exception as e:
+            print(f"⚠️ Materials intelligence failed: {e}")
+            # Fallback to existing materials system
+            pass
         print("🔍 END DEBUG")
         
         # Add additional fields for compatibility with existing UI

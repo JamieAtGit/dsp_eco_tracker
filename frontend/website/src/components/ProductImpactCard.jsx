@@ -190,56 +190,99 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
             </div>
             
             <div className="p-3 glass-card rounded-lg">
-              {/* Primary Material */}
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-400">
-                  {attr.materials?.primary_material && attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown' 
-                    ? 'Primary Material:' 
-                    : 'Material Type:'}
-                </span>
-                <ModernBadge variant="info" size="sm">
-                  {attr.materials?.primary_material && attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown'
-                    ? attr.materials.primary_material
-                    : attr.material_type || "Unknown"}
-                </ModernBadge>
-              </div>
-              
-              {/* Secondary Materials */}
-              {attr.materials?.all_materials && attr.materials.all_materials.length > 1 && 
-               attr.materials?.primary_material && attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown' && (
-                <div className="mt-2 pt-2 border-t border-slate-700">
-                  <p className="text-xs text-slate-500 mb-2">Secondary Materials:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {attr.materials.all_materials
-                      .filter(material => material.name !== attr.materials.primary_material)
-                      .map((material, index) => (
-                        <span 
-                          key={index}
-                          className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
-                        >
-                          {material.name} {material.weight ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
+              {/* Enhanced Materials Display with 5-Tier Intelligence */}
+              {attr.materials?.tier && attr.materials?.primary_material && 
+               attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown' ? (
+                <>
+                  {/* Primary Material with Tier Info */}
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-slate-400">Primary Material:</span>
+                    <div className="flex items-center gap-2">
+                      <ModernBadge variant="info" size="sm">
+                        {attr.materials.primary_material}
+                        {attr.materials.primary_percentage ? ` (${attr.materials.primary_percentage}%)` : ''}
+                      </ModernBadge>
+                    </div>
+                  </div>
+                  
+                  {/* Tier & Confidence Info */}
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-xs text-emerald-400">
+                      Tier {attr.materials.tier}: {attr.materials.tier_name}
+                    </span>
+                    <span className="text-xs text-emerald-400">
+                      {((attr.materials.confidence || 0) * 100).toFixed(0)}% confidence
+                    </span>
+                  </div>
+                  
+                  {/* Secondary Materials */}
+                  {attr.materials?.secondary_materials && attr.materials.secondary_materials.length > 0 && (
+                    <div className="mt-2 pt-2 border-t border-slate-700">
+                      <p className="text-xs text-slate-500 mb-2">Secondary Materials:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {attr.materials.secondary_materials.map((material, index) => (
+                          <span 
+                            key={index}
+                            className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
+                          >
+                            {material.name} {material.percentage ? `(${material.percentage}%)` : ''}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Environmental Impact Score */}
+                  {attr.materials?.environmental_impact_score && (
+                    <div className="mt-2 pt-2 border-t border-slate-700">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-slate-500">Material Impact Score:</span>
+                        <span className="text-xs text-amber-400 font-medium">
+                          {attr.materials.environmental_impact_score} kg CO₂/kg
                         </span>
-                      ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Fallback to basic material display */}
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-slate-400">Material Type:</span>
+                    <ModernBadge variant="info" size="sm">
+                      {attr.material_type || "Unknown"}
+                    </ModernBadge>
                   </div>
-                </div>
-              )}
-              
-              {/* Show all materials breakdown for debugging if primary is Mixed/Unknown */}
-              {attr.materials?.all_materials && attr.materials.all_materials.length > 0 && 
-               (!attr.materials?.primary_material || attr.materials?.primary_material === 'Mixed' || attr.materials?.primary_material === 'Unknown') && (
-                <div className="mt-2 pt-2 border-t border-slate-700">
-                  <p className="text-xs text-slate-500 mb-2">Material Breakdown:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {attr.materials.all_materials.map((material, index) => (
-                      <span 
-                        key={index}
-                        className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
-                      >
-                        {material.name} {material.weight ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
+                  
+                  {/* Show tier info even for fallback */}
+                  {attr.materials?.tier && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-yellow-400">
+                        Tier {attr.materials.tier}: {attr.materials.tier_name || 'Basic detection'}
                       </span>
-                    ))}
-                  </div>
-                </div>
+                      <span className="text-xs text-yellow-400">
+                        {((attr.materials.confidence || 0.3) * 100).toFixed(0)}% confidence
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Show any available materials breakdown */}
+                  {attr.materials?.all_materials && attr.materials.all_materials.length > 0 && (
+                    <div className="mt-2 pt-2 border-t border-slate-700">
+                      <p className="text-xs text-slate-500 mb-2">Material Breakdown:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {attr.materials.all_materials.map((material, index) => (
+                          <span 
+                            key={index}
+                            className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
+                          >
+                            {material.name} {material.weight ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
             

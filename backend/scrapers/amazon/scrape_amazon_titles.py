@@ -596,41 +596,108 @@ def extract_materials_from_structured_data(driver):
 
 def parse_multiple_materials(raw_materials_text):
     """
-    Parse text like "Aluminium, Plastic" or "59% Rubber, 41% Cotton" into structured materials
-    Returns: [{"raw": str, "normalized": str, "weight": float}, ...]
+    Enhanced parsing for materials with better percentage and fraction detection
+    Returns: [{"raw": str, "normalized": str, "weight": float, "confidence_score": float}, ...]
     """
     materials = []
     
-    # Handle percentage-based materials: "59% Rubber, 41% Cotton"
-    percentage_pattern = r"(\d+)%\s*([a-zA-Z\s\-]+)"
-    percentage_matches = re.findall(percentage_pattern, raw_materials_text, re.IGNORECASE)
+    # Enhanced percentage patterns
+    percentage_patterns = [
+        r"(\d+(?:\.\d+)?)%\s*([a-zA-Z\s\-]+)",  # "59.5% Rubber"
+        r"(\d+(?:\.\d+)?)\s*percent\s*([a-zA-Z\s\-]+)",  # "59 percent Rubber"
+        r"([a-zA-Z\s\-]+)\s*(\d+(?:\.\d+)?)%",  # "Rubber 59%"
+        r"([a-zA-Z\s\-]+)\s*:\s*(\d+(?:\.\d+)?)%",  # "Rubber: 59%"
+    ]
     
-    if percentage_matches:
-        for percent_str, material_name in percentage_matches:
-            weight = float(percent_str) / 100.0
-            normalized = normalize_material(material_name.strip())
-            materials.append({
-                "raw": f"{percent_str}% {material_name.strip()}",
-                "normalized": normalized,
-                "weight": weight
-            })
-    else:
-        # Handle comma-separated materials: "Aluminium, Plastic"
+    percentage_found = False
+    
+    # Try each percentage pattern
+    for pattern in percentage_patterns:
+        matches = re.findall(pattern, raw_materials_text, re.IGNORECASE)
+        if matches:
+            percentage_found = True
+            for match in matches:
+                if pattern.startswith(r"(\d+"):  # Percentage first
+                    percent_str, material_name = match
+                else:  # Material first
+                    material_name, percent_str = match
+                
+                try:
+                    weight = float(percent_str) / 100.0
+                    normalized = normalize_material(material_name.strip())
+                    if normalized != "Unknown":
+                        materials.append({
+                            "raw": f"{material_name.strip()} {percent_str}%",
+                            "normalized": normalized,
+                            "weight": weight,
+                            "confidence_score": 0.9  # High confidence for percentage data
+                        })
+                except ValueError:
+                    continue
+            break
+    
+    # If no percentages found, try fraction patterns
+    if not percentage_found:
+        fraction_patterns = [
+            r"(\d+)/(\d+)\s*([a-zA-Z\s\-]+)",  # "2/3 Cotton"
+            r"([a-zA-Z\s\-]+)\s*(\d+)/(\d+)",  # "Cotton 2/3"
+        ]
+        
+        for pattern in fraction_patterns:
+            matches = re.findall(pattern, raw_materials_text, re.IGNORECASE)
+            if matches:
+                percentage_found = True
+                for match in matches:
+                    try:
+                        if pattern.startswith(r"(\d+)"):  # Fraction first
+                            numerator, denominator, material_name = match
+                        else:  # Material first
+                            material_name, numerator, denominator = match
+                        
+                        weight = float(numerator) / float(denominator)
+                        normalized = normalize_material(material_name.strip())
+                        if normalized != "Unknown":
+                            materials.append({
+                                "raw": f"{material_name.strip()} {numerator}/{denominator}",
+                                "normalized": normalized,
+                                "weight": weight,
+                                "confidence_score": 0.85  # Good confidence for fraction data
+                            })
+                    except (ValueError, ZeroDivisionError):
+                        continue
+                break
+    
+    # If still no specific weights found, handle comma-separated materials
+    if not percentage_found:
         material_parts = [part.strip() for part in raw_materials_text.split(',')]
         
-        # If multiple materials, assume equal weight distribution
-        weight_per_material = 1.0 / len(material_parts) if len(material_parts) > 1 else 1.0
+        # Filter out empty parts and clean
+        clean_parts = []
+        for part in material_parts:
+            cleaned = re.sub(r'[^\w\s-]', '', part).strip()
+            if len(cleaned) > 1:  # Avoid single characters
+                clean_parts.append(cleaned)
         
-        for material_part in material_parts:
-            # Clean up the material name
-            cleaned_material = re.sub(r'[^\w\s-]', '', material_part).strip()
-            if len(cleaned_material) > 1:  # Avoid single characters
-                normalized = normalize_material(cleaned_material)
+        if clean_parts:
+            # If multiple materials, assume primary is 60%, others split remainder
+            for i, material_part in enumerate(clean_parts):
+                normalized = normalize_material(material_part)
                 if normalized != "Unknown":
+                    if len(clean_parts) == 1:
+                        weight = 1.0
+                        confidence = 0.7
+                    elif i == 0:  # First material is primary
+                        weight = 0.6
+                        confidence = 0.6
+                    else:  # Secondary materials split the rest
+                        weight = 0.4 / (len(clean_parts) - 1)
+                        confidence = 0.5
+                    
                     materials.append({
                         "raw": material_part,
                         "normalized": normalized,
-                        "weight": weight_per_material
+                        "weight": weight,
+                        "confidence_score": confidence
                     })
     
     return materials
