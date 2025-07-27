@@ -1045,8 +1045,8 @@ class EnhancedMaterialsIntelligenceService:
         
         return round(sum(impacts), 2)
 
-# Enhanced convenience function for easy integration (backward compatible)
-def detect_product_materials(product_data: Dict, amazon_materials: Dict = None) -> Dict:
+# Enhanced convenience function for easy integration
+def detect_product_materials_enhanced(product_data: Dict, amazon_materials: Dict = None) -> Dict:
     """
     ENHANCED easy-to-use function for detecting materials in any product
     
@@ -1066,6 +1066,3 @@ def detect_product_materials(product_data: Dict, amazon_materials: Dict = None) 
     """
     service = EnhancedMaterialsIntelligenceService()
     return service.detect_materials(product_data, amazon_materials)
-
-# Alias for enhanced version (provides full backward compatibility)
-detect_product_materials_enhanced = detect_product_materials
