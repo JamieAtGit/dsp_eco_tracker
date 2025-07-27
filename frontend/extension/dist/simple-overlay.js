@@ -164,6 +164,10 @@
     const allMaterials = materials.all_materials || [];
     const secondaryMaterials = allMaterials.filter(m => m.name !== primaryMaterial);
     
+    // If we have detailed materials data, use it; otherwise fall back to simple material_type
+    const showDetailedMaterials = primaryMaterial && primaryMaterial !== 'Mixed' && primaryMaterial !== 'Unknown';
+    const displayMaterial = showDetailedMaterials ? primaryMaterial : materialType;
+    
     // Calculate trees
     const trees = carbonKg !== 'N/A' ? Math.max(1, Math.round(parseFloat(carbonKg) / 21.77)) : 0;
     
@@ -238,6 +242,7 @@
               <span style="color: #a1a1aa; font-size: 12px;">Origin:</span>
               <span style="color: white; font-size: 12px; font-weight: 600;">${origin}</span>
             </div>
+            ${showDetailedMaterials ? `
             <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
               <span style="color: #a1a1aa; font-size: 12px;">Primary Material:</span>
               <span style="color: white; font-size: 12px; font-weight: 600;">${primaryMaterial}</span>
@@ -248,7 +253,11 @@
               <span style="color: white; font-size: 12px; font-weight: 600;">${secondaryMaterials.map(m => 
                 m.weight ? `${m.name} (${(m.weight * 100).toFixed(0)}%)` : m.name
               ).join(', ')}</span>
-            </div>` : ''}
+            </div>` : ''}` : `
+            <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
+              <span style="color: #a1a1aa; font-size: 12px;">Material:</span>
+              <span style="color: white; font-size: 12px; font-weight: 600;">${displayMaterial}</span>
+            </div>`}
             <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
               <span style="color: #a1a1aa; font-size: 12px;">Transport:</span>
               <span style="color: white; font-size: 12px; font-weight: 600;">${transportMode} ${getTransportEmoji(transportMode)}</span>

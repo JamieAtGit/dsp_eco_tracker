@@ -1535,6 +1535,20 @@ def estimate_emissions():
             if result and result.get('title', 'Unknown Product') != 'Unknown Product':
                 print(f"✅ Production scraper success: {result.get('title', '')[:50]}... (confidence: {result.get('confidence_score', 0):.1%})")
                 product = result
+                
+                # If production scraper didn't get detailed materials, try unified scraper for materials
+                if not product.get('materials') or not product.get('materials', {}).get('primary_material'):
+                    print("🔍 Production scraper didn't extract detailed materials, trying unified scraper for materials...")
+                    try:
+                        unified_result = scrape_amazon_product_page(url)
+                        if unified_result.get('materials'):
+                            print(f"✅ Unified scraper found detailed materials: {unified_result.get('materials')}")
+                            product['materials'] = unified_result['materials']
+                            # Update material_type with primary material if available
+                            if unified_result['materials'].get('primary_material'):
+                                product['material_type'] = unified_result['materials']['primary_material']
+                    except Exception as e:
+                        print(f"⚠️ Error getting materials from unified scraper: {e}")
             else:
                 print("⚠️ Production scraper failed, trying fallback")
                 if ENHANCED_SCRAPER_AVAILABLE:
