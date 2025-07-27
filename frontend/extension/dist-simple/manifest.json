@@ -37,17 +37,14 @@
         "https://www.amazon.co.uk/*",
         "https://www.amazon.com/*"
       ],
-      "js": ["assets/content.js", "overlayTest.js"],
-      "css": ["tooltip.css", "overlay.css"]
+      "js": ["src/overlay.js"],
+      "css": ["src/styles/overlay.css"]
     }
   ],
 
-  
-
-
   "web_accessible_resources": [
     {
-      "resources": ["material_insights.json", "overlay.js"],
+      "resources": ["material_insights.json"],
       "matches": ["<all_urls>"]
     }
   ]
