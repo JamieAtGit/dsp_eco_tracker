@@ -1536,19 +1536,30 @@ def estimate_emissions():
                 print(f"✅ Production scraper success: {result.get('title', '')[:50]}... (confidence: {result.get('confidence_score', 0):.1%})")
                 product = result
                 
-                # If production scraper didn't get detailed materials, try unified scraper for materials
+                # If production scraper didn't get detailed materials, try detailed scraper for materials
                 if not product.get('materials') or not product.get('materials', {}).get('primary_material'):
-                    print("🔍 Production scraper didn't extract detailed materials, trying unified scraper for materials...")
+                    print("🔍 Production scraper didn't extract detailed materials, trying detailed scraper for materials...")
                     try:
-                        unified_result = scrape_amazon_product_page(url)
-                        if unified_result.get('materials'):
-                            print(f"✅ Unified scraper found detailed materials: {unified_result.get('materials')}")
-                            product['materials'] = unified_result['materials']
+                        from backend.scrapers.amazon.scrape_amazon_titles import scrape_amazon_product_titles
+                        detailed_result = scrape_amazon_product_titles(url)
+                        if detailed_result.get('materials'):
+                            print(f"✅ Detailed scraper found materials: {detailed_result.get('materials')}")
+                            product['materials'] = detailed_result['materials']
                             # Update material_type with primary material if available
-                            if unified_result['materials'].get('primary_material'):
-                                product['material_type'] = unified_result['materials']['primary_material']
+                            if detailed_result['materials'].get('primary_material'):
+                                product['material_type'] = detailed_result['materials']['primary_material']
                     except Exception as e:
-                        print(f"⚠️ Error getting materials from unified scraper: {e}")
+                        print(f"⚠️ Error getting materials from detailed scraper: {e}")
+                        # Fallback to unified scraper
+                        try:
+                            unified_result = scrape_amazon_product_page(url)
+                            if unified_result.get('materials'):
+                                print(f"✅ Unified scraper fallback found materials: {unified_result.get('materials')}")
+                                product['materials'] = unified_result['materials']
+                                if unified_result['materials'].get('primary_material'):
+                                    product['material_type'] = unified_result['materials']['primary_material']
+                        except Exception as e2:
+                            print(f"⚠️ Error with unified scraper fallback: {e2}")
             else:
                 print("⚠️ Production scraper failed, trying fallback")
                 if ENHANCED_SCRAPER_AVAILABLE:
