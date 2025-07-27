@@ -272,6 +272,55 @@
             </div>
           </div>
         </div>
+        
+        <!-- CO2 Equivalence Comparisons -->
+        ${getCO2Equivalences(carbonKg)}
+      </div>
+    `;
+  }
+  
+  function getCO2Equivalences(carbonKg) {
+    if (!carbonKg || carbonKg === 'N/A' || isNaN(parseFloat(carbonKg))) {
+      return '';
+    }
+    
+    const co2 = parseFloat(carbonKg);
+    
+    // CO2 equivalence calculations
+    // Car: Average car emits 0.12 kg CO2 per km
+    const carKm = (co2 / 0.12).toFixed(1);
+    
+    // Kettle: 1 litre boil = ~0.15 kg CO2 (3kW for 3 mins)
+    const kettleBoils = Math.round(co2 / 0.15);
+    
+    // House lights: LED bulb 10W for 1 hour = ~0.005 kg CO2
+    const lightHours = Math.round(co2 / 0.005);
+    
+    // Electricity cost: UK average 28p per kWh, 1 kWh = ~0.23 kg CO2
+    const kWhEquivalent = co2 / 0.23;
+    const electricityCost = (kWhEquivalent * 0.28).toFixed(2);
+    
+    return `
+      <div style="margin: 20px 0;">
+        <h4 style="margin: 0 0 12px 0; font-size: 14px; color: white; border-bottom: 2px solid rgba(0, 212, 255, 0.3); padding-bottom: 6px;">🔄 CO₂ Equivalences</h4>
+        <div style="display: grid; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
+            <span style="color: #a1a1aa; font-size: 12px;">🚗 Car driving distance:</span>
+            <span style="color: white; font-size: 12px; font-weight: 600;">${carKm} km</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
+            <span style="color: #a1a1aa; font-size: 12px;">☕ Kettle boiling (1L):</span>
+            <span style="color: white; font-size: 12px; font-weight: 600;">${kettleBoils} times</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
+            <span style="color: #a1a1aa; font-size: 12px;">💡 House lights (LED):</span>
+            <span style="color: white; font-size: 12px; font-weight: 600;">${lightHours} hours</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px;">
+            <span style="color: #a1a1aa; font-size: 12px;">⚡ Electricity cost:</span>
+            <span style="color: white; font-size: 12px; font-weight: 600;">£${electricityCost}</span>
+          </div>
+        </div>
       </div>
     `;
   }
