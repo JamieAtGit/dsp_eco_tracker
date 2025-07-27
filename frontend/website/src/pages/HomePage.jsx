@@ -36,11 +36,17 @@ export default function HomePage() {
       if (!res.ok) throw new Error(data.error || "Unknown error");
 
       // Include the product title from the top level
+      console.log("🐛 DEBUG HomePage - Raw API response:", data);
+      console.log("🐛 DEBUG HomePage - data.data:", data.data);
+      console.log("🐛 DEBUG HomePage - data.data.attributes:", data.data?.attributes);
+      console.log("🐛 DEBUG HomePage - data.data.attributes.materials:", data.data?.attributes?.materials);
+      
       const resultWithTitle = {
         ...data.data,
         title: data.title || "Unknown Product"
       };
       
+      console.log("🐛 DEBUG HomePage - resultWithTitle:", resultWithTitle);
       setResult(resultWithTitle);
     } catch (err) {
       setError(err.message || "Failed to contact backend.");

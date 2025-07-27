@@ -191,6 +191,10 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
             
             <div className="p-3 glass-card rounded-lg">
               {/* Enhanced Materials Display with 5-Tier Intelligence */}
+              {console.log("🐛 DEBUG ProductImpactCard - Full result:", result)}
+              {console.log("🐛 DEBUG ProductImpactCard - attr:", attr)}
+              {console.log("🐛 DEBUG ProductImpactCard - attr.materials:", attr.materials)}
+              {console.log("🐛 DEBUG ProductImpactCard - attr.material_type:", attr.material_type)}
               {attr.materials?.tier && attr.materials?.primary_material && 
                attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown' ? (
                 <>

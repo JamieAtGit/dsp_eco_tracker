@@ -141,8 +141,12 @@
   }
   
   function displayResults(response) {
+    console.log('🐛 Extension DEBUG - Raw response:', response);
     const data = response.data;
+    console.log('🐛 Extension DEBUG - data:', data);
     const attributes = data.attributes || {};
+    console.log('🐛 Extension DEBUG - attributes:', attributes);
+    console.log('🐛 Extension DEBUG - attributes.materials:', attributes.materials);
     const productTitle = response.title || data.title || 'Product';
     
     const mlScore = attributes.eco_score_ml || 'N/A';
@@ -159,6 +163,10 @@
     const distanceUK = attributes.distance_from_uk_hub_km || 0;
     
     // Extract enhanced materials data from 5-tier system
+    console.log('🐛 Extension DEBUG - Before materials extraction:');
+    console.log('  - materialType:', materialType);
+    console.log('  - attributes.materials:', attributes.materials);
+    
     const materials = attributes.materials || {};
     const primaryMaterial = materials.primary_material || materialType || 'Unknown';
     const primaryPercentage = materials.primary_percentage;
@@ -167,6 +175,12 @@
     const tierName = materials.tier_name || 'Basic detection';
     const confidence = materials.confidence || 0.5;
     const hasPercentages = materials.has_percentages || false;
+    
+    console.log('🐛 Extension DEBUG - After materials extraction:');
+    console.log('  - primaryMaterial:', primaryMaterial);
+    console.log('  - tier:', tier);
+    console.log('  - tierName:', tierName);
+    console.log('  - secondaryMaterials:', secondaryMaterials);
     
     // Determine display strategy based on tier and quality
     const showDetailedMaterials = primaryMaterial && primaryMaterial !== 'Mixed' && primaryMaterial !== 'Unknown' && tier <= 4;
