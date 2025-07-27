@@ -164,15 +164,6 @@
     const allMaterials = materials.all_materials || [];
     const secondaryMaterials = allMaterials.filter(m => m.name !== primaryMaterial);
     
-    // Debug materials data
-    console.log('🔍 Extension Materials Debug:', {
-      materials,
-      primaryMaterial,
-      allMaterials,
-      secondaryMaterials,
-      materialType
-    });
-    
     // If we have detailed materials data, use it; otherwise fall back to simple material_type
     const showDetailedMaterials = primaryMaterial && primaryMaterial !== 'Mixed' && primaryMaterial !== 'Unknown';
     const displayMaterial = showDetailedMaterials ? primaryMaterial : materialType;

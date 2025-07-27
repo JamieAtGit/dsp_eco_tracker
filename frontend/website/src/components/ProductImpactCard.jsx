@@ -190,23 +190,52 @@ export default function ProductImpactCard({ result, showML, toggleShowML }) {
             </div>
             
             <div className="p-3 glass-card rounded-lg">
+              {/* Primary Material */}
               <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-400">Material Type:</span>
+                <span className="text-slate-400">
+                  {attr.materials?.primary_material && attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown' 
+                    ? 'Primary Material:' 
+                    : 'Material Type:'}
+                </span>
                 <ModernBadge variant="info" size="sm">
-                  {attr.materials?.primary_material || attr.material_type || "Unknown"}
+                  {attr.materials?.primary_material && attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown'
+                    ? attr.materials.primary_material
+                    : attr.material_type || "Unknown"}
                 </ModernBadge>
               </div>
-              {/* Show compound materials if available */}
-              {attr.materials?.all_materials && attr.materials.all_materials.length > 1 && (
+              
+              {/* Secondary Materials */}
+              {attr.materials?.all_materials && attr.materials.all_materials.length > 1 && 
+               attr.materials?.primary_material && attr.materials?.primary_material !== 'Mixed' && attr.materials?.primary_material !== 'Unknown' && (
                 <div className="mt-2 pt-2 border-t border-slate-700">
-                  <p className="text-xs text-slate-500 mb-1">Compound Materials:</p>
+                  <p className="text-xs text-slate-500 mb-2">Secondary Materials:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {attr.materials.all_materials
+                      .filter(material => material.name !== attr.materials.primary_material)
+                      .map((material, index) => (
+                        <span 
+                          key={index}
+                          className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
+                        >
+                          {material.name} {material.weight ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
+                        </span>
+                      ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Show all materials breakdown for debugging if primary is Mixed/Unknown */}
+              {attr.materials?.all_materials && attr.materials.all_materials.length > 0 && 
+               (!attr.materials?.primary_material || attr.materials?.primary_material === 'Mixed' || attr.materials?.primary_material === 'Unknown') && (
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <p className="text-xs text-slate-500 mb-2">Material Breakdown:</p>
                   <div className="flex flex-wrap gap-1">
                     {attr.materials.all_materials.map((material, index) => (
                       <span 
                         key={index}
                         className="inline-block px-2 py-1 text-xs bg-slate-800 text-slate-300 rounded border border-slate-600"
                       >
-                        {material.name} ({(material.weight * 100).toFixed(0)}%)
+                        {material.name} {material.weight ? `(${(material.weight * 100).toFixed(0)}%)` : ''}
                       </span>
                     ))}
                   </div>
