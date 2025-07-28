@@ -1719,14 +1719,246 @@
     ]
   },
   "metadata": {
-    "total_materials": 89,
-    "version": "3.0",
-    "description": "Enhanced materials database with Amazon-focused materials",
+    "last_updated": "2025-07-29",
+    "total_materials": 20,
     "sources": [
-      "LCA studies",
-      "Industry associations",
-      "Scientific literature",
-      "Amazon product analysis"
-    ]
+      "IEA",
+      "IPCC",
+      "Academic LCA Studies",
+      "Industry Reports"
+    ],
+    "version": "2.0_expanded"
+  },
+  "materials_database": {
+    "hemp_fiber": {
+      "co2_per_kg": 0.8,
+      "recyclability": "high",
+      "source": "Hemp cultivation studies",
+      "category": "bio_based",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "bamboo_fiber": {
+      "co2_per_kg": 1.2,
+      "recyclability": "high",
+      "source": "Bamboo LCA studies",
+      "category": "bio_based",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "cork": {
+      "co2_per_kg": 0.6,
+      "recyclability": "high",
+      "source": "Cork oak forest studies",
+      "category": "bio_based",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "mycelium": {
+      "co2_per_kg": 0.4,
+      "recyclability": "high",
+      "source": "Mycelium packaging LCA",
+      "category": "bio_based",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "bioplastic_pla": {
+      "co2_per_kg": 2.3,
+      "recyclability": "medium",
+      "source": "PLA lifecycle assessment",
+      "category": "bio_based",
+      "sustainability_rating": "good",
+      "end_of_life_options": [
+        "recycling",
+        "energy_recovery"
+      ]
+    },
+    "carbon_fiber": {
+      "co2_per_kg": 24.0,
+      "recyclability": "low",
+      "source": "Carbon fiber manufacturing LCA",
+      "category": "composite",
+      "sustainability_rating": "very_poor",
+      "end_of_life_options": [
+        "energy_recovery",
+        "landfill"
+      ]
+    },
+    "fiberglass": {
+      "co2_per_kg": 8.5,
+      "recyclability": "low",
+      "source": "Fiberglass composite studies",
+      "category": "composite",
+      "sustainability_rating": "moderate",
+      "end_of_life_options": [
+        "energy_recovery",
+        "landfill"
+      ]
+    },
+    "kevlar": {
+      "co2_per_kg": 15.2,
+      "recyclability": "low",
+      "source": "Aramid fiber LCA",
+      "category": "composite",
+      "sustainability_rating": "poor",
+      "end_of_life_options": [
+        "energy_recovery",
+        "landfill"
+      ]
+    },
+    "recycled_pet": {
+      "co2_per_kg": 1.8,
+      "recyclability": "high",
+      "source": "Recycled PET bottle studies",
+      "category": "recycled",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "recycled_aluminum": {
+      "co2_per_kg": 0.7,
+      "recyclability": "high",
+      "source": "Aluminum recycling LCA",
+      "category": "recycled",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "recycled_steel": {
+      "co2_per_kg": 0.8,
+      "recyclability": "high",
+      "source": "Steel recycling studies",
+      "category": "recycled",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "recycled_paper": {
+      "co2_per_kg": 0.9,
+      "recyclability": "high",
+      "source": "Paper recycling LCA",
+      "category": "recycled",
+      "sustainability_rating": "excellent",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "lithium": {
+      "co2_per_kg": 15.0,
+      "recyclability": "medium",
+      "source": "Lithium extraction LCA",
+      "category": "high_tech",
+      "sustainability_rating": "poor",
+      "end_of_life_options": [
+        "recycling",
+        "energy_recovery"
+      ]
+    },
+    "rare_earth_elements": {
+      "co2_per_kg": 35.0,
+      "recyclability": "low",
+      "source": "REE mining studies",
+      "category": "high_tech",
+      "sustainability_rating": "very_poor",
+      "end_of_life_options": [
+        "energy_recovery",
+        "landfill"
+      ]
+    },
+    "titanium": {
+      "co2_per_kg": 12.8,
+      "recyclability": "medium",
+      "source": "Titanium production LCA",
+      "category": "high_tech",
+      "sustainability_rating": "poor",
+      "end_of_life_options": [
+        "recycling",
+        "energy_recovery"
+      ]
+    },
+    "ceramic_advanced": {
+      "co2_per_kg": 3.2,
+      "recyclability": "low",
+      "source": "Advanced ceramics LCA",
+      "category": "conventional",
+      "sustainability_rating": "good",
+      "end_of_life_options": [
+        "energy_recovery",
+        "landfill"
+      ]
+    },
+    "organic_cotton": {
+      "co2_per_kg": 5.2,
+      "recyclability": "high",
+      "source": "Organic cotton LCA",
+      "category": "conventional",
+      "sustainability_rating": "moderate",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "linen": {
+      "co2_per_kg": 2.1,
+      "recyclability": "high",
+      "source": "Flax/linen cultivation LCA",
+      "category": "conventional",
+      "sustainability_rating": "good",
+      "end_of_life_options": [
+        "recycling",
+        "upcycling",
+        "composting"
+      ]
+    },
+    "wool_organic": {
+      "co2_per_kg": 18.5,
+      "recyclability": "medium",
+      "source": "Organic wool production LCA",
+      "category": "conventional",
+      "sustainability_rating": "poor",
+      "end_of_life_options": [
+        "recycling",
+        "energy_recovery"
+      ]
+    },
+    "leather_vegetable_tanned": {
+      "co2_per_kg": 8.9,
+      "recyclability": "low",
+      "source": "Vegetable tanning LCA",
+      "category": "conventional",
+      "sustainability_rating": "moderate",
+      "end_of_life_options": [
+        "energy_recovery",
+        "landfill"
+      ]
+    }
   }
 }

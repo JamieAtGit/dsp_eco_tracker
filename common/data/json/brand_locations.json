@@ -10014,5 +10014,767 @@
   "Elite Gadgets": "China",
   "BestSupplies": "China",
   "Tools62": "China",
-  "Kitchen67": "Vietnam"
+  "Kitchen67": "Vietnam",
+  "IKEA": {
+    "country": "Sweden",
+    "city": "Älmhult",
+    "specialties": [
+      "furniture",
+      "home_goods"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Muji": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "home_goods",
+      "stationery"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Philips": {
+    "country": "Netherlands",
+    "city": "Amsterdam",
+    "specialties": [
+      "electronics",
+      "healthcare"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Siemens": {
+    "country": "Germany",
+    "city": "Munich",
+    "specialties": [
+      "electronics",
+      "industrial"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Dyson": {
+    "country": "UK",
+    "city": "Malmesbury",
+    "specialties": [
+      "appliances",
+      "electronics"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Xiaomi": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "electronics",
+      "smartphones"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "OnePlus": {
+    "country": "China",
+    "city": "Shenzhen",
+    "specialties": [
+      "smartphones",
+      "electronics"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Huawei": {
+    "country": "China",
+    "city": "Shenzhen",
+    "specialties": [
+      "electronics",
+      "telecommunications"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Oppo": {
+    "country": "China",
+    "city": "Dongguan",
+    "specialties": [
+      "smartphones",
+      "electronics"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Vivo": {
+    "country": "China",
+    "city": "Dongguan",
+    "specialties": [
+      "smartphones",
+      "electronics"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "BYD": {
+    "country": "China",
+    "city": "Shenzhen",
+    "specialties": [
+      "electronics",
+      "automotive"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Realme": {
+    "country": "China",
+    "city": "Shenzhen",
+    "specialties": [
+      "smartphones",
+      "electronics"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Patagonia": {
+    "country": "USA",
+    "city": "Ventura",
+    "specialties": [
+      "outdoor",
+      "clothing"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Reformation": {
+    "country": "USA",
+    "city": "Los Angeles",
+    "specialties": [
+      "fashion",
+      "sustainable"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Everlane": {
+    "country": "USA",
+    "city": "San Francisco",
+    "specialties": [
+      "clothing",
+      "sustainable"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Eileen Fisher": {
+    "country": "USA",
+    "city": "New York",
+    "specialties": [
+      "fashion",
+      "sustainable"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Unilever": {
+    "country": "UK",
+    "city": "London",
+    "specialties": [
+      "personal_care",
+      "food"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Procter & Gamble": {
+    "country": "USA",
+    "city": "Cincinnati",
+    "specialties": [
+      "personal_care",
+      "household"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "L'Oréal": {
+    "country": "France",
+    "city": "Paris",
+    "specialties": [
+      "beauty",
+      "personal_care"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Nestlé": {
+    "country": "Switzerland",
+    "city": "Vevey",
+    "specialties": [
+      "food",
+      "beverages"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Johnson & Johnson": {
+    "country": "USA",
+    "city": "New Brunswick",
+    "specialties": [
+      "healthcare",
+      "personal_care"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Montblanc": {
+    "country": "Germany",
+    "city": "Hamburg",
+    "specialties": [
+      "luxury",
+      "stationery"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Moleskine": {
+    "country": "Italy",
+    "city": "Milan",
+    "specialties": [
+      "stationery",
+      "notebooks"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Bang & Olufsen": {
+    "country": "Denmark",
+    "city": "Struer",
+    "specialties": [
+      "audio",
+      "electronics"
+    ],
+    "confidence": 0.95,
+    "source": "research_verified"
+  },
+  "Nivea": {
+    "country": "Germany",
+    "city": "Berlin",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Haribo": {
+    "country": "Germany",
+    "city": "Berlin",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Ritter Sport": {
+    "country": "Germany",
+    "city": "Berlin",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Ferrero": {
+    "country": "Italy",
+    "city": "Rome",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Barilla": {
+    "country": "Italy",
+    "city": "Rome",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Ferrari": {
+    "country": "Italy",
+    "city": "Rome",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Lamborghini": {
+    "country": "Italy",
+    "city": "Rome",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Benetton": {
+    "country": "Italy",
+    "city": "Rome",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Diesel": {
+    "country": "Italy",
+    "city": "Rome",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Cartier": {
+    "country": "France",
+    "city": "Paris",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Yves Saint Laurent": {
+    "country": "France",
+    "city": "Paris",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Lancôme": {
+    "country": "France",
+    "city": "Paris",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Michelin": {
+    "country": "France",
+    "city": "Paris",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Honda": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Yamaha": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Casio": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Citizen": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Seiko": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Shiseido": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Hyundai": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Kia": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Lotte": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Amorepacific": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Innisfree": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Missha": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Etude House": {
+    "country": "South Korea",
+    "city": "Seoul",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Lenovo": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "TCL": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Haier": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Midea": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Gree": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Anta": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Li-Ning": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Perfect Diary": {
+    "country": "China",
+    "city": "Beijing",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Tata": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Mahindra": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Bajaj": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Hero": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Wipro": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Infosys": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Himalaya": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Patanjali": {
+    "country": "India",
+    "city": "Mumbai",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Embraer": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "JBS": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Vale": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Petrobras": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Natura": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "O Boticário": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Havaianas": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Melissa": {
+    "country": "Brazil",
+    "city": "São Paulo",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Westpac": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "BHP": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Rio Tinto": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Telstra": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Aesop": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Qantas": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Woolworths": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  },
+  "Commonwealth Bank": {
+    "country": "Australia",
+    "city": "Sydney",
+    "specialties": [
+      "general"
+    ],
+    "confidence": 0.85,
+    "source": "regional_database"
+  }
 }
