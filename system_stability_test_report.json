@@ -1,0 +1,460 @@
+{
+  "test_timestamp": "2025-07-28 20:54:14",
+  "overall_results": {
+    "total_tests": 24,
+    "successful_tests": 22,
+    "success_rate_percent": 91.7,
+    "system_status": "STABLE"
+  },
+  "category_results": {
+    "imports": {
+      "success": 7,
+      "total": 7,
+      "success_rate": 100.0
+    },
+    "initialization": {
+      "success": 7,
+      "total": 7,
+      "success_rate": 100.0
+    },
+    "functionality": {
+      "success": 5,
+      "total": 5,
+      "success_rate": 100.0
+    },
+    "integration": {
+      "success": 2,
+      "total": 2,
+      "success_rate": 100.0
+    },
+    "performance": {
+      "success": 0,
+      "total": 1,
+      "success_rate": 0.0
+    },
+    "error_handling": {
+      "success": 1,
+      "total": 2,
+      "success_rate": 50.0
+    }
+  },
+  "detailed_results": {
+    "imports": {
+      "amazon_supply_chain_intelligence": {
+        "status": "SUCCESS",
+        "module": "<module 'amazon_supply_chain_intelligence' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/amazon_supply_chain_intelligence.py'>",
+        "error": null
+      },
+      "multi_tier_supply_chain_analysis": {
+        "status": "SUCCESS",
+        "module": "<module 'multi_tier_supply_chain_analysis' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/multi_tier_supply_chain_analysis.py'>",
+        "error": null
+      },
+      "transportation_optimization_engine": {
+        "status": "SUCCESS",
+        "module": "<module 'transportation_optimization_engine' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/transportation_optimization_engine.py'>",
+        "error": null
+      },
+      "expanded_amazon_fulfillment_network": {
+        "status": "SUCCESS",
+        "module": "<module 'expanded_amazon_fulfillment_network' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/expanded_amazon_fulfillment_network.py'>",
+        "error": null
+      },
+      "ultimate_product_generator": {
+        "status": "SUCCESS",
+        "module": "<module 'ultimate_product_generator' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/ultimate_product_generator.py'>",
+        "error": null
+      },
+      "enhanced_materials_database": {
+        "status": "SUCCESS",
+        "module": "<module 'enhanced_materials_database' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/enhanced_materials_database.py'>",
+        "error": null
+      },
+      "manufacturing_complexity_multipliers": {
+        "status": "SUCCESS",
+        "module": "<module 'manufacturing_complexity_multipliers' from '/Users/jamie/Documents/University/dsp_eco_tracker/backend/services/manufacturing_complexity_multipliers.py'>",
+        "error": null
+      }
+    },
+    "initialization": {
+      "AmazonSupplyChainIntelligence": {
+        "status": "SUCCESS",
+        "instance": "<amazon_supply_chain_intelligence.AmazonSupplyChainIntelligence object at 0x1060582f0>",
+        "init_time": 0.0,
+        "error": null
+      },
+      "MultiTierSupplyChainAnalysis": {
+        "status": "SUCCESS",
+        "instance": "<multi_tier_supply_chain_analysis.MultiTierSupplyChainAnalysis object at 0x1060586e0>",
+        "init_time": 0.0,
+        "error": null
+      },
+      "TransportationOptimizationEngine": {
+        "status": "SUCCESS",
+        "instance": "<transportation_optimization_engine.TransportationOptimizationEngine object at 0x106058ad0>",
+        "init_time": 0.0,
+        "error": null
+      },
+      "ExpandedAmazonFulfillmentNetwork": {
+        "status": "SUCCESS",
+        "instance": "<expanded_amazon_fulfillment_network.ExpandedAmazonFulfillmentNetwork object at 0x106058d70>",
+        "init_time": 0.0,
+        "error": null
+      },
+      "UltimateProductGenerator": {
+        "status": "SUCCESS",
+        "instance": "<ultimate_product_generator.UltimateProductGenerator object at 0x106059010>",
+        "init_time": 0.002,
+        "error": null
+      },
+      "EnhancedMaterialsDatabase": {
+        "status": "SUCCESS",
+        "instance": "<enhanced_materials_database.EnhancedMaterialsDatabase object at 0x1060b0410>",
+        "init_time": 0.0,
+        "error": null
+      },
+      "ManufacturingComplexityCalculator": {
+        "status": "SUCCESS",
+        "instance": "<manufacturing_complexity_multipliers.ManufacturingComplexityCalculator object at 0x1060b0550>",
+        "init_time": 0.0,
+        "error": null
+      }
+    },
+    "functionality": {
+      "AmazonSupplyChainIntelligence": {
+        "status": "SUCCESS",
+        "result": {
+          "total_supply_chain_co2_g": 11510461.89,
+          "total_supply_chain_co2_kg": 11510.462,
+          "emissions_breakdown": {
+            "manufacturing_transport": {
+              "total_co2_g": 11509680.0,
+              "distance_km": 10920.0,
+              "transport_mode": "air_freight",
+              "carbon_intensity_g_per_tonne_km": 1054,
+              "multi_tier_factor": 1.3
+            },
+            "fulfillment_operations": {
+              "total_co2_g": 28.98,
+              "energy_consumption_kwh": 0.06,
+              "storage_days": 3.0,
+              "grid_carbon_intensity": 233,
+              "handling_emissions_g": 15.0,
+              "facility_type": "standard_fulfillment_center"
+            },
+            "last_mile_delivery": {
+              "total_co2_g": 636.51,
+              "delivery_distance_km": 42.4,
+              "transport_mode": "ground_electric",
+              "consolidation_factor": 0.2,
+              "carbon_intensity_g_per_tonne_km": 75
+            },
+            "packaging": {
+              "total_co2_g": 116.4,
+              "packaging_weight_kg": 0.12,
+              "packaging_weight_ratio": 0.12,
+              "material_mix": "85% recycled cardboard, 15% plastic film",
+              "carbon_intensity_kg_co2_per_kg": 0.97
+            }
+          },
+          "fulfillment_center": {
+            "id": "LTN4",
+            "name": "Amazon Luton",
+            "location": "Luton, UK",
+            "energy_source": "renewable",
+            "specializations": [
+              "general_merchandise",
+              "books",
+              "electronics"
+            ]
+          },
+          "supply_chain_intelligence": {
+            "routing_optimization": "distance_and_speed_optimized",
+            "transport_mode_selection": "automated_based_on_delivery_requirements",
+            "facility_energy_efficiency": "renewable",
+            "carbon_calculation_accuracy": "high_precision_multi_tier"
+          }
+        },
+        "error": null
+      },
+      "MultiTierSupplyChainAnalysis": {
+        "status": "SUCCESS",
+        "result": {
+          "total_multi_tier_co2_g": 258077.97,
+          "total_multi_tier_co2_kg": 258.078,
+          "tier_breakdown": {
+            "raw_materials": {
+              "total_co2_g": 12650.0,
+              "node_emissions": {
+                "rare_earth_china": {
+                  "co2_g": 3220.0,
+                  "base_carbon_intensity": 2.8,
+                  "strategy_multiplier": 1.0,
+                  "volatility_multiplier": 1.15,
+                  "location": "Baotou, China",
+                  "energy_source": "coal_grid"
+                },
+                "aluminum_smelter_china": {
+                  "co2_g": 9430.0,
+                  "base_carbon_intensity": 8.2,
+                  "strategy_multiplier": 1.0,
+                  "volatility_multiplier": 1.15,
+                  "location": "Qingdao, China",
+                  "energy_source": "coal_grid"
+                }
+              },
+              "tier_complexity": 2,
+              "geographic_spread": 1273.7767086026965
+            },
+            "components": {
+              "total_co2_g": 19205.0,
+              "node_emissions": {
+                "processor_taiwan": {
+                  "co2_g": 14375.0,
+                  "base_carbon_intensity": 12.5,
+                  "strategy_multiplier": 1.0,
+                  "volatility_multiplier": 1.15,
+                  "location": "Hsinchu, Taiwan",
+                  "energy_source": "mixed_grid"
+                },
+                "display_samsung": {
+                  "co2_g": 4830.0,
+                  "base_carbon_intensity": 4.2,
+                  "strategy_multiplier": 1.0,
+                  "volatility_multiplier": 1.15,
+                  "location": "Cheonan, South Korea",
+                  "energy_source": "mixed_grid"
+                }
+              },
+              "tier_complexity": 2,
+              "geographic_spread": 1496.6876909771959
+            },
+            "sub_assembly": {
+              "total_co2_g": 2070.0,
+              "node_emissions": {
+                "pcb_assembly_china": {
+                  "co2_g": 2070.0,
+                  "base_carbon_intensity": 1.8,
+                  "strategy_multiplier": 1.0,
+                  "volatility_multiplier": 1.15,
+                  "location": "Shenzhen, China",
+                  "energy_source": "renewable_mixed"
+                }
+              },
+              "tier_complexity": 1,
+              "geographic_spread": 0.0
+            },
+            "final_assembly": {
+              "total_co2_g": 690.0,
+              "node_emissions": {
+                "final_assembly_china": {
+                  "co2_g": 690.0,
+                  "base_carbon_intensity": 0.6,
+                  "strategy_multiplier": 1.0,
+                  "volatility_multiplier": 1.15,
+                  "location": "Zhengzhou, China",
+                  "energy_source": "renewable_matched"
+                }
+              },
+              "tier_complexity": 1,
+              "geographic_spread": 0.0
+            }
+          },
+          "transportation_emissions": {
+            "total_co2_g": 223012.97,
+            "flow_emissions": {
+              "rare_earth_china_processor_taiwan": {
+                "co2_g": 6629.66,
+                "material_type": "rare_earth_elements",
+                "transport_mode": "air_freight",
+                "distance_km": 1850,
+                "frequency_days": 7,
+                "frequency_multiplier": 1.0
+              },
+              "aluminum_smelter_china_display_samsung": {
+                "co2_g": 807.98,
+                "material_type": "aluminum_sheets",
+                "transport_mode": "sea_freight",
+                "distance_km": 945,
+                "frequency_days": 14,
+                "frequency_multiplier": 1.0
+              },
+              "processor_taiwan_pcb_assembly_china": {
+                "co2_g": 9233.04,
+                "material_type": "semiconductor_chips",
+                "transport_mode": "air_freight",
+                "distance_km": 730,
+                "frequency_days": 3,
+                "frequency_multiplier": 1.0
+              },
+              "display_samsung_pcb_assembly_china": {
+                "co2_g": 192302.3,
+                "material_type": "display_modules",
+                "transport_mode": "air_freight",
+                "distance_km": 2050,
+                "frequency_days": 7,
+                "frequency_multiplier": 1.0
+              },
+              "pcb_assembly_china_final_assembly_china": {
+                "co2_g": 14040.0,
+                "material_type": "assembled_pcb",
+                "transport_mode": "truck_electric",
+                "distance_km": 1200,
+                "frequency_days": 2,
+                "frequency_multiplier": 1.0
+              }
+            },
+            "transport_complexity": 5,
+            "modal_distribution": {
+              "air_freight": 3,
+              "sea_freight": 1,
+              "truck_electric": 1
+            }
+          },
+          "inventory_holding_emissions": {
+            "total_co2_g": 450.0,
+            "tier_inventory": {
+              "rare_earth_china": {
+                "co2_g": 75.0,
+                "holding_days": 30.0,
+                "tier": "raw_materials",
+                "location": "Baotou, China"
+              },
+              "aluminum_smelter_china": {
+                "co2_g": 75.0,
+                "holding_days": 30.0,
+                "tier": "raw_materials",
+                "location": "Qingdao, China"
+              },
+              "processor_taiwan": {
+                "co2_g": 75.0,
+                "holding_days": 30.0,
+                "tier": "components",
+                "location": "Hsinchu, Taiwan"
+              },
+              "display_samsung": {
+                "co2_g": 75.0,
+                "holding_days": 30.0,
+                "tier": "components",
+                "location": "Cheonan, South Korea"
+              },
+              "pcb_assembly_china": {
+                "co2_g": 75.0,
+                "holding_days": 30.0,
+                "tier": "sub_assembly",
+                "location": "Shenzhen, China"
+              },
+              "final_assembly_china": {
+                "co2_g": 75.0,
+                "holding_days": 30.0,
+                "tier": "final_assembly",
+                "location": "Zhengzhou, China"
+              }
+            },
+            "strategy_impact": "hybrid",
+            "volatility_impact": "medium"
+          },
+          "supply_chain_strategy": {
+            "manufacturing_strategy": "hybrid",
+            "demand_volatility": "medium",
+            "supply_chain_complexity": 6,
+            "geographic_distribution": {
+              "countries_involved": 3,
+              "country_list": [
+                "China",
+                "South Korea",
+                "Taiwan"
+              ],
+              "geographic_span_km": 2778.0,
+              "supply_chain_complexity": "regional"
+            }
+          },
+          "optimization_opportunities": {
+            "total_opportunities": 1,
+            "optimization_recommendations": [
+              {
+                "type": "modal_shift",
+                "description": "High transport emissions - consider sea/rail freight",
+                "potential_reduction_percent": 25,
+                "implementation_complexity": "medium"
+              }
+            ],
+            "quick_wins": [],
+            "strategic_initiatives": []
+          },
+          "supply_chain_intelligence": {
+            "tier_analysis": "comprehensive_multi_tier_tracking",
+            "transport_optimization": "modal_shift_opportunities_identified",
+            "inventory_strategy": "carbon_vs_resilience_tradeoffs_analyzed",
+            "supplier_network": "upstream_emissions_fully_tracked"
+          }
+        },
+        "error": null
+      },
+      "TransportationOptimizationEngine": {
+        "status": "SUCCESS",
+        "result": {
+          "carbon_g": 20100.0,
+          "cost": 40.2,
+          "time_hours": 2412.0
+        },
+        "error": null
+      },
+      "EnhancedMaterialsDatabase": {
+        "status": "SUCCESS",
+        "result": {
+          "co2_score": 9.2
+        },
+        "error": null
+      },
+      "ManufacturingComplexityCalculator": {
+        "status": "SUCCESS",
+        "result": {
+          "complexity_factor": 2.0,
+          "explanation": "Default estimate for unknown category",
+          "confidence": "very_low",
+          "primary_drivers": [
+            "unknown_manufacturing"
+          ]
+        },
+        "error": null
+      }
+    },
+    "integration": {
+      "UltimateProductGenerator_Integration": {
+        "status": "SUCCESS",
+        "details": "Successfully integrated with materials database and complexity calculator",
+        "error": null
+      },
+      "CrossSystemCompatibility": {
+        "status": "SUCCESS",
+        "compatible_systems": [
+          "EnhancedMaterialsDatabase",
+          "ManufacturingComplexityCalculator"
+        ],
+        "error": null
+      }
+    },
+    "performance": {
+      "PerformanceAndMemory": {
+        "status": "SKIPPED",
+        "error": "psutil not available for memory testing"
+      }
+    },
+    "error_handling": {
+      "InvalidMaterialHandling": {
+        "status": "PARTIAL",
+        "details": "Returns result for invalid material (may use fallback)",
+        "error": null
+      },
+      "EmptyMaterialsHandling": {
+        "status": "SUCCESS",
+        "details": "Handles invalid category properly",
+        "error": null
+      }
+    }
+  },
+  "recommendations": [
+    "\u2705 System is highly stable and ready for production"
+  ]
+}

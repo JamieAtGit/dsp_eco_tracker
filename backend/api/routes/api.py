@@ -4,10 +4,22 @@ from backend.scrapers.amazon.unified_scraper import scrape_amazon_product_page
 from backend.scrapers.amazon.integrated_scraper import haversine, origin_hubs, uk_hub
 import pgeocode
 from backend.scrapers.amazon.guess_material import smart_guess_material
+import sys
+import os
+
+# Add services directory for manufacturing complexity
+sys.path.append('/Users/jamie/Documents/University/dsp_eco_tracker/backend/services')
+from manufacturing_complexity_multipliers import ManufacturingComplexityCalculator
+from enhanced_materials_database import EnhancedMaterialsDatabase
 
 
 app = Flask(__name__)
 CORS(app)
+
+# Initialize manufacturing complexity system for realistic CO2 calculations
+complexity_calculator = ManufacturingComplexityCalculator()
+materials_db = EnhancedMaterialsDatabase()
+print("✅ API now using realistic CO2 calculations with manufacturing complexity")
 
 # Helper function to determine transport mode based on distance
 def determine_transport_mode(distance_km):
@@ -145,8 +157,37 @@ def estimate():
         emission_factor = default_emission_factor
         print(f"📦 Auto-detected transport mode used: {transport_mode}")
 
-    # ✅ Unconditionally calculate emissions after deciding on mode
-    carbon_kg = round(final_weight * emission_factor * (distance / 1000), 2)
+    # ✅ Calculate realistic CO2 using manufacturing complexity (same as fixed dataset)
+    # Get material CO2 intensity from enhanced database
+    material_co2_per_kg = materials_db.get_material_impact_score(product.get("material", "").lower())
+    if not material_co2_per_kg:
+        # Use fallback for unknown materials
+        material_variants = {
+            'textile': 'cotton',
+            'metal': 'steel', 
+            'electronic': 'aluminum',
+            'mixed': 'plastic'
+        }
+        material_name = product.get("material", "").lower()
+        alt_material = material_variants.get(material_name, 'plastic')
+        material_co2_per_kg = materials_db.get_material_impact_score(alt_material) or 2.0
+    
+    # Get transport multiplier
+    transport_multipliers = {"air": 2.5, "ship": 1.0, "truck": 1.2, "land": 1.2}
+    transport_multiplier = transport_multipliers.get(transport_mode.lower(), 1.0)
+    
+    # Get category for manufacturing complexity
+    category = product.get("category", "general").lower().replace(' ', '_').replace('&', '_')
+    
+    # Calculate realistic CO2 with manufacturing complexity (same method as dataset fix)
+    enhanced_result = complexity_calculator.calculate_enhanced_co2(
+        weight_kg=final_weight,
+        material_co2_per_kg=material_co2_per_kg,
+        transport_multiplier=transport_multiplier,
+        category=category
+    )
+    
+    carbon_kg = round(enhanced_result["enhanced_total_co2"], 2)
 
     # Eco Score
     eco_score = calculate_eco_score(

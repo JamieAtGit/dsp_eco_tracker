@@ -1,0 +1,317 @@
+{
+  "materials_analysis": {
+    "individual_impacts": {
+      "aluminum": 9.2,
+      "titanium": 35.0,
+      "glass": 1.3,
+      "silicon": 2.0
+    },
+    "total_material_impact_score": 47.5,
+    "average_impact": 11.875
+  },
+  "manufacturing_complexity": {
+    "complexity_factor": 12.0,
+    "explanation": "Semiconductor fabrication, rare earth mining, precision assembly",
+    "example_study": "Apple iPhone LCA reports show 70kg total vs 6kg materials",
+    "confidence": "high",
+    "primary_drivers": [
+      "chip_fabrication",
+      "rare_earth_extraction",
+      "precision_assembly"
+    ]
+  },
+  "amazon_supply_chain": {
+    "total_supply_chain_co2_g": 45981.8,
+    "total_supply_chain_co2_kg": 45.982,
+    "emissions_breakdown": {
+      "manufacturing_transport": {
+        "total_co2_g": 45645.6,
+        "distance_km": 10920.0,
+        "transport_mode": "maritime",
+        "carbon_intensity_g_per_tonne_km": 19,
+        "multi_tier_factor": 1.3
+      },
+      "fulfillment_operations": {
+        "total_co2_g": 6.38,
+        "energy_consumption_kwh": 0.0132,
+        "storage_days": 3.0,
+        "grid_carbon_intensity": 233,
+        "handling_emissions_g": 3.3,
+        "facility_type": "standard_fulfillment_center"
+      },
+      "last_mile_delivery": {
+        "total_co2_g": 304.21,
+        "delivery_distance_km": 30.7,
+        "transport_mode": "ground_diesel",
+        "consolidation_factor": 0.2,
+        "carbon_intensity_g_per_tonne_km": 225
+      },
+      "packaging": {
+        "total_co2_g": 25.61,
+        "packaging_weight_kg": 0.026,
+        "packaging_weight_ratio": 0.12,
+        "material_mix": "85% recycled cardboard, 15% plastic film",
+        "carbon_intensity_kg_co2_per_kg": 0.97
+      }
+    },
+    "fulfillment_center": {
+      "id": "LTN4",
+      "name": "Amazon Luton",
+      "location": "Luton, UK",
+      "energy_source": "renewable",
+      "specializations": [
+        "general_merchandise",
+        "books",
+        "electronics"
+      ]
+    },
+    "supply_chain_intelligence": {
+      "routing_optimization": "distance_and_speed_optimized",
+      "transport_mode_selection": "automated_based_on_delivery_requirements",
+      "facility_energy_efficiency": "renewable",
+      "carbon_calculation_accuracy": "high_precision_multi_tier"
+    }
+  },
+  "multi_tier_analysis": {
+    "total_multi_tier_co2_g": 258077.97,
+    "total_multi_tier_co2_kg": 258.078,
+    "tier_breakdown": {
+      "raw_materials": {
+        "total_co2_g": 12650.0,
+        "node_emissions": {
+          "rare_earth_china": {
+            "co2_g": 3220.0,
+            "base_carbon_intensity": 2.8,
+            "strategy_multiplier": 1.0,
+            "volatility_multiplier": 1.15,
+            "location": "Baotou, China",
+            "energy_source": "coal_grid"
+          },
+          "aluminum_smelter_china": {
+            "co2_g": 9430.0,
+            "base_carbon_intensity": 8.2,
+            "strategy_multiplier": 1.0,
+            "volatility_multiplier": 1.15,
+            "location": "Qingdao, China",
+            "energy_source": "coal_grid"
+          }
+        },
+        "tier_complexity": 2,
+        "geographic_spread": 1273.7767086026965
+      },
+      "components": {
+        "total_co2_g": 19205.0,
+        "node_emissions": {
+          "processor_taiwan": {
+            "co2_g": 14375.0,
+            "base_carbon_intensity": 12.5,
+            "strategy_multiplier": 1.0,
+            "volatility_multiplier": 1.15,
+            "location": "Hsinchu, Taiwan",
+            "energy_source": "mixed_grid"
+          },
+          "display_samsung": {
+            "co2_g": 4830.0,
+            "base_carbon_intensity": 4.2,
+            "strategy_multiplier": 1.0,
+            "volatility_multiplier": 1.15,
+            "location": "Cheonan, South Korea",
+            "energy_source": "mixed_grid"
+          }
+        },
+        "tier_complexity": 2,
+        "geographic_spread": 1496.6876909771959
+      },
+      "sub_assembly": {
+        "total_co2_g": 2070.0,
+        "node_emissions": {
+          "pcb_assembly_china": {
+            "co2_g": 2070.0,
+            "base_carbon_intensity": 1.8,
+            "strategy_multiplier": 1.0,
+            "volatility_multiplier": 1.15,
+            "location": "Shenzhen, China",
+            "energy_source": "renewable_mixed"
+          }
+        },
+        "tier_complexity": 1,
+        "geographic_spread": 0.0
+      },
+      "final_assembly": {
+        "total_co2_g": 690.0,
+        "node_emissions": {
+          "final_assembly_china": {
+            "co2_g": 690.0,
+            "base_carbon_intensity": 0.6,
+            "strategy_multiplier": 1.0,
+            "volatility_multiplier": 1.15,
+            "location": "Zhengzhou, China",
+            "energy_source": "renewable_matched"
+          }
+        },
+        "tier_complexity": 1,
+        "geographic_spread": 0.0
+      }
+    },
+    "transportation_emissions": {
+      "total_co2_g": 223012.97,
+      "flow_emissions": {
+        "rare_earth_china_processor_taiwan": {
+          "co2_g": 6629.66,
+          "material_type": "rare_earth_elements",
+          "transport_mode": "air_freight",
+          "distance_km": 1850,
+          "frequency_days": 7,
+          "frequency_multiplier": 1.0
+        },
+        "aluminum_smelter_china_display_samsung": {
+          "co2_g": 807.98,
+          "material_type": "aluminum_sheets",
+          "transport_mode": "sea_freight",
+          "distance_km": 945,
+          "frequency_days": 14,
+          "frequency_multiplier": 1.0
+        },
+        "processor_taiwan_pcb_assembly_china": {
+          "co2_g": 9233.04,
+          "material_type": "semiconductor_chips",
+          "transport_mode": "air_freight",
+          "distance_km": 730,
+          "frequency_days": 3,
+          "frequency_multiplier": 1.0
+        },
+        "display_samsung_pcb_assembly_china": {
+          "co2_g": 192302.3,
+          "material_type": "display_modules",
+          "transport_mode": "air_freight",
+          "distance_km": 2050,
+          "frequency_days": 7,
+          "frequency_multiplier": 1.0
+        },
+        "pcb_assembly_china_final_assembly_china": {
+          "co2_g": 14040.0,
+          "material_type": "assembled_pcb",
+          "transport_mode": "truck_electric",
+          "distance_km": 1200,
+          "frequency_days": 2,
+          "frequency_multiplier": 1.0
+        }
+      },
+      "transport_complexity": 5,
+      "modal_distribution": {
+        "air_freight": 3,
+        "sea_freight": 1,
+        "truck_electric": 1
+      }
+    },
+    "inventory_holding_emissions": {
+      "total_co2_g": 450.0,
+      "tier_inventory": {
+        "rare_earth_china": {
+          "co2_g": 75.0,
+          "holding_days": 30.0,
+          "tier": "raw_materials",
+          "location": "Baotou, China"
+        },
+        "aluminum_smelter_china": {
+          "co2_g": 75.0,
+          "holding_days": 30.0,
+          "tier": "raw_materials",
+          "location": "Qingdao, China"
+        },
+        "processor_taiwan": {
+          "co2_g": 75.0,
+          "holding_days": 30.0,
+          "tier": "components",
+          "location": "Hsinchu, Taiwan"
+        },
+        "display_samsung": {
+          "co2_g": 75.0,
+          "holding_days": 30.0,
+          "tier": "components",
+          "location": "Cheonan, South Korea"
+        },
+        "pcb_assembly_china": {
+          "co2_g": 75.0,
+          "holding_days": 30.0,
+          "tier": "sub_assembly",
+          "location": "Shenzhen, China"
+        },
+        "final_assembly_china": {
+          "co2_g": 75.0,
+          "holding_days": 30.0,
+          "tier": "final_assembly",
+          "location": "Zhengzhou, China"
+        }
+      },
+      "strategy_impact": "hybrid",
+      "volatility_impact": "medium"
+    },
+    "supply_chain_strategy": {
+      "manufacturing_strategy": "hybrid",
+      "demand_volatility": "medium",
+      "supply_chain_complexity": 6,
+      "geographic_distribution": {
+        "countries_involved": 3,
+        "country_list": [
+          "China",
+          "South Korea",
+          "Taiwan"
+        ],
+        "geographic_span_km": 2778.0,
+        "supply_chain_complexity": "regional"
+      }
+    },
+    "optimization_opportunities": {
+      "total_opportunities": 1,
+      "optimization_recommendations": [
+        {
+          "type": "modal_shift",
+          "description": "High transport emissions - consider sea/rail freight",
+          "potential_reduction_percent": 25,
+          "implementation_complexity": "medium"
+        }
+      ],
+      "quick_wins": [],
+      "strategic_initiatives": []
+    },
+    "supply_chain_intelligence": {
+      "tier_analysis": "comprehensive_multi_tier_tracking",
+      "transport_optimization": "modal_shift_opportunities_identified",
+      "inventory_strategy": "carbon_vs_resilience_tradeoffs_analyzed",
+      "supplier_network": "upstream_emissions_fully_tracked"
+    }
+  },
+  "transportation_optimization": {
+    "carbon_g": 946.0,
+    "cost_usd": 3.4056,
+    "time_hours": 21.5,
+    "carbon_vs_baseline_percent": 0.0,
+    "recommendations": [
+      "Consider sea freight for better carbon footprint with longer lead time",
+      "Moderate reliability route - consider backup plans for critical shipments"
+    ]
+  },
+  "summary": {
+    "carbon_estimates": {
+      "amazon_method": 45.982,
+      "multi_tier_method": 258.078,
+      "materials_method": 31.349999999999998
+    },
+    "test_product": {
+      "name": "iPhone 15 Pro",
+      "weight_kg": 0.22,
+      "materials": [
+        "aluminum",
+        "titanium",
+        "glass",
+        "silicon"
+      ],
+      "category": "smartphones",
+      "manufacturing_location": "china",
+      "customer_region": "uk_london"
+    },
+    "systems_tested": 5,
+    "successful_analyses": 5
+  }
+}
