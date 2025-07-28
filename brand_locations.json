@@ -1,2450 +1,192 @@
 {
-  "apple": {
-    "origin": {
-      "country": "USA",
-      "city": "Cupertino"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cupertino",
-      "state": "California"
-    },
-    "founded": 1976,
-    "manufacturing": [
-      "China",
-      "Taiwan",
-      "South Korea",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers",
-      "Mobile Phones"
-    ],
-    "common_products": [
-      "iPhone",
-      "MacBook",
-      "iPad",
-      "AirPods",
-      "Apple Watch"
-    ]
-  },
-  "microsoft": {
-    "origin": {
-      "country": "USA",
-      "city": "Redmond"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Redmond",
-      "state": "Washington"
-    },
-    "founded": 1975,
-    "manufacturing": [
-      "USA",
-      "China",
-      "Mexico"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers",
-      "Software"
-    ],
-    "common_products": [
-      "Surface",
-      "Xbox",
-      "Office",
-      "Windows"
-    ]
-  },
-  "google": {
-    "origin": {
-      "country": "USA",
-      "city": "Mountain View"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Mountain View",
-      "state": "California"
-    },
-    "founded": 1998,
-    "manufacturing": [
-      "China",
-      "Taiwan",
-      "USA"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Part of Alphabet Inc"
-  },
-  "amazon": {
-    "origin": {
-      "country": "USA",
-      "city": "Seattle"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Seattle",
-      "state": "Washington"
-    },
-    "founded": 1994,
-    "manufacturing": [
-      "Global suppliers"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Started in Bellevue garage by Jeff Bezos"
-  },
-  "meta": {
-    "origin": {
-      "country": "USA",
-      "city": "Menlo Park"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Menlo Park",
-      "state": "California"
-    },
-    "founded": 2004,
-    "manufacturing": [
-      "Taiwan",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Originally Facebook, founded at Harvard"
-  },
-  "tesla": {
-    "origin": {
-      "country": "USA",
-      "city": "Austin"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Austin",
-      "state": "Texas"
-    },
-    "founded": 2003,
-    "manufacturing": [
-      "USA",
-      "China",
-      "Germany"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Moved HQ from Palo Alto to Austin 2021"
-  },
-  "intel": {
-    "origin": {
-      "country": "USA",
-      "city": "Santa Clara"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Santa Clara",
-      "state": "California"
-    },
-    "founded": 1968,
-    "manufacturing": [
-      "USA",
-      "Ireland",
-      "Israel",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true
-  },
-  "amd": {
-    "origin": {
-      "country": "USA",
-      "city": "Santa Clara"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Santa Clara",
-      "state": "California"
-    },
-    "founded": 1969,
-    "manufacturing": [
-      "Taiwan",
-      "China",
-      "Malaysia"
-    ],
-    "fulfillment": "Global",
-    "verified": true
-  },
-  "nvidia": {
-    "origin": {
-      "country": "USA",
-      "city": "Santa Clara"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Santa Clara",
-      "state": "California"
-    },
-    "founded": 1993,
-    "manufacturing": [
-      "Taiwan",
-      "South Korea"
-    ],
-    "fulfillment": "Global",
-    "verified": true
-  },
-  "qualcomm": {
-    "origin": {
-      "country": "USA",
-      "city": "San Diego"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "San Diego",
-      "state": "California"
-    },
-    "founded": 1985,
-    "manufacturing": [
-      "Taiwan",
-      "South Korea",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true
-  },
-  "ibm": {
-    "origin": {
-      "country": "USA",
-      "city": "Armonk"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Armonk",
-      "state": "New York"
-    },
-    "founded": 1911,
-    "manufacturing": [
-      "USA",
-      "China",
-      "Germany"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Originally Computing-Tabulating-Recording Company"
-  },
-  "oracle": {
-    "origin": {
-      "country": "USA",
-      "city": "Austin"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Austin",
-      "state": "Texas"
-    },
-    "founded": 1977,
-    "manufacturing": [
-      "USA",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Moved from Redwood City to Austin 2020"
-  },
-  "hp": {
-    "origin": {
-      "country": "USA",
-      "city": "Palo Alto"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Palo Alto",
-      "state": "California"
-    },
-    "founded": 1939,
-    "manufacturing": [
-      "China",
-      "Singapore",
-      "Mexico"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers",
-      "Printers"
-    ],
-    "common_products": [
-      "Laptops",
-      "Printers",
-      "Desktops",
-      "Monitors"
-    ]
-  },
-  "dell": {
-    "origin": {
-      "country": "USA",
-      "city": "Round Rock"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Round Rock",
-      "state": "Texas"
-    },
-    "founded": 1984,
-    "manufacturing": [
-      "China",
-      "Malaysia",
-      "Brazil"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers"
-    ],
-    "common_products": [
-      "Laptops",
-      "Desktops",
-      "Monitors",
-      "Servers"
-    ]
-  },
-  "samsung": {
-    "origin": {
-      "country": "South Korea",
-      "city": "Seoul"
-    },
-    "headquarters": {
-      "country": "South Korea",
-      "city": "Seoul"
-    },
-    "founded": 1938,
-    "manufacturing": [
-      "South Korea",
-      "China",
-      "Vietnam",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Mobile Phones",
-      "TVs",
-      "Home Appliances"
-    ],
-    "common_products": [
-      "Galaxy phones",
-      "TVs",
-      "Monitors",
-      "SSDs",
-      "Tablets"
-    ]
-  },
-  "lg": {
-    "origin": {
-      "country": "South Korea",
-      "city": "Seoul"
-    },
-    "headquarters": {
-      "country": "South Korea",
-      "city": "Seoul"
-    },
-    "founded": 1947,
-    "manufacturing": [
-      "South Korea",
-      "China",
-      "Mexico",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Lucky Goldstar merger"
-  },
-  "sony": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1946,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Thailand",
-      "Malaysia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Audio",
-      "Gaming",
-      "Cameras"
-    ],
-    "common_products": [
-      "PlayStation",
-      "Headphones",
-      "Cameras",
-      "TVs",
-      "Speakers"
-    ]
-  },
-  "panasonic": {
-    "origin": {
-      "country": "Japan",
-      "city": "Osaka"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Osaka"
-    },
-    "founded": 1918,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Malaysia",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Konosuke Matsushita"
-  },
-  "canon": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1937,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Taiwan",
-      "Malaysia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Cameras",
-      "Printers"
-    ],
-    "common_products": [
-      "DSLR cameras",
-      "Lenses",
-      "Printers",
-      "Camcorders"
-    ]
-  },
-  "nikon": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1917,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Thailand"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Cameras"
-    ],
-    "common_products": [
-      "DSLR cameras",
-      "Lenses",
-      "Binoculars",
-      "Microscopes"
-    ]
-  },
-  "fujifilm": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1934,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Netherlands"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Cameras"
-    ],
-    "common_products": [
-      "Mirrorless cameras",
-      "Instant cameras",
-      "Lenses",
-      "Film"
-    ]
-  },
-  "casio": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1946,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Thailand"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Tadao Kashio"
-  },
-  "seiko": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1881,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Malaysia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Originally K. Hattori & Co"
-  },
-  "lenovo": {
-    "origin": {
-      "country": "China",
-      "city": "Beijing"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Beijing"
-    },
-    "founded": 1984,
-    "manufacturing": [
-      "China",
-      "India",
-      "Mexico",
-      "Hungary"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers"
-    ],
-    "common_products": [
-      "ThinkPad",
-      "IdeaPad",
-      "Yoga",
-      "Desktops"
-    ]
-  },
-  "huawei": {
-    "origin": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "founded": 1987,
-    "manufacturing": [
-      "China",
-      "India",
-      "Brazil"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Mobile Phones",
-      "Tablets"
-    ],
-    "common_products": [
-      "Smartphones",
-      "Tablets",
-      "Laptops",
-      "Watches"
-    ]
-  },
-  "xiaomi": {
-    "origin": {
-      "country": "China",
-      "city": "Beijing"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Beijing"
-    },
-    "founded": 2010,
-    "manufacturing": [
-      "China",
-      "India",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Mobile Phones",
-      "Smart Home"
-    ],
-    "common_products": [
-      "Smartphones",
-      "Mi Band",
-      "Scooters",
-      "Smart Devices"
-    ]
-  },
-  "oneplus": {
-    "origin": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "founded": 2013,
-    "manufacturing": [
-      "China",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Mobile Phones"
-    ],
-    "common_products": [
-      "OnePlus phones",
-      "Earbuds",
-      "Accessories"
-    ]
-  },
-  "oppo": {
-    "origin": {
-      "country": "China",
-      "city": "Dongguan"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Dongguan"
-    },
-    "founded": 2004,
-    "manufacturing": [
-      "China",
-      "India",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Mobile Phones"
-    ],
-    "common_products": [
-      "Smartphones",
-      "Earbuds",
-      "Accessories"
-    ]
-  },
-  "vivo": {
-    "origin": {
-      "country": "China",
-      "city": "Dongguan"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Dongguan"
-    },
-    "founded": 2009,
-    "manufacturing": [
-      "China",
-      "India",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true
-  },
-  "dji": {
-    "origin": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "founded": 2006,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Cameras",
-      "Drones"
-    ],
-    "common_products": [
-      "Drones",
-      "Gimbals",
-      "Action cameras",
-      "Accessories"
-    ]
-  },
-  "byd": {
-    "origin": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "founded": 1995,
-    "manufacturing": [
-      "China",
-      "Hungary",
-      "Brazil"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Build Your Dreams"
-  },
-  "haier": {
-    "origin": {
-      "country": "China",
-      "city": "Qingdao"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Qingdao"
-    },
-    "founded": 1984,
-    "manufacturing": [
-      "China",
-      "India",
-      "Pakistan",
-      "Thailand"
-    ],
-    "fulfillment": "Global",
-    "verified": true
-  },
-  "nike": {
-    "origin": {
-      "country": "USA",
-      "city": "Beaverton"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Beaverton",
-      "state": "Oregon"
-    },
-    "founded": 1964,
-    "manufacturing": [
-      "Vietnam",
-      "China",
-      "Indonesia",
-      "Thailand"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes",
-      "Sports"
-    ],
-    "common_products": [
-      "Sneakers",
-      "Athletic wear",
-      "Sportswear",
-      "Accessories"
-    ]
-  },
-  "adidas": {
-    "origin": {
-      "country": "Germany",
-      "city": "Herzogenaurach"
-    },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Herzogenaurach"
-    },
-    "founded": 1949,
-    "manufacturing": [
-      "Vietnam",
-      "China",
-      "Indonesia",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes",
-      "Sports"
-    ],
-    "common_products": [
-      "Sneakers",
-      "Athletic wear",
-      "Football boots",
-      "Accessories"
-    ]
-  },
-  "puma": {
-    "origin": {
-      "country": "Germany",
-      "city": "Herzogenaurach"
-    },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Herzogenaurach"
-    },
-    "founded": 1948,
-    "manufacturing": [
-      "Vietnam",
-      "China",
-      "Indonesia",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes",
-      "Sports"
-    ],
-    "common_products": [
-      "Sneakers",
-      "Athletic wear",
-      "Sports equipment",
-      "Accessories"
-    ]
-  },
-  "under armour": {
-    "origin": {
-      "country": "USA",
-      "city": "Baltimore"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Baltimore",
-      "state": "Maryland"
-    },
-    "founded": 1996,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Indonesia",
-      "Malaysia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes",
-      "Sports"
-    ],
-    "common_products": [
-      "Athletic wear",
-      "Shoes",
-      "Sports accessories",
-      "Fitness gear"
-    ]
-  },
-  "new balance": {
-    "origin": {
-      "country": "USA",
-      "city": "Boston"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Boston",
-      "state": "Massachusetts"
-    },
-    "founded": 1906,
-    "manufacturing": [
-      "USA",
-      "UK",
-      "China",
-      "Vietnam"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes",
-      "Sports"
-    ],
-    "common_products": [
-      "Running shoes",
-      "Athletic wear",
-      "Lifestyle sneakers",
-      "Sports gear"
-    ]
-  },
-  "reebok": {
-    "origin": {
-      "country": "UK",
-      "city": "Bolton"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Boston",
-      "state": "Massachusetts"
-    },
-    "founded": 1958,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes",
-      "Sports"
-    ],
-    "common_products": [
-      "Sneakers",
-      "Athletic wear",
-      "Fitness equipment",
-      "Accessories"
-    ]
-  },
-  "asics": {
-    "origin": {
-      "country": "Japan",
-      "city": "Kobe"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Kobe"
-    },
-    "founded": 1949,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "Vietnam",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Anima Sana In Corpore Sano"
-  },
-  "converse": {
-    "origin": {
-      "country": "USA",
-      "city": "Malden"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Boston",
-      "state": "Massachusetts"
-    },
-    "founded": 1908,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes"
-    ],
-    "common_products": [
-      "Chuck Taylor sneakers",
-      "Casual shoes",
-      "Apparel",
-      "Accessories"
-    ],
-    "notes": "Owned by Nike"
-  },
-  "vans": {
-    "origin": {
-      "country": "USA",
-      "city": "Anaheim"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Costa Mesa",
-      "state": "California"
-    },
-    "founded": 1966,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Shoes"
-    ],
-    "common_products": [
-      "Skateboard shoes",
-      "Casual wear",
-      "Accessories",
-      "Backpacks"
-    ]
-  },
-  "ralph lauren": {
-    "origin": {
-      "country": "USA",
-      "city": "New York"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "New York",
-      "state": "New York"
-    },
-    "founded": 1967,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "India",
-      "Peru"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Accessories",
-      "Home"
-    ],
-    "common_products": [
-      "Polo shirts",
-      "Casual wear",
-      "Home goods",
-      "Fragrances"
-    ]
-  },
-  "calvin klein": {
-    "origin": {
-      "country": "USA",
-      "city": "New York"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "New York",
-      "state": "New York"
-    },
-    "founded": 1968,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Underwear",
-      "Perfume"
-    ],
-    "common_products": [
-      "Underwear",
-      "Jeans",
-      "Perfume",
-      "Casual wear"
-    ]
-  },
-  "tommy hilfiger": {
-    "origin": {
-      "country": "USA",
-      "city": "Elmira"
-    },
-    "headquarters": {
-      "country": "Netherlands",
-      "city": "Amsterdam"
-    },
-    "founded": 1985,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Accessories"
-    ],
-    "common_products": [
-      "Polo shirts",
-      "Casual wear",
-      "Accessories",
-      "Fragrances"
-    ]
-  },
-  "lacoste": {
-    "origin": {
-      "country": "France",
-      "city": "Paris"
-    },
-    "headquarters": {
-      "country": "France",
-      "city": "Paris"
-    },
-    "founded": 1933,
-    "manufacturing": [
-      "France",
-      "Peru",
-      "Thailand",
-      "Morocco"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by René Lacoste"
-  },
-  "burberry": {
-    "origin": {
-      "country": "UK",
-      "city": "London"
-    },
-    "headquarters": {
-      "country": "UK",
-      "city": "London"
-    },
-    "founded": 1856,
-    "manufacturing": [
-      "UK",
-      "Italy",
-      "Poland",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Thomas Burberry"
-  },
-  "louis vuitton": {
-    "origin": {
-      "country": "France",
-      "city": "Paris"
-    },
-    "headquarters": {
-      "country": "France",
-      "city": "Paris"
-    },
-    "founded": 1854,
-    "manufacturing": [
-      "France",
-      "Spain",
-      "Italy",
-      "Switzerland"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Part of LVMH"
-  },
-  "chanel": {
-    "origin": {
-      "country": "France",
-      "city": "Paris"
-    },
-    "headquarters": {
-      "country": "France",
-      "city": "Paris"
-    },
-    "founded": 1910,
-    "manufacturing": [
-      "France",
-      "Italy",
-      "Switzerland"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Gabrielle Chanel"
-  },
-  "gucci": {
-    "origin": {
-      "country": "Italy",
-      "city": "Florence"
-    },
-    "headquarters": {
-      "country": "Italy",
-      "city": "Florence"
-    },
-    "founded": 1921,
-    "manufacturing": [
-      "Italy",
-      "France",
-      "Switzerland"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Part of Kering"
-  },
-  "prada": {
-    "origin": {
-      "country": "Italy",
-      "city": "Milan"
-    },
-    "headquarters": {
-      "country": "Italy",
-      "city": "Milan"
-    },
-    "founded": 1913,
-    "manufacturing": [
-      "Italy",
-      "Turkey",
-      "Romania"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Mario Prada"
-  },
-  "rolex": {
-    "origin": {
-      "country": "Switzerland",
-      "city": "Geneva"
-    },
-    "headquarters": {
-      "country": "Switzerland",
-      "city": "Geneva"
-    },
-    "founded": 1905,
-    "manufacturing": [
-      "Switzerland"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Hans Wilsdorf"
-  },
-  "omega": {
-    "origin": {
-      "country": "Switzerland",
-      "city": "Biel"
-    },
-    "headquarters": {
-      "country": "Switzerland",
-      "city": "Biel"
-    },
-    "founded": 1848,
-    "manufacturing": [
-      "Switzerland"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Part of Swatch Group"
-  },
-  "coca-cola": {
-    "origin": {
-      "country": "USA",
-      "city": "Atlanta"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Atlanta",
-      "state": "Georgia"
-    },
-    "founded": 1886,
-    "manufacturing": [
-      "Global bottling network"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Invented by John Pemberton"
-  },
-  "pepsi": {
-    "origin": {
-      "country": "USA",
-      "city": "Purchase"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Purchase",
-      "state": "New York"
-    },
-    "founded": 1893,
-    "manufacturing": [
-      "Global bottling network"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Originally Brad's Drink"
-  },
-  "mcdonalds": {
-    "origin": {
-      "country": "USA",
-      "city": "Chicago"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Chicago",
-      "state": "Illinois"
-    },
-    "founded": 1940,
-    "manufacturing": [
-      "Franchise model"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by McDonald brothers"
-  },
-  "ikea": {
-    "origin": {
-      "country": "Sweden",
-      "city": "Delft"
-    },
-    "headquarters": {
-      "country": "Netherlands",
-      "city": "Delft"
-    },
-    "founded": 1943,
-    "manufacturing": [
-      "Poland",
-      "Romania",
-      "China",
-      "Lithuania"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded in Sweden by Ingvar Kamprad"
-  },
-  "h&m": {
-    "origin": {
-      "country": "Sweden",
-      "city": "Stockholm"
-    },
-    "headquarters": {
-      "country": "Sweden",
-      "city": "Stockholm"
-    },
-    "founded": 1947,
-    "manufacturing": [
-      "China",
-      "Bangladesh",
-      "Turkey",
-      "Myanmar"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing",
-      "Accessories"
-    ],
-    "common_products": [
-      "Fast fashion",
-      "Casual wear",
-      "Accessories",
-      "Home goods"
-    ]
-  },
-  "lego": {
-    "origin": {
-      "country": "Denmark",
-      "city": "Billund"
-    },
-    "headquarters": {
-      "country": "Denmark",
-      "city": "Billund"
-    },
-    "founded": 1932,
-    "manufacturing": [
-      "Denmark",
-      "Hungary",
-      "Mexico",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Toys",
-      "Building Sets"
-    ],
-    "common_products": [
-      "Building blocks",
-      "Sets",
-      "Technic",
-      "Minifigures"
-    ]
-  },
-  "mattel": {
-    "origin": {
-      "country": "USA",
-      "city": "El Segundo"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "El Segundo",
-      "state": "California"
-    },
-    "founded": 1945,
-    "manufacturing": [
-      "China",
-      "Mexico",
-      "Malaysia",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Toys",
-      "Games"
-    ],
-    "common_products": [
-      "Barbie",
-      "Hot Wheels",
-      "Fisher-Price",
-      "Board games"
-    ]
-  },
-  "hasbro": {
-    "origin": {
-      "country": "USA",
-      "city": "Pawtucket"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Pawtucket",
-      "state": "Rhode Island"
-    },
-    "founded": 1923,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Toys",
-      "Games"
-    ],
-    "common_products": [
-      "Transformers",
-      "Monopoly",
-      "Play-Doh",
-      "Nerf",
-      "My Little Pony"
-    ]
-  },
-  "philips": {
-    "origin": {
-      "country": "Netherlands",
-      "city": "Amsterdam"
-    },
-    "headquarters": {
-      "country": "Netherlands",
-      "city": "Amsterdam"
-    },
-    "founded": 1891,
-    "manufacturing": [
-      "Netherlands",
-      "China",
-      "Mexico",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Beauty",
-      "Health",
-      "Electronics",
-      "Home"
-    ],
-    "common_products": [
-      "Electric shavers",
-      "Hair dryers",
-      "Toothbrushes",
-      "Air purifiers"
-    ]
-  },
-  "bosch": {
-    "origin": {
-      "country": "Germany",
-      "city": "Stuttgart"
-    },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Stuttgart"
-    },
-    "founded": 1886,
-    "manufacturing": [
-      "Germany",
-      "China",
-      "India",
-      "Mexico"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Tools",
-      "Home Improvement",
-      "Appliances"
-    ],
-    "common_products": [
-      "Power tools",
-      "Appliances",
-      "Automotive parts",
-      "Security systems"
-    ]
-  },
-  "siemens": {
-    "origin": {
-      "country": "Germany",
-      "city": "Munich"
-    },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Munich"
-    },
-    "founded": 1847,
-    "manufacturing": [
-      "Germany",
-      "China",
-      "USA",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Founded by Werner von Siemens"
-  },
-  "doogee": {
-    "origin": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "founded": 2013,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Smartphone manufacturer, confirmed Shenzhen origin"
-  },
-  "vesgantti": {
-    "origin": {
-      "country": "UK",
-      "city": "Sheffield"
-    },
-    "headquarters": {
-      "country": "UK",
-      "city": "Sheffield"
-    },
-    "founded": 2017,
-    "manufacturing": [
-      "UK",
-      "China"
-    ],
-    "fulfillment": "UK/EU",
-    "verified": true,
-    "notes": "Mattress brand, UK-based company"
-  },
-  "shan zu": {
-    "origin": {
-      "country": "China",
-      "city": "Yangjiang"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Yangjiang"
-    },
-    "founded": 2015,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "notes": "Kitchen knife manufacturer, Yangjiang Guangdong"
-  },
-  "asus": {
-    "origin": {
-      "country": "Taiwan",
-      "city": "Taipei"
-    },
-    "headquarters": {
-      "country": "Taiwan",
-      "city": "Taipei"
-    },
-    "founded": 1989,
-    "manufacturing": [
-      "Taiwan",
-      "China",
-      "Czech Republic"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers",
-      "Gaming"
-    ],
-    "common_products": [
-      "Laptops",
-      "Motherboards",
-      "Graphics Cards",
-      "ROG Gaming"
-    ]
-  },
-  "acer": {
-    "origin": {
-      "country": "Taiwan",
-      "city": "New Taipei"
-    },
-    "headquarters": {
-      "country": "Taiwan",
-      "city": "New Taipei"
-    },
-    "founded": 1976,
-    "manufacturing": [
-      "Taiwan",
-      "China",
-      "Philippines"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers"
-    ],
-    "common_products": [
-      "Laptops",
-      "Monitors",
-      "Desktops",
-      "Tablets"
-    ]
-  },
-  "realme": {
-    "origin": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "headquarters": {
-      "country": "China",
-      "city": "Shenzhen"
-    },
-    "founded": 2018,
-    "manufacturing": [
-      "China",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Mobile Phones"
-    ],
-    "common_products": [
-      "Budget smartphones",
-      "Earbuds",
-      "Chargers"
-    ]
-  },
-  "bose": {
-    "origin": {
-      "country": "USA",
-      "city": "Framingham"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Framingham",
-      "state": "Massachusetts"
-    },
-    "founded": 1964,
-    "manufacturing": [
-      "USA",
-      "Ireland",
-      "Malaysia",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Audio"
-    ],
-    "common_products": [
-      "Headphones",
-      "Speakers",
-      "Soundbars",
-      "Earbuds"
-    ]
-  },
-  "jbl": {
-    "origin": {
-      "country": "USA",
-      "city": "Los Angeles"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Stamford",
-      "state": "Connecticut"
-    },
-    "founded": 1946,
-    "manufacturing": [
-      "China",
-      "Hungary",
-      "Mexico"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Audio"
-    ],
-    "common_products": [
-      "Bluetooth speakers",
-      "Headphones",
-      "Soundbars",
-      "Car audio"
-    ]
-  },
-  "beats": {
-    "origin": {
-      "country": "USA",
-      "city": "Santa Monica"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cupertino",
-      "state": "California"
-    },
-    "founded": 2006,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Audio"
-    ],
-    "common_products": [
-      "Headphones",
-      "Earbuds",
-      "Speakers"
-    ],
-    "notes": "Owned by Apple since 2014"
-  },
-  "sennheiser": {
-    "origin": {
-      "country": "Germany",
-      "city": "Wedemark"
-    },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Wedemark"
-    },
-    "founded": 1945,
-    "manufacturing": [
-      "Germany",
-      "Ireland",
-      "Romania"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Audio"
-    ],
-    "common_products": [
-      "Professional headphones",
-      "Microphones",
-      "Audio equipment"
-    ]
-  },
-  "audio-technica": {
-    "origin": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1962,
-    "manufacturing": [
-      "Japan",
-      "Taiwan",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Audio"
-    ],
-    "common_products": [
-      "Headphones",
-      "Turntables",
-      "Microphones",
-      "DJ equipment"
-    ]
-  },
-  "nintendo": {
-    "origin": {
-      "country": "Japan",
-      "city": "Kyoto"
-    },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Kyoto"
-    },
-    "founded": 1889,
-    "manufacturing": [
-      "Japan",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Gaming",
-      "Toys"
-    ],
-    "common_products": [
-      "Nintendo Switch",
-      "Games",
-      "Controllers",
-      "Accessories"
-    ]
-  },
-  "razer": {
-    "origin": {
-      "country": "USA",
-      "city": "San Diego"
-    },
-    "headquarters": {
-      "country": "Singapore",
-      "city": "Singapore"
-    },
-    "founded": 2005,
-    "manufacturing": [
-      "China",
-      "Taiwan"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Gaming",
-      "Computers"
-    ],
-    "common_products": [
-      "Gaming mice",
-      "Keyboards",
-      "Headsets",
-      "Laptops"
-    ]
-  },
-  "logitech": {
-    "origin": {
-      "country": "Switzerland",
-      "city": "Lausanne"
-    },
-    "headquarters": {
-      "country": "Switzerland",
-      "city": "Lausanne"
-    },
-    "founded": 1981,
-    "manufacturing": [
-      "China",
-      "Taiwan"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers",
-      "Gaming"
-    ],
-    "common_products": [
-      "Mice",
-      "Keyboards",
-      "Webcams",
-      "Gaming gear",
-      "Speakers"
-    ]
-  },
-  "corsair": {
-    "origin": {
-      "country": "USA",
-      "city": "Fremont"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Fremont",
-      "state": "California"
-    },
-    "founded": 1994,
-    "manufacturing": [
-      "Taiwan",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Computers",
-      "Gaming"
-    ],
-    "common_products": [
-      "Gaming keyboards",
-      "Memory",
-      "Power supplies",
-      "Cases"
-    ]
-  },
-  "gopro": {
-    "origin": {
-      "country": "USA",
-      "city": "San Mateo"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "San Mateo",
-      "state": "California"
-    },
-    "founded": 2002,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Electronics",
-      "Cameras",
-      "Sports"
-    ],
-    "common_products": [
-      "Action cameras",
-      "Accessories",
-      "Mounts",
-      "Cases"
-    ]
-  },
-  "kitchenaid": {
-    "origin": {
-      "country": "USA",
-      "city": "Troy"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Benton Harbor",
-      "state": "Michigan"
-    },
-    "founded": 1919,
-    "manufacturing": [
-      "USA",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Home & Kitchen",
-      "Appliances"
-    ],
-    "common_products": [
-      "Stand mixers",
-      "Blenders",
-      "Food processors",
-      "Cookware"
-    ]
-  },
-  "cuisinart": {
-    "origin": {
-      "country": "USA",
-      "city": "Stamford"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Stamford",
-      "state": "Connecticut"
-    },
-    "founded": 1971,
-    "manufacturing": [
-      "China",
-      "USA"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Home & Kitchen",
-      "Appliances"
-    ],
-    "common_products": [
-      "Food processors",
-      "Coffee makers",
-      "Cookware",
-      "Blenders"
-    ]
-  },
-  "ninja": {
-    "origin": {
-      "country": "USA",
-      "city": "Needham"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Needham",
-      "state": "Massachusetts"
-    },
-    "founded": 2008,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Home & Kitchen",
-      "Appliances"
-    ],
-    "common_products": [
-      "Blenders",
-      "Food processors",
-      "Air fryers",
-      "Coffee makers"
-    ]
-  },
-  "instant pot": {
-    "origin": {
-      "country": "Canada",
-      "city": "Ottawa"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "San Jose",
-      "state": "California"
-    },
-    "founded": 2009,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Home & Kitchen",
-      "Appliances"
-    ],
-    "common_products": [
-      "Pressure cookers",
-      "Air fryers",
-      "Blenders",
-      "Accessories"
-    ]
-  },
   "breville": {
     "origin": {
       "country": "Australia",
       "city": "Sydney"
     },
-    "headquarters": {
-      "country": "Australia",
-      "city": "Sydney"
-    },
-    "founded": 1932,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
-      "Appliances"
+      "Small Appliances"
     ],
     "common_products": [
       "Coffee machines",
       "Toasters",
-      "Juicers",
+      "Blenders",
       "Food processors"
     ]
   },
-  "vitamix": {
+  "sage": {
     "origin": {
-      "country": "USA",
-      "city": "Cleveland"
+      "country": "UK",
+      "city": "London"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cleveland",
-      "state": "Ohio"
-    },
-    "founded": 1921,
-    "manufacturing": [
-      "USA",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
-      "Appliances"
+      "Coffee Machines"
     ],
     "common_products": [
-      "High-performance blenders",
-      "Food processors",
-      "Accessories"
+      "Espresso machines",
+      "Coffee grinders",
+      "Barista equipment"
     ]
   },
-  "oxo": {
+  "morphy_richards": {
     "origin": {
-      "country": "USA",
-      "city": "New York"
+      "country": "UK",
+      "city": "Manchester"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "New York",
-      "state": "New York"
-    },
-    "founded": 1990,
-    "manufacturing": [
-      "China",
-      "Taiwan"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
-      "Kitchen Tools"
+      "Small Appliances"
     ],
     "common_products": [
-      "Kitchen tools",
-      "Storage containers",
+      "Kettles",
+      "Toasters",
+      "Slow cookers",
+      "Food processors"
+    ]
+  },
+  "russell_hobbs": {
+    "origin": {
+      "country": "UK",
+      "city": "Manchester"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Small Appliances"
+    ],
+    "common_products": [
+      "Kettles",
       "Coffee makers",
-      "Gadgets"
+      "Toasters",
+      "Steamers"
     ]
   },
-  "pyrex": {
+  "tefal": {
     "origin": {
-      "country": "USA",
-      "city": "Corning"
+      "country": "France",
+      "city": "Lyon"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Rosemont",
-      "state": "Illinois"
-    },
-    "founded": 1915,
-    "manufacturing": [
-      "USA",
-      "France",
-      "Brazil"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
       "Cookware"
     ],
     "common_products": [
-      "Glass cookware",
-      "Storage containers",
-      "Measuring cups",
-      "Bakeware"
+      "Non-stick pans",
+      "Pressure cookers",
+      "Air fryers"
     ]
   },
-  "le creuset": {
+  "le_creuset": {
     "origin": {
       "country": "France",
       "city": "Fresnoy-le-Grand"
     },
-    "headquarters": {
-      "country": "France",
-      "city": "Fresnoy-le-Grand"
-    },
-    "founded": 1925,
-    "manufacturing": [
-      "France"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
       "Cookware"
     ],
     "common_products": [
       "Cast iron cookware",
-      "Bakeware",
-      "Kitchen tools",
-      "Dinnerware"
-    ]
-  },
-  "lodge": {
-    "origin": {
-      "country": "USA",
-      "city": "South Pittsburg"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "South Pittsburg",
-      "state": "Tennessee"
-    },
-    "founded": 1896,
-    "manufacturing": [
-      "USA"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Home & Kitchen",
-      "Cookware"
-    ],
-    "common_products": [
-      "Cast iron skillets",
       "Dutch ovens",
-      "Griddles",
-      "Accessories"
+      "Bakeware"
     ]
   },
-  "all-clad": {
+  "circulon": {
     "origin": {
       "country": "USA",
-      "city": "Canonsburg"
+      "city": "Ohio"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Canonsburg",
-      "state": "Pennsylvania"
-    },
-    "founded": 1971,
-    "manufacturing": [
-      "USA"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
       "Cookware"
     ],
     "common_products": [
-      "Stainless steel cookware",
-      "Non-stick pans",
-      "Kitchen tools"
+      "Non-stick cookware",
+      "Hard anodized pans"
     ]
   },
-  "zwilling": {
+  "tower": {
     "origin": {
-      "country": "Germany",
-      "city": "Solingen"
+      "country": "UK",
+      "city": "Manchester"
     },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Solingen"
-    },
-    "founded": 1731,
-    "manufacturing": [
-      "Germany",
-      "Spain",
-      "China",
-      "Japan"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
-      "Knives",
-      "Cookware"
+      "Small Appliances"
     ],
     "common_products": [
-      "Knives",
-      "Cookware",
-      "Kitchen tools",
-      "Scissors"
+      "Air fryers",
+      "Slow cookers",
+      "Pressure cookers"
     ]
   },
-  "wusthof": {
+  "ikea": {
     "origin": {
-      "country": "Germany",
-      "city": "Solingen"
+      "country": "Sweden",
+      "city": "Älmhult"
     },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Solingen"
-    },
-    "founded": 1814,
-    "manufacturing": [
-      "Germany"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Home & Kitchen",
-      "Knives"
+      "Furniture",
+      "Storage"
     ],
     "common_products": [
-      "Kitchen knives",
-      "Knife sets",
-      "Sharpening tools",
-      "Kitchen tools"
+      "Storage boxes",
+      "Furniture",
+      "Kitchen accessories"
     ]
   },
-  "olay": {
+  "joseph_joseph": {
     "origin": {
-      "country": "South Africa",
-      "city": "Durban"
+      "country": "UK",
+      "city": "London"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cincinnati",
-      "state": "Ohio"
-    },
-    "founded": 1952,
-    "manufacturing": [
-      "USA",
-      "UK",
-      "Thailand",
-      "Singapore"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Beauty",
-      "Skincare"
+      "Home & Kitchen",
+      "Kitchen Tools"
     ],
     "common_products": [
-      "Moisturizers",
-      "Cleansers",
-      "Serums",
-      "Anti-aging products"
-    ],
-    "notes": "Owned by Procter & Gamble"
+      "Kitchen gadgets",
+      "Storage solutions",
+      "Cutting boards"
+    ]
   },
-  "neutrogena": {
+  "brabantia": {
     "origin": {
-      "country": "USA",
-      "city": "Los Angeles"
+      "country": "Netherlands",
+      "city": "Valkenswaard"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Los Angeles",
-      "state": "California"
-    },
-    "founded": 1930,
-    "manufacturing": [
-      "USA",
-      "Canada",
-      "France"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Beauty",
-      "Skincare"
+      "Home & Kitchen",
+      "Household"
     ],
     "common_products": [
-      "Cleansers",
-      "Moisturizers",
-      "Sunscreen",
-      "Acne treatments"
-    ],
-    "notes": "Owned by Johnson & Johnson"
+      "Bins",
+      "Ironing boards",
+      "Kitchen accessories"
+    ]
   },
-  "cerave": {
+  "simplehuman": {
     "origin": {
       "country": "USA",
-      "city": "New York"
+      "city": "California"
     },
-    "headquarters": {
-      "country": "France",
-      "city": "Clichy"
-    },
-    "founded": 2005,
-    "manufacturing": [
-      "USA",
-      "Canada"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Beauty",
-      "Skincare"
+      "Home & Kitchen",
+      "Bathroom"
     ],
     "common_products": [
-      "Moisturizers",
-      "Cleansers",
-      "Serums",
-      "Body lotions"
-    ],
-    "notes": "Owned by L'Oréal"
+      "Trash cans",
+      "Soap dispensers",
+      "Mirrors"
+    ]
   },
-  "cetaphil": {
-    "origin": {
-      "country": "USA",
-      "city": "Texas"
-    },
-    "headquarters": {
-      "country": "Switzerland",
-      "city": "Basel"
-    },
-    "founded": 1947,
-    "manufacturing": [
-      "USA",
-      "Canada",
-      "France"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Beauty",
-      "Skincare"
-    ],
-    "common_products": [
-      "Gentle cleansers",
-      "Moisturizers",
-      "Baby care",
-      "Sensitive skin"
-    ],
-    "notes": "Owned by Galderma"
-  },
-  "the ordinary": {
+  "the_ordinary": {
     "origin": {
       "country": "Canada",
       "city": "Toronto"
     },
-    "headquarters": {
-      "country": "Canada",
-      "city": "Toronto"
-    },
-    "founded": 2013,
-    "manufacturing": [
-      "Canada",
-      "South Korea"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Beauty",
       "Skincare"
@@ -2453,28 +195,89 @@
       "Serums",
       "Acids",
       "Moisturizers",
-      "Treatments"
+      "Cleansers"
     ]
   },
-  "l'oreal": {
+  "cerave": {
+    "origin": {
+      "country": "USA",
+      "city": "New York"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare"
+    ],
+    "common_products": [
+      "Moisturizers",
+      "Cleansers",
+      "Sunscreen"
+    ]
+  },
+  "neutrogena": {
+    "origin": {
+      "country": "USA",
+      "city": "California"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare"
+    ],
+    "common_products": [
+      "Face wash",
+      "Moisturizers",
+      "Sunscreen"
+    ]
+  },
+  "olay": {
+    "origin": {
+      "country": "USA",
+      "city": "Cincinnati"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare"
+    ],
+    "common_products": [
+      "Anti-aging creams",
+      "Moisturizers",
+      "Cleansers"
+    ]
+  },
+  "maybelline": {
+    "origin": {
+      "country": "USA",
+      "city": "New York"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Makeup"
+    ],
+    "common_products": [
+      "Mascara",
+      "Foundation",
+      "Lipstick"
+    ]
+  },
+  "revlon": {
+    "origin": {
+      "country": "USA",
+      "city": "New York"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Makeup"
+    ],
+    "common_products": [
+      "Lipstick",
+      "Foundation",
+      "Nail polish"
+    ]
+  },
+  "loreal": {
     "origin": {
       "country": "France",
-      "city": "Clichy"
+      "city": "Paris"
     },
-    "headquarters": {
-      "country": "France",
-      "city": "Clichy"
-    },
-    "founded": 1909,
-    "manufacturing": [
-      "France",
-      "USA",
-      "Brazil",
-      "China",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Beauty",
       "Hair Care",
@@ -2482,30 +285,15 @@
     ],
     "common_products": [
       "Shampoo",
-      "Hair color",
-      "Skincare",
-      "Makeup"
+      "Hair dye",
+      "Face creams"
     ]
   },
-  "pantene": {
+  "tresemme": {
     "origin": {
-      "country": "Switzerland",
-      "city": "Basel"
+      "country": "UK",
+      "city": "London"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cincinnati",
-      "state": "Ohio"
-    },
-    "founded": 1945,
-    "manufacturing": [
-      "USA",
-      "Thailand",
-      "Philippines",
-      "Romania"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Beauty",
       "Hair Care"
@@ -2513,624 +301,746 @@
     "common_products": [
       "Shampoo",
       "Conditioner",
-      "Hair treatments",
-      "Styling products"
-    ],
-    "notes": "Owned by Procter & Gamble"
+      "Hair styling"
+    ]
   },
-  "head & shoulders": {
+  "head_shoulders": {
     "origin": {
       "country": "USA",
       "city": "Cincinnati"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cincinnati",
-      "state": "Ohio"
-    },
-    "founded": 1961,
-    "manufacturing": [
-      "USA",
-      "UK",
-      "Romania",
-      "Philippines"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Beauty",
       "Hair Care"
     ],
     "common_products": [
       "Anti-dandruff shampoo",
-      "Conditioner",
-      "Scalp treatments"
-    ],
-    "notes": "Owned by Procter & Gamble"
+      "Conditioner"
+    ]
   },
-  "tresemme": {
+  "garnier": {
     "origin": {
-      "country": "USA",
-      "city": "St. Louis"
+      "country": "France",
+      "city": "Paris"
     },
-    "headquarters": {
-      "country": "UK",
-      "city": "London"
-    },
-    "founded": 1947,
-    "manufacturing": [
-      "USA",
-      "UK",
-      "Argentina",
-      "Brazil"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Beauty",
-      "Hair Care"
+      "Hair Care",
+      "Skincare"
     ],
     "common_products": [
-      "Shampoo",
-      "Conditioner",
-      "Styling products",
-      "Hair treatments"
-    ],
-    "notes": "Owned by Unilever"
-  },
-  "braun": {
-    "origin": {
-      "country": "Germany",
-      "city": "Kronberg"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Cincinnati",
-      "state": "Ohio"
-    },
-    "founded": 1921,
-    "manufacturing": [
-      "Germany",
-      "Mexico",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Beauty",
-      "Health",
-      "Electronics"
-    ],
-    "common_products": [
-      "Electric shavers",
-      "Hair removal",
-      "Thermometers",
-      "Hair styling"
-    ],
-    "notes": "Owned by Procter & Gamble"
-  },
-  "levi's": {
-    "origin": {
-      "country": "USA",
-      "city": "San Francisco"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "San Francisco",
-      "state": "California"
-    },
-    "founded": 1853,
-    "manufacturing": [
-      "Mexico",
-      "Turkey",
-      "Bangladesh",
-      "Egypt"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Clothing"
-    ],
-    "common_products": [
-      "Jeans",
-      "Denim jackets",
-      "T-shirts",
-      "Casual wear"
+      "Hair dye",
+      "Face masks",
+      "Micellar water"
     ]
   },
-  "gap": {
+  "anker": {
     "origin": {
-      "country": "USA",
-      "city": "San Francisco"
+      "country": "China",
+      "city": "Shenzhen"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "San Francisco",
-      "state": "California"
-    },
-    "founded": 1969,
-    "manufacturing": [
-      "Vietnam",
-      "Bangladesh",
-      "China",
-      "India"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Clothing"
+      "Electronics",
+      "Accessories"
     ],
     "common_products": [
-      "Casual wear",
-      "Jeans",
-      "T-shirts",
-      "Kids clothing"
+      "Power banks",
+      "Chargers",
+      "Cables",
+      "Speakers"
     ]
   },
-  "uniqlo": {
+  "belkin": {
     "origin": {
-      "country": "Japan",
-      "city": "Yamaguchi"
+      "country": "USA",
+      "city": "California"
     },
-    "headquarters": {
-      "country": "Japan",
-      "city": "Tokyo"
-    },
-    "founded": 1949,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Bangladesh",
-      "Indonesia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Clothing"
+      "Electronics",
+      "Accessories"
     ],
     "common_products": [
-      "Basic wear",
-      "Heattech",
-      "Ultra Light Down",
-      "Casual wear"
+      "Chargers",
+      "Cases",
+      "Cables",
+      "Wireless chargers"
     ]
   },
-  "nature's bounty": {
+  "jbl": {
     "origin": {
       "country": "USA",
-      "city": "Ronkonkoma"
+      "city": "California"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Ronkonkoma",
-      "state": "New York"
-    },
-    "founded": 1971,
-    "manufacturing": [
-      "USA"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Health",
-      "Vitamins"
+      "Electronics",
+      "Audio"
     ],
     "common_products": [
-      "Vitamins",
-      "Supplements",
-      "Minerals",
-      "Herbal products"
+      "Bluetooth speakers",
+      "Headphones",
+      "Soundbars"
     ]
   },
-  "centrum": {
+  "bose": {
     "origin": {
       "country": "USA",
-      "city": "Madison"
+      "city": "Massachusetts"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Madison",
-      "state": "New Jersey"
-    },
-    "founded": 1978,
-    "manufacturing": [
-      "USA",
-      "Canada"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Health",
-      "Vitamins"
+      "Electronics",
+      "Audio"
     ],
     "common_products": [
-      "Multivitamins",
-      "Specialized vitamins",
-      "Minerals",
-      "Supplements"
-    ],
-    "notes": "Owned by Haleon"
+      "Headphones",
+      "Speakers",
+      "Noise canceling"
+    ]
   },
-  "optimum nutrition": {
+  "beats": {
     "origin": {
       "country": "USA",
-      "city": "Downers Grove"
+      "city": "California"
     },
-    "headquarters": {
-      "country": "Ireland",
-      "city": "Dublin"
-    },
-    "founded": 1986,
-    "manufacturing": [
-      "USA",
-      "UK"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Health",
-      "Sports Nutrition"
+      "Electronics",
+      "Audio"
     ],
     "common_products": [
-      "Protein powder",
-      "Pre-workout",
-      "Amino acids",
-      "Creatine"
-    ],
-    "notes": "Owned by Glanbia"
+      "Headphones",
+      "Earbuds",
+      "Speakers"
+    ]
   },
-  "myprotein": {
+  "sandisk": {
     "origin": {
-      "country": "UK",
-      "city": "Manchester"
+      "country": "USA",
+      "city": "California"
     },
-    "headquarters": {
-      "country": "UK",
-      "city": "Manchester"
-    },
-    "founded": 2004,
-    "manufacturing": [
-      "UK"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Health",
-      "Sports Nutrition"
+      "Electronics",
+      "Storage"
     ],
     "common_products": [
-      "Protein powder",
-      "Supplements",
-      "Vitamins",
-      "Sports nutrition"
-    ],
-    "notes": "Owned by THG"
+      "Memory cards",
+      "USB drives",
+      "SSDs"
+    ]
   },
-  "fisher-price": {
+  "seagate": {
     "origin": {
       "country": "USA",
-      "city": "East Aurora"
+      "city": "California"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "El Segundo",
-      "state": "California"
-    },
-    "founded": 1930,
-    "manufacturing": [
-      "China",
-      "Mexico"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Toys",
-      "Baby"
+      "Electronics",
+      "Storage"
     ],
     "common_products": [
-      "Baby toys",
-      "Learning toys",
-      "Rock 'n Play",
-      "Little People"
+      "Hard drives",
+      "External drives",
+      "SSDs"
+    ]
+  },
+  "tp_link": {
+    "origin": {
+      "country": "China",
+      "city": "Shenzhen"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Networking"
     ],
-    "notes": "Owned by Mattel"
+    "common_products": [
+      "Routers",
+      "WiFi extenders",
+      "Smart plugs"
+    ]
+  },
+  "netgear": {
+    "origin": {
+      "country": "USA",
+      "city": "California"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Networking"
+    ],
+    "common_products": [
+      "Routers",
+      "Switches",
+      "Security cameras"
+    ]
+  },
+  "ring": {
+    "origin": {
+      "country": "USA",
+      "city": "California"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Smart Home"
+    ],
+    "common_products": [
+      "Doorbells",
+      "Security cameras",
+      "Alarms"
+    ]
+  },
+  "lego": {
+    "origin": {
+      "country": "Denmark",
+      "city": "Billund"
+    },
+    "amazon_categories": [
+      "Toys & Games",
+      "Building"
+    ],
+    "common_products": [
+      "Building sets",
+      "Minifigures",
+      "Technic"
+    ]
   },
   "playmobil": {
     "origin": {
       "country": "Germany",
       "city": "Zirndorf"
     },
-    "headquarters": {
-      "country": "Germany",
-      "city": "Zirndorf"
-    },
-    "founded": 1975,
-    "manufacturing": [
-      "Germany",
-      "Czech Republic",
-      "Spain",
-      "Malta"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Toys"
+      "Toys & Games",
+      "Figures"
     ],
     "common_products": [
       "Playsets",
       "Figures",
-      "Vehicles",
-      "Buildings"
+      "Vehicles"
     ]
   },
-  "penguin random house": {
+  "mattel": {
+    "origin": {
+      "country": "USA",
+      "city": "California"
+    },
+    "amazon_categories": [
+      "Toys & Games",
+      "Dolls"
+    ],
+    "common_products": [
+      "Barbie",
+      "Hot Wheels",
+      "Fisher-Price"
+    ]
+  },
+  "hasbro": {
+    "origin": {
+      "country": "USA",
+      "city": "Rhode Island"
+    },
+    "amazon_categories": [
+      "Toys & Games",
+      "Board Games"
+    ],
+    "common_products": [
+      "Monopoly",
+      "Transformers",
+      "My Little Pony"
+    ]
+  },
+  "ravensburger": {
+    "origin": {
+      "country": "Germany",
+      "city": "Ravensburg"
+    },
+    "amazon_categories": [
+      "Toys & Games",
+      "Puzzles"
+    ],
+    "common_products": [
+      "Jigsaw puzzles",
+      "Board games",
+      "Educational toys"
+    ]
+  },
+  "vtech": {
+    "origin": {
+      "country": "Hong Kong",
+      "city": "Hong Kong"
+    },
+    "amazon_categories": [
+      "Toys & Games",
+      "Educational"
+    ],
+    "common_products": [
+      "Learning toys",
+      "Tablets for kids",
+      "Electronic toys"
+    ]
+  },
+  "fisher_price": {
     "origin": {
       "country": "USA",
       "city": "New York"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "New York",
-      "state": "New York"
-    },
-    "founded": 2013,
-    "manufacturing": [
-      "USA",
-      "UK",
-      "Germany",
-      "Canada"
+    "amazon_categories": [
+      "Toys & Games",
+      "Baby Toys"
     ],
-    "fulfillment": "Global",
-    "verified": true,
+    "common_products": [
+      "Baby toys",
+      "Learning toys",
+      "Ride-on toys"
+    ]
+  },
+  "penguin_random_house": {
+    "origin": {
+      "country": "UK",
+      "city": "London"
+    },
     "amazon_categories": [
       "Books",
-      "Kindle"
+      "Fiction"
     ],
     "common_products": [
       "Fiction",
       "Non-fiction",
-      "Children's books",
-      "Academic texts"
-    ],
-    "notes": "Merger of Penguin and Random House"
+      "Children's books"
+    ]
   },
   "harpercollins": {
     "origin": {
       "country": "USA",
       "city": "New York"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "New York",
-      "state": "New York"
-    },
-    "founded": 1989,
-    "manufacturing": [
-      "USA",
-      "UK",
-      "India",
-      "Australia"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Books",
-      "Kindle"
+      "Fiction"
     ],
     "common_products": [
       "Fiction",
-      "Non-fiction",
-      "Children's books",
-      "Religious texts"
+      "Biography",
+      "Self-help"
     ]
   },
-  "black+decker": {
+  "macmillan": {
     "origin": {
-      "country": "USA",
-      "city": "Towson"
+      "country": "UK",
+      "city": "London"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "New Britain",
-      "state": "Connecticut"
-    },
-    "founded": 1910,
-    "manufacturing": [
-      "USA",
-      "China",
-      "Mexico"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Tools",
-      "Home Improvement",
-      "Garden"
+      "Books",
+      "Educational"
     ],
     "common_products": [
-      "Power tools",
-      "Hand tools",
-      "Outdoor equipment",
-      "Appliances"
+      "Academic",
+      "Children's",
+      "Fiction"
+    ]
+  },
+  "oxford_university_press": {
+    "origin": {
+      "country": "UK",
+      "city": "Oxford"
+    },
+    "amazon_categories": [
+      "Books",
+      "Academic"
+    ],
+    "common_products": [
+      "Textbooks",
+      "Dictionaries",
+      "Academic"
+    ]
+  },
+  "cambridge_university_press": {
+    "origin": {
+      "country": "UK",
+      "city": "Cambridge"
+    },
+    "amazon_categories": [
+      "Books",
+      "Academic"
+    ],
+    "common_products": [
+      "Textbooks",
+      "Academic journals",
+      "Educational"
+    ]
+  },
+  "royal_canin": {
+    "origin": {
+      "country": "France",
+      "city": "Aimargues"
+    },
+    "amazon_categories": [
+      "Pet Supplies",
+      "Dog Food"
+    ],
+    "common_products": [
+      "Dog food",
+      "Cat food",
+      "Specialized nutrition"
+    ]
+  },
+  "hills": {
+    "origin": {
+      "country": "USA",
+      "city": "Kansas"
+    },
+    "amazon_categories": [
+      "Pet Supplies",
+      "Pet Food"
+    ],
+    "common_products": [
+      "Prescription diet",
+      "Dog food",
+      "Cat food"
+    ]
+  },
+  "purina": {
+    "origin": {
+      "country": "USA",
+      "city": "Missouri"
+    },
+    "amazon_categories": [
+      "Pet Supplies",
+      "Pet Food"
+    ],
+    "common_products": [
+      "Dog food",
+      "Cat food",
+      "Treats"
+    ]
+  },
+  "kong": {
+    "origin": {
+      "country": "USA",
+      "city": "Colorado"
+    },
+    "amazon_categories": [
+      "Pet Supplies",
+      "Dog Toys"
+    ],
+    "common_products": [
+      "Dog toys",
+      "Chew toys",
+      "Treat dispensers"
+    ]
+  },
+  "petmate": {
+    "origin": {
+      "country": "USA",
+      "city": "Texas"
+    },
+    "amazon_categories": [
+      "Pet Supplies",
+      "Accessories"
+    ],
+    "common_products": [
+      "Pet carriers",
+      "Bowls",
+      "Beds"
+    ]
+  },
+  "staples": {
+    "origin": {
+      "country": "USA",
+      "city": "Massachusetts"
+    },
+    "amazon_categories": [
+      "Office Supplies",
+      "Stationery"
+    ],
+    "common_products": [
+      "Paper",
+      "Pens",
+      "Staplers",
+      "Folders"
+    ]
+  },
+  "pilot": {
+    "origin": {
+      "country": "Japan",
+      "city": "Tokyo"
+    },
+    "amazon_categories": [
+      "Office Supplies",
+      "Pens"
+    ],
+    "common_products": [
+      "Pens",
+      "Markers",
+      "Highlighters"
+    ]
+  },
+  "bic": {
+    "origin": {
+      "country": "France",
+      "city": "Clichy"
+    },
+    "amazon_categories": [
+      "Office Supplies",
+      "Pens"
+    ],
+    "common_products": [
+      "Ballpoint pens",
+      "Lighters",
+      "Razors"
+    ]
+  },
+  "post_it": {
+    "origin": {
+      "country": "USA",
+      "city": "Minnesota"
+    },
+    "amazon_categories": [
+      "Office Supplies",
+      "Notes"
+    ],
+    "common_products": [
+      "Sticky notes",
+      "Flags",
+      "Dispensers"
+    ]
+  },
+  "moleskine": {
+    "origin": {
+      "country": "Italy",
+      "city": "Milan"
+    },
+    "amazon_categories": [
+      "Office Supplies",
+      "Notebooks"
+    ],
+    "common_products": [
+      "Notebooks",
+      "Planners",
+      "Journals"
+    ]
+  },
+  "decathlon": {
+    "origin": {
+      "country": "France",
+      "city": "Lille"
+    },
+    "amazon_categories": [
+      "Sports",
+      "Outdoor Equipment"
+    ],
+    "common_products": [
+      "Camping gear",
+      "Sports equipment",
+      "Clothing"
+    ]
+  },
+  "coleman": {
+    "origin": {
+      "country": "USA",
+      "city": "Kansas"
+    },
+    "amazon_categories": [
+      "Sports",
+      "Camping"
+    ],
+    "common_products": [
+      "Tents",
+      "Sleeping bags",
+      "Coolers"
+    ]
+  },
+  "the_north_face": {
+    "origin": {
+      "country": "USA",
+      "city": "California"
+    },
+    "amazon_categories": [
+      "Sports",
+      "Outdoor Clothing"
+    ],
+    "common_products": [
+      "Jackets",
+      "Backpacks",
+      "Hiking gear"
+    ]
+  },
+  "under_armour": {
+    "origin": {
+      "country": "USA",
+      "city": "Maryland"
+    },
+    "amazon_categories": [
+      "Sports",
+      "Athletic Wear"
+    ],
+    "common_products": [
+      "Athletic wear",
+      "Shoes",
+      "Accessories"
+    ]
+  },
+  "wilson": {
+    "origin": {
+      "country": "USA",
+      "city": "Chicago"
+    },
+    "amazon_categories": [
+      "Sports",
+      "Equipment"
+    ],
+    "common_products": [
+      "Tennis rackets",
+      "Golf clubs",
+      "Sports balls"
+    ]
+  },
+  "pampers": {
+    "origin": {
+      "country": "USA",
+      "city": "Cincinnati"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Diapers"
+    ],
+    "common_products": [
+      "Diapers",
+      "Baby wipes",
+      "Training pants"
+    ]
+  },
+  "huggies": {
+    "origin": {
+      "country": "USA",
+      "city": "Texas"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Diapers"
+    ],
+    "common_products": [
+      "Diapers",
+      "Wipes",
+      "Pull-ups"
+    ]
+  },
+  "tommee_tippee": {
+    "origin": {
+      "country": "UK",
+      "city": "Northamptonshire"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Feeding"
+    ],
+    "common_products": [
+      "Baby bottles",
+      "Sippy cups",
+      "Sterilizers"
+    ]
+  },
+  "chicco": {
+    "origin": {
+      "country": "Italy",
+      "city": "Como"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Gear"
+    ],
+    "common_products": [
+      "Strollers",
+      "Car seats",
+      "High chairs"
+    ]
+  },
+  "johnson_johnson": {
+    "origin": {
+      "country": "USA",
+      "city": "New Jersey"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Bath & Body"
+    ],
+    "common_products": [
+      "Baby shampoo",
+      "Lotion",
+      "Powder"
+    ]
+  },
+  "bosch": {
+    "origin": {
+      "country": "Germany",
+      "city": "Stuttgart"
+    },
+    "amazon_categories": [
+      "Tools",
+      "Power Tools"
+    ],
+    "common_products": [
+      "Drills",
+      "Saws",
+      "Sanders",
+      "Measuring tools"
     ]
   },
   "dewalt": {
     "origin": {
       "country": "USA",
-      "city": "Leola"
+      "city": "Maryland"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "New Britain",
-      "state": "Connecticut"
-    },
-    "founded": 1924,
-    "manufacturing": [
-      "USA",
-      "Mexico",
-      "Brazil",
-      "UK"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Tools",
-      "Home Improvement"
+      "Power Tools"
     ],
     "common_products": [
-      "Power tools",
-      "Hand tools",
-      "Accessories",
-      "Storage"
-    ],
-    "notes": "Owned by Stanley Black & Decker"
+      "Drills",
+      "Circular saws",
+      "Impact drivers"
+    ]
   },
   "makita": {
     "origin": {
       "country": "Japan",
-      "city": "Nagoya"
-    },
-    "headquarters": {
-      "country": "Japan",
       "city": "Anjo"
     },
-    "founded": 1915,
-    "manufacturing": [
-      "Japan",
-      "China",
-      "UK",
-      "USA"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
       "Tools",
-      "Home Improvement"
+      "Power Tools"
     ],
     "common_products": [
-      "Power tools",
       "Cordless tools",
-      "Outdoor equipment",
-      "Accessories"
+      "Angle grinders",
+      "Planers"
     ]
   },
-  "amazon basics": {
+  "stanley": {
     "origin": {
       "country": "USA",
-      "city": "Seattle"
+      "city": "Connecticut"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Seattle",
-      "state": "Washington"
-    },
-    "founded": 2009,
-    "manufacturing": [
-      "China",
-      "India",
-      "Vietnam"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Electronics",
-      "Home",
-      "Office",
-      "Tools"
+      "Tools",
+      "Hand Tools"
     ],
     "common_products": [
-      "Cables",
-      "Batteries",
-      "Office supplies",
-      "Home goods"
-    ],
-    "notes": "Amazon's private label brand"
+      "Tape measures",
+      "Hammers",
+      "Tool boxes"
+    ]
   },
-  "amazon essentials": {
+  "black_decker": {
     "origin": {
       "country": "USA",
-      "city": "Seattle"
+      "city": "Maryland"
     },
-    "headquarters": {
-      "country": "USA",
-      "city": "Seattle",
-      "state": "Washington"
-    },
-    "founded": 2016,
-    "manufacturing": [
-      "China",
-      "Vietnam",
-      "Bangladesh"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
     "amazon_categories": [
-      "Clothing"
+      "Tools",
+      "Power Tools"
     ],
     "common_products": [
-      "Basic clothing",
-      "Underwear",
-      "Socks",
-      "T-shirts"
-    ],
-    "notes": "Amazon's clothing private label"
-  },
-  "solimo": {
-    "origin": {
-      "country": "USA",
-      "city": "Seattle"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Seattle",
-      "state": "Washington"
-    },
-    "founded": 2018,
-    "manufacturing": [
-      "India",
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Health",
-      "Beauty",
-      "Home"
-    ],
-    "common_products": [
-      "Personal care",
-      "Vitamins",
-      "Household items",
-      "Health products"
-    ],
-    "notes": "Amazon's private label for consumables"
-  },
-  "eono": {
-    "origin": {
-      "country": "USA",
-      "city": "Seattle"
-    },
-    "headquarters": {
-      "country": "USA",
-      "city": "Seattle",
-      "state": "Washington"
-    },
-    "founded": 2018,
-    "manufacturing": [
-      "China"
-    ],
-    "fulfillment": "Global",
-    "verified": true,
-    "amazon_categories": [
-      "Home",
-      "Kitchen"
-    ],
-    "common_products": [
-      "Kitchen tools",
-      "Storage",
-      "Organization",
-      "Home accessories"
-    ],
-    "notes": "Amazon's home and kitchen private label"
+      "Drills",
+      "Sanders",
+      "Hedge trimmers"
+    ]
   }
 }
