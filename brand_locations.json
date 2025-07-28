@@ -140,7 +140,7 @@
   "ikea": {
     "origin": {
       "country": "Sweden",
-      "city": "Älmhult"
+      "city": "\u00c4lmhult"
     },
     "amazon_categories": [
       "Home & Kitchen",
@@ -1874,7 +1874,7 @@
   "zara": {
     "origin": {
       "country": "Spain",
-      "city": "A Coruña",
+      "city": "A Coru\u00f1a",
       "region": "Galicia"
     },
     "amazon_categories": [
@@ -2164,8 +2164,8 @@
   "thule": {
     "origin": {
       "country": "Sweden",
-      "city": "Malmö",
-      "region": "Skåne"
+      "city": "Malm\u00f6",
+      "region": "Sk\u00e5ne"
     },
     "amazon_categories": [
       "Automotive",

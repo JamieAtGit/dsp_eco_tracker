@@ -15,6 +15,8 @@ import json
 
 from backend.api.routes.auth import register_routes
 from backend.api.routes.api import calculate_eco_score
+from backend.api.routes.enterprise_dashboard import enterprise_bp
+from backend.api.routes.benchmarking_api import benchmarking_bp
 
 # Add manufacturing complexity system for realistic CO2 calculations
 sys.path.append('/Users/jamie/Documents/University/dsp_eco_tracker/backend/services')
@@ -552,6 +554,14 @@ def handle_500_error(e):
 
 
 register_routes(app)
+
+# Register enterprise dashboard blueprint
+app.register_blueprint(enterprise_bp)
+print("✅ Enterprise dashboard routes registered")
+
+# Register benchmarking API blueprint
+app.register_blueprint(benchmarking_bp)
+print("✅ Supply chain benchmarking routes registered")
 
 
 
@@ -2155,6 +2165,14 @@ def health():
 @app.route("/")
 def home():
     return "<h2>🌍 Flask is running</h2>"
+
+@app.route("/enterprise")
+def enterprise_dashboard():
+    """Serve the enterprise dashboard for Series A demos and enterprise customers."""
+    return send_from_directory(
+        os.path.join(BASE_DIR, "frontend"), 
+        "enterprise_dashboard.html"
+    )
 
 @app.route("/test")
 def test():

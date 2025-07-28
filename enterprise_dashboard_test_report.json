@@ -1,0 +1,287 @@
+{
+  "summary": {
+    "total_tests": 55,
+    "passed": 54,
+    "failed": 1,
+    "success_rate": 98.18181818181819
+  },
+  "test_results": [
+    {
+      "test": "Data file common/data/csv/enhanced_eco_dataset.csv",
+      "status": "PASS",
+      "details": "CSV readable with 5 sample rows"
+    },
+    {
+      "test": "Data file common/data/json/brand_locations.json",
+      "status": "PASS",
+      "details": "JSON readable with 10083 entries"
+    },
+    {
+      "test": "Data file common/data/json/material_insights.json",
+      "status": "PASS",
+      "details": "JSON readable with 173 entries"
+    },
+    {
+      "test": "Service manufacturing_complexity_multipliers.ManufacturingComplexityCalculator",
+      "status": "PASS",
+      "details": "Successfully imported and instantiated"
+    },
+    {
+      "test": "Service enhanced_materials_database.EnhancedMaterialsDatabase",
+      "status": "PASS",
+      "details": "Successfully imported and instantiated"
+    },
+    {
+      "test": "Endpoint /dashboard/overview",
+      "status": "PASS",
+      "details": "Endpoint definition found"
+    },
+    {
+      "test": "Endpoint /analytics/carbon-trends",
+      "status": "PASS",
+      "details": "Endpoint definition found"
+    },
+    {
+      "test": "Endpoint /suppliers/sustainability-scoring",
+      "status": "PASS",
+      "details": "Endpoint definition found"
+    },
+    {
+      "test": "Endpoint /demo/series-a-data",
+      "status": "PASS",
+      "details": "Endpoint definition found"
+    },
+    {
+      "test": "Endpoint /reports/export",
+      "status": "PASS",
+      "details": "Endpoint definition found"
+    },
+    {
+      "test": "Endpoint /health",
+      "status": "PASS",
+      "details": "Endpoint definition found"
+    },
+    {
+      "test": "Function load_enterprise_data",
+      "status": "PASS",
+      "details": "Function definition found"
+    },
+    {
+      "test": "Function load_brand_locations",
+      "status": "PASS",
+      "details": "Function definition found"
+    },
+    {
+      "test": "Function load_material_insights",
+      "status": "PASS",
+      "details": "Function definition found"
+    },
+    {
+      "test": "Function get_dashboard_overview",
+      "status": "PASS",
+      "details": "Function definition found"
+    },
+    {
+      "test": "Function get_carbon_analytics",
+      "status": "PASS",
+      "details": "Function definition found"
+    },
+    {
+      "test": "Function get_supplier_analysis",
+      "status": "PASS",
+      "details": "Function definition found"
+    },
+    {
+      "test": "load_enterprise_data",
+      "status": "PASS",
+      "details": "Loaded 250000 rows of data"
+    },
+    {
+      "test": "load_brand_locations",
+      "status": "PASS",
+      "details": "Loaded 10083 brand locations"
+    },
+    {
+      "test": "load_material_insights",
+      "status": "PASS",
+      "details": "Loaded 173 material insights"
+    },
+    {
+      "test": "Average carbon calculation",
+      "status": "PASS",
+      "details": "Avg carbon: 14.44 kg"
+    },
+    {
+      "test": "Unique suppliers calculation",
+      "status": "PASS",
+      "details": "Found 39 unique suppliers"
+    },
+    {
+      "test": "Recyclability calculation",
+      "status": "PASS",
+      "details": "30.4% high recyclability"
+    },
+    {
+      "test": "HTML element id=\"overview-section\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"analytics-section\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"suppliers-section\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"demo-section\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"total-products\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"avg-carbon\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"total-suppliers\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "HTML element id=\"sustainability-score\"",
+      "status": "PASS",
+      "details": "Element found in HTML"
+    },
+    {
+      "test": "JS function initializeDashboard",
+      "status": "PASS",
+      "details": "JavaScript function found"
+    },
+    {
+      "test": "JS function loadOverviewData",
+      "status": "PASS",
+      "details": "JavaScript function found"
+    },
+    {
+      "test": "JS function showSection",
+      "status": "PASS",
+      "details": "JavaScript function found"
+    },
+    {
+      "test": "JS function populateOverviewSection",
+      "status": "PASS",
+      "details": "JavaScript function found"
+    },
+    {
+      "test": "JS function createCarbonTrendsChart",
+      "status": "PASS",
+      "details": "JavaScript function found"
+    },
+    {
+      "test": "JS function exportData",
+      "status": "PASS",
+      "details": "JavaScript function found"
+    },
+    {
+      "test": "Dependency cdn.tailwindcss.com",
+      "status": "PASS",
+      "details": "Dependency included"
+    },
+    {
+      "test": "Dependency chart.js",
+      "status": "PASS",
+      "details": "Dependency included"
+    },
+    {
+      "test": "Dependency font-awesome",
+      "status": "PASS",
+      "details": "Dependency included"
+    },
+    {
+      "test": "Enterprise blueprint import",
+      "status": "PASS",
+      "details": "Blueprint import found"
+    },
+    {
+      "test": "Enterprise blueprint registration",
+      "status": "PASS",
+      "details": "Blueprint registration found"
+    },
+    {
+      "test": "Enterprise dashboard route",
+      "status": "PASS",
+      "details": "Dashboard route found"
+    },
+    {
+      "test": "Material data for steel",
+      "status": "PASS",
+      "details": "Impact score: 2.0"
+    },
+    {
+      "test": "Material data for aluminum",
+      "status": "PASS",
+      "details": "Impact score: 9.2"
+    },
+    {
+      "test": "Material data for plastic",
+      "status": "PASS",
+      "details": "Impact score: 3.5"
+    },
+    {
+      "test": "Manufacturing complexity calculation",
+      "status": "PASS",
+      "details": "Result: 5.5 kg CO2"
+    },
+    {
+      "test": "Data completeness for title",
+      "status": "PASS",
+      "details": "100.0% complete"
+    },
+    {
+      "test": "Data completeness for origin",
+      "status": "PASS",
+      "details": "100.0% complete"
+    },
+    {
+      "test": "Data completeness for co2_emissions",
+      "status": "PASS",
+      "details": "100.0% complete"
+    },
+    {
+      "test": "Data completeness for material",
+      "status": "PASS",
+      "details": "100.0% complete"
+    },
+    {
+      "test": "Data completeness for inferred_category",
+      "status": "PASS",
+      "details": "100.0% complete"
+    },
+    {
+      "test": "Data completeness for recyclability",
+      "status": "PASS",
+      "details": "100.0% complete"
+    },
+    {
+      "test": "Carbon data ranges",
+      "status": "PASS",
+      "details": "Min: 0.01, Max: 552.00"
+    },
+    {
+      "test": "Origin diversity",
+      "status": "FAIL",
+      "details": "Only 58 unique origins"
+    }
+  ],
+  "errors": [],
+  "timestamp": "2025-07-29T01:34:46.866528"
+}
