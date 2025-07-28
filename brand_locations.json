@@ -13,7 +13,9 @@
       "Toasters",
       "Blenders",
       "Food processors"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "sage": {
     "origin": {
@@ -28,7 +30,9 @@
       "Espresso machines",
       "Coffee grinders",
       "Barista equipment"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "morphy_richards": {
     "origin": {
@@ -44,7 +48,9 @@
       "Toasters",
       "Slow cookers",
       "Food processors"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "russell_hobbs": {
     "origin": {
@@ -60,7 +66,9 @@
       "Coffee makers",
       "Toasters",
       "Steamers"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "tefal": {
     "origin": {
@@ -75,7 +83,9 @@
       "Non-stick pans",
       "Pressure cookers",
       "Air fryers"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "le_creuset": {
     "origin": {
@@ -90,7 +100,9 @@
       "Cast iron cookware",
       "Dutch ovens",
       "Bakeware"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "circulon": {
     "origin": {
@@ -104,7 +116,9 @@
     "common_products": [
       "Non-stick cookware",
       "Hard anodized pans"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "tower": {
     "origin": {
@@ -119,7 +133,9 @@
       "Air fryers",
       "Slow cookers",
       "Pressure cookers"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "ikea": {
     "origin": {
@@ -135,7 +151,9 @@
       "Storage boxes",
       "Furniture",
       "Kitchen accessories"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "joseph_joseph": {
     "origin": {
@@ -150,7 +168,9 @@
       "Kitchen gadgets",
       "Storage solutions",
       "Cutting boards"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "brabantia": {
     "origin": {
@@ -165,7 +185,9 @@
       "Bins",
       "Ironing boards",
       "Kitchen accessories"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "simplehuman": {
     "origin": {
@@ -180,7 +202,9 @@
       "Trash cans",
       "Soap dispensers",
       "Mirrors"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "the_ordinary": {
     "origin": {
@@ -196,7 +220,9 @@
       "Acids",
       "Moisturizers",
       "Cleansers"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "cerave": {
     "origin": {
@@ -211,7 +237,9 @@
       "Moisturizers",
       "Cleansers",
       "Sunscreen"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "neutrogena": {
     "origin": {
@@ -226,7 +254,9 @@
       "Face wash",
       "Moisturizers",
       "Sunscreen"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "olay": {
     "origin": {
@@ -241,7 +271,9 @@
       "Anti-aging creams",
       "Moisturizers",
       "Cleansers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "maybelline": {
     "origin": {
@@ -256,7 +288,9 @@
       "Mascara",
       "Foundation",
       "Lipstick"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "revlon": {
     "origin": {
@@ -271,7 +305,9 @@
       "Lipstick",
       "Foundation",
       "Nail polish"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "loreal": {
     "origin": {
@@ -287,7 +323,9 @@
       "Shampoo",
       "Hair dye",
       "Face creams"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "tresemme": {
     "origin": {
@@ -302,7 +340,9 @@
       "Shampoo",
       "Conditioner",
       "Hair styling"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "head_shoulders": {
     "origin": {
@@ -316,7 +356,9 @@
     "common_products": [
       "Anti-dandruff shampoo",
       "Conditioner"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "garnier": {
     "origin": {
@@ -332,7 +374,9 @@
       "Hair dye",
       "Face masks",
       "Micellar water"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "anker": {
     "origin": {
@@ -348,7 +392,9 @@
       "Chargers",
       "Cables",
       "Speakers"
-    ]
+    ],
+    "manufacturing_location": "shenzhen_electronics",
+    "seasonal_peak": "all_year"
   },
   "belkin": {
     "origin": {
@@ -364,7 +410,9 @@
       "Cases",
       "Cables",
       "Wireless chargers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "jbl": {
     "origin": {
@@ -379,7 +427,9 @@
       "Bluetooth speakers",
       "Headphones",
       "Soundbars"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "bose": {
     "origin": {
@@ -394,7 +444,9 @@
       "Headphones",
       "Speakers",
       "Noise canceling"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "beats": {
     "origin": {
@@ -409,7 +461,9 @@
       "Headphones",
       "Earbuds",
       "Speakers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "sandisk": {
     "origin": {
@@ -424,7 +478,9 @@
       "Memory cards",
       "USB drives",
       "SSDs"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "seagate": {
     "origin": {
@@ -439,7 +495,9 @@
       "Hard drives",
       "External drives",
       "SSDs"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "tp_link": {
     "origin": {
@@ -454,7 +512,9 @@
       "Routers",
       "WiFi extenders",
       "Smart plugs"
-    ]
+    ],
+    "manufacturing_location": "shenzhen_electronics",
+    "seasonal_peak": "all_year"
   },
   "netgear": {
     "origin": {
@@ -469,7 +529,9 @@
       "Routers",
       "Switches",
       "Security cameras"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "ring": {
     "origin": {
@@ -484,7 +546,9 @@
       "Doorbells",
       "Security cameras",
       "Alarms"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "lego": {
     "origin": {
@@ -499,7 +563,9 @@
       "Building sets",
       "Minifigures",
       "Technic"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "playmobil": {
     "origin": {
@@ -514,7 +580,9 @@
       "Playsets",
       "Figures",
       "Vehicles"
-    ]
+    ],
+    "manufacturing_location": "stuttgart_engineering",
+    "seasonal_peak": "all_year"
   },
   "mattel": {
     "origin": {
@@ -529,7 +597,9 @@
       "Barbie",
       "Hot Wheels",
       "Fisher-Price"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "hasbro": {
     "origin": {
@@ -544,7 +614,9 @@
       "Monopoly",
       "Transformers",
       "My Little Pony"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "ravensburger": {
     "origin": {
@@ -559,7 +631,9 @@
       "Jigsaw puzzles",
       "Board games",
       "Educational toys"
-    ]
+    ],
+    "manufacturing_location": "stuttgart_engineering",
+    "seasonal_peak": "all_year"
   },
   "vtech": {
     "origin": {
@@ -574,7 +648,9 @@
       "Learning toys",
       "Tablets for kids",
       "Electronic toys"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "fisher_price": {
     "origin": {
@@ -589,7 +665,9 @@
       "Baby toys",
       "Learning toys",
       "Ride-on toys"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "penguin_random_house": {
     "origin": {
@@ -604,7 +682,9 @@
       "Fiction",
       "Non-fiction",
       "Children's books"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "harpercollins": {
     "origin": {
@@ -619,7 +699,9 @@
       "Fiction",
       "Biography",
       "Self-help"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "macmillan": {
     "origin": {
@@ -634,7 +716,9 @@
       "Academic",
       "Children's",
       "Fiction"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "oxford_university_press": {
     "origin": {
@@ -649,7 +733,9 @@
       "Textbooks",
       "Dictionaries",
       "Academic"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "cambridge_university_press": {
     "origin": {
@@ -664,7 +750,9 @@
       "Textbooks",
       "Academic journals",
       "Educational"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "royal_canin": {
     "origin": {
@@ -679,7 +767,9 @@
       "Dog food",
       "Cat food",
       "Specialized nutrition"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "hills": {
     "origin": {
@@ -694,7 +784,9 @@
       "Prescription diet",
       "Dog food",
       "Cat food"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "purina": {
     "origin": {
@@ -709,7 +801,9 @@
       "Dog food",
       "Cat food",
       "Treats"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "kong": {
     "origin": {
@@ -724,7 +818,9 @@
       "Dog toys",
       "Chew toys",
       "Treat dispensers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "petmate": {
     "origin": {
@@ -739,7 +835,9 @@
       "Pet carriers",
       "Bowls",
       "Beds"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "staples": {
     "origin": {
@@ -755,7 +853,9 @@
       "Pens",
       "Staplers",
       "Folders"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "pilot": {
     "origin": {
@@ -770,7 +870,9 @@
       "Pens",
       "Markers",
       "Highlighters"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "bic": {
     "origin": {
@@ -785,7 +887,9 @@
       "Ballpoint pens",
       "Lighters",
       "Razors"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "post_it": {
     "origin": {
@@ -800,7 +904,9 @@
       "Sticky notes",
       "Flags",
       "Dispensers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "moleskine": {
     "origin": {
@@ -815,7 +921,9 @@
       "Notebooks",
       "Planners",
       "Journals"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "decathlon": {
     "origin": {
@@ -830,7 +938,9 @@
       "Camping gear",
       "Sports equipment",
       "Clothing"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "coleman": {
     "origin": {
@@ -845,7 +955,9 @@
       "Tents",
       "Sleeping bags",
       "Coolers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "the_north_face": {
     "origin": {
@@ -860,7 +972,9 @@
       "Jackets",
       "Backpacks",
       "Hiking gear"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "under_armour": {
     "origin": {
@@ -875,7 +989,9 @@
       "Athletic wear",
       "Shoes",
       "Accessories"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "wilson": {
     "origin": {
@@ -890,7 +1006,9 @@
       "Tennis rackets",
       "Golf clubs",
       "Sports balls"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "pampers": {
     "origin": {
@@ -905,7 +1023,9 @@
       "Diapers",
       "Baby wipes",
       "Training pants"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "huggies": {
     "origin": {
@@ -920,7 +1040,9 @@
       "Diapers",
       "Wipes",
       "Pull-ups"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "tommee_tippee": {
     "origin": {
@@ -935,7 +1057,9 @@
       "Baby bottles",
       "Sippy cups",
       "Sterilizers"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "chicco": {
     "origin": {
@@ -950,7 +1074,9 @@
       "Strollers",
       "Car seats",
       "High chairs"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "johnson_johnson": {
     "origin": {
@@ -965,7 +1091,9 @@
       "Baby shampoo",
       "Lotion",
       "Powder"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "bosch": {
     "origin": {
@@ -981,7 +1109,9 @@
       "Saws",
       "Sanders",
       "Measuring tools"
-    ]
+    ],
+    "manufacturing_location": "stuttgart_engineering",
+    "seasonal_peak": "all_year"
   },
   "dewalt": {
     "origin": {
@@ -996,7 +1126,9 @@
       "Drills",
       "Circular saws",
       "Impact drivers"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "makita": {
     "origin": {
@@ -1011,7 +1143,9 @@
       "Cordless tools",
       "Angle grinders",
       "Planers"
-    ]
+    ],
+    "manufacturing_location": "global_distributed",
+    "seasonal_peak": "all_year"
   },
   "stanley": {
     "origin": {
@@ -1026,7 +1160,9 @@
       "Tape measures",
       "Hammers",
       "Tool boxes"
-    ]
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
   },
   "black_decker": {
     "origin": {
@@ -1041,6 +1177,1275 @@
       "Drills",
       "Sanders",
       "Hedge trimmers"
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "all_year"
+  },
+  "hallmark": {
+    "origin": {
+      "country": "USA",
+      "city": "Kansas City",
+      "region": "Missouri"
+    },
+    "amazon_categories": [
+      "Holiday",
+      "Greeting Cards",
+      "Decorations"
+    ],
+    "common_products": [
+      "Christmas cards",
+      "Ornaments",
+      "Holiday decorations"
+    ],
+    "manufacturing_location": "kansas_city_seasonal",
+    "seasonal_peak": "winter"
+  },
+  "yankee_candle": {
+    "origin": {
+      "country": "USA",
+      "city": "Deerfield",
+      "region": "Massachusetts"
+    },
+    "amazon_categories": [
+      "Home Fragrance",
+      "Candles",
+      "Seasonal"
+    ],
+    "common_products": [
+      "Scented candles",
+      "Home fragrance",
+      "Seasonal scents"
+    ],
+    "manufacturing_location": "massachusetts_manufacturing",
+    "seasonal_peak": "winter"
+  },
+  "nature_made": {
+    "origin": {
+      "country": "USA",
+      "city": "West Hills",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Health",
+      "Vitamins",
+      "Supplements"
+    ],
+    "common_products": [
+      "Vitamins",
+      "Fish oil",
+      "Probiotics"
+    ],
+    "manufacturing_location": "california_pharma",
+    "seasonal_peak": "all_year"
+  },
+  "fitbit": {
+    "origin": {
+      "country": "USA",
+      "city": "San Francisco",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Fitness",
+      "Wearables"
+    ],
+    "common_products": [
+      "Fitness trackers",
+      "Smartwatches",
+      "Health monitors"
+    ],
+    "manufacturing_location": "silicon_valley_tech",
+    "seasonal_peak": "new_year"
+  },
+  "anker_automotive": {
+    "origin": {
+      "country": "China",
+      "city": "Shenzhen",
+      "region": "Guangdong"
+    },
+    "amazon_categories": [
+      "Automotive",
+      "Electronics",
+      "Accessories"
+    ],
+    "common_products": [
+      "Car chargers",
+      "Dash cams",
+      "Phone mounts"
+    ],
+    "manufacturing_location": "shenzhen_electronics",
+    "seasonal_peak": "all_year"
+  },
+  "whole_foods": {
+    "origin": {
+      "country": "USA",
+      "city": "Austin",
+      "region": "Texas"
+    },
+    "amazon_categories": [
+      "Grocery",
+      "Organic",
+      "Food"
+    ],
+    "common_products": [
+      "Organic foods",
+      "Snacks",
+      "Beverages"
+    ],
+    "manufacturing_location": "distributed_usa",
+    "seasonal_peak": "all_year"
+  },
+  "pandora": {
+    "origin": {
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "region": "Capital"
+    },
+    "amazon_categories": [
+      "Jewelry",
+      "Fashion",
+      "Accessories"
+    ],
+    "common_products": [
+      "Bracelets",
+      "Charms",
+      "Necklaces"
+    ],
+    "manufacturing_location": "danish_design",
+    "seasonal_peak": "valentine_christmas"
+  },
+  "instant_pot": {
+    "origin": {
+      "country": "Canada",
+      "city": "Ottawa",
+      "region": "Ontario"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Small Appliances",
+      "Pressure Cookers"
+    ],
+    "common_products": [
+      "Multi-cookers",
+      "Pressure cookers",
+      "Air fryers"
+    ],
+    "manufacturing_location": "chinese_appliance_hub",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "North America",
+      "Europe",
+      "Australia"
+    ]
+  },
+  "cuisinart": {
+    "origin": {
+      "country": "USA",
+      "city": "Stamford",
+      "region": "Connecticut"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Small Appliances",
+      "Cookware"
+    ],
+    "common_products": [
+      "Food processors",
+      "Coffee makers",
+      "Cookware"
+    ],
+    "manufacturing_location": "chinese_appliance_hub",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "North America",
+      "Europe"
+    ]
+  },
+  "oxo": {
+    "origin": {
+      "country": "USA",
+      "city": "New York",
+      "region": "New York"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Kitchen Tools",
+      "Storage"
+    ],
+    "common_products": [
+      "Kitchen tools",
+      "Storage containers",
+      "Gadgets"
+    ],
+    "manufacturing_location": "chinese_manufacturing",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "vitamix": {
+    "origin": {
+      "country": "USA",
+      "city": "Cleveland",
+      "region": "Ohio"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Small Appliances",
+      "Blenders"
+    ],
+    "common_products": [
+      "High-performance blenders",
+      "Food processors"
+    ],
+    "manufacturing_location": "usa_manufacturing",
+    "seasonal_peak": "new_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "dyson": {
+    "origin": {
+      "country": "UK",
+      "city": "Malmesbury",
+      "region": "Wiltshire"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Appliances",
+      "Vacuum"
+    ],
+    "common_products": [
+      "Vacuum cleaners",
+      "Air purifiers",
+      "Hair dryers"
+    ],
+    "manufacturing_location": "uk_engineering",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "shark": {
+    "origin": {
+      "country": "USA",
+      "city": "Newton",
+      "region": "Massachusetts"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Vacuum",
+      "Cleaning"
+    ],
+    "common_products": [
+      "Vacuum cleaners",
+      "Steam mops",
+      "Air purifiers"
+    ],
+    "manufacturing_location": "chinese_appliance_hub",
+    "seasonal_peak": "spring_cleaning",
+    "market_presence": [
+      "North America",
+      "Europe"
+    ]
+  },
+  "zojirushi": {
+    "origin": {
+      "country": "Japan",
+      "city": "Osaka",
+      "region": "Osaka"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Small Appliances",
+      "Rice Cookers"
+    ],
+    "common_products": [
+      "Rice cookers",
+      "Bread makers",
+      "Water boilers"
+    ],
+    "manufacturing_location": "japanese_precision",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "all_clad": {
+    "origin": {
+      "country": "USA",
+      "city": "Canonsburg",
+      "region": "Pennsylvania"
+    },
+    "amazon_categories": [
+      "Home & Kitchen",
+      "Cookware",
+      "Professional"
+    ],
+    "common_products": [
+      "Professional cookware",
+      "Stainless steel pans"
+    ],
+    "manufacturing_location": "usa_manufacturing",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "North America",
+      "Europe"
+    ]
+  },
+  "nyx_professional": {
+    "origin": {
+      "country": "USA",
+      "city": "Los Angeles",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Makeup",
+      "Professional"
+    ],
+    "common_products": [
+      "Professional makeup",
+      "Lipsticks",
+      "Foundation"
+    ],
+    "manufacturing_location": "usa_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "elf_cosmetics": {
+    "origin": {
+      "country": "USA",
+      "city": "Oakland",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Makeup",
+      "Affordable"
+    ],
+    "common_products": [
+      "Affordable makeup",
+      "Brushes",
+      "Skincare"
+    ],
+    "manufacturing_location": "chinese_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "urban_decay": {
+    "origin": {
+      "country": "USA",
+      "city": "Newport Beach",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Makeup",
+      "Premium"
+    ],
+    "common_products": [
+      "Eyeshadow palettes",
+      "Setting spray",
+      "Makeup"
+    ],
+    "manufacturing_location": "usa_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "drunk_elephant": {
+    "origin": {
+      "country": "USA",
+      "city": "Houston",
+      "region": "Texas"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare",
+      "Premium"
+    ],
+    "common_products": [
+      "Vitamin C serum",
+      "Retinol",
+      "Moisturizers"
+    ],
+    "manufacturing_location": "usa_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "glossier": {
+    "origin": {
+      "country": "USA",
+      "city": "New York",
+      "region": "New York"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare",
+      "Minimalist"
+    ],
+    "common_products": [
+      "Boy Brow",
+      "Cloud Paint",
+      "Balm Dotcom"
+    ],
+    "manufacturing_location": "usa_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "North America",
+      "Europe"
+    ]
+  },
+  "fenty_beauty": {
+    "origin": {
+      "country": "USA",
+      "city": "New York",
+      "region": "New York"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Makeup",
+      "Inclusive"
+    ],
+    "common_products": [
+      "Foundation",
+      "Highlighter",
+      "Lip gloss"
+    ],
+    "manufacturing_location": "usa_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "tatcha": {
+    "origin": {
+      "country": "USA",
+      "city": "San Francisco",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare",
+      "Japanese-inspired"
+    ],
+    "common_products": [
+      "Cleansing oil",
+      "Water cream",
+      "Silk canvas"
+    ],
+    "manufacturing_location": "japanese_cosmetics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "innisfree": {
+    "origin": {
+      "country": "South Korea",
+      "city": "Seoul",
+      "region": "Seoul Capital Area"
+    },
+    "amazon_categories": [
+      "Beauty",
+      "Skincare",
+      "K-Beauty"
+    ],
+    "common_products": [
+      "Sheet masks",
+      "Green tea skincare",
+      "Volcanic clay"
+    ],
+    "manufacturing_location": "korean_beauty",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "razer": {
+    "origin": {
+      "country": "Singapore",
+      "city": "Singapore",
+      "region": "Central Singapore"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Gaming",
+      "Computers"
+    ],
+    "common_products": [
+      "Gaming mice",
+      "Keyboards",
+      "Headsets",
+      "Laptops"
+    ],
+    "manufacturing_location": "singaporean_tech",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "corsair": {
+    "origin": {
+      "country": "USA",
+      "city": "Fremont",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Gaming",
+      "Components"
+    ],
+    "common_products": [
+      "Gaming keyboards",
+      "Memory",
+      "Power supplies"
+    ],
+    "manufacturing_location": "taiwan_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "logitech": {
+    "origin": {
+      "country": "Switzerland",
+      "city": "Lausanne",
+      "region": "Vaud"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Computers",
+      "Accessories"
+    ],
+    "common_products": [
+      "Mice",
+      "Keyboards",
+      "Webcams",
+      "Speakers"
+    ],
+    "manufacturing_location": "chinese_electronics",
+    "seasonal_peak": "back_to_school",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "hyperx": {
+    "origin": {
+      "country": "USA",
+      "city": "Fountain Valley",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Gaming",
+      "Audio"
+    ],
+    "common_products": [
+      "Gaming headsets",
+      "Keyboards",
+      "Memory"
+    ],
+    "manufacturing_location": "chinese_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "steelseries": {
+    "origin": {
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "region": "Capital Region"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Gaming",
+      "Peripherals"
+    ],
+    "common_products": [
+      "Gaming mice",
+      "Headsets",
+      "Keyboards"
+    ],
+    "manufacturing_location": "chinese_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "asus": {
+    "origin": {
+      "country": "Taiwan",
+      "city": "Taipei",
+      "region": "Taipei"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Computers",
+      "Components"
+    ],
+    "common_products": [
+      "Motherboards",
+      "Laptops",
+      "Monitors",
+      "Routers"
+    ],
+    "manufacturing_location": "taiwan_electronics",
+    "seasonal_peak": "back_to_school",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "msi": {
+    "origin": {
+      "country": "Taiwan",
+      "city": "New Taipei City",
+      "region": "New Taipei"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Gaming",
+      "Computers"
+    ],
+    "common_products": [
+      "Gaming laptops",
+      "Graphics cards",
+      "Motherboards"
+    ],
+    "manufacturing_location": "taiwan_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "amd": {
+    "origin": {
+      "country": "USA",
+      "city": "Santa Clara",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Electronics",
+      "Components",
+      "Processors"
+    ],
+    "common_products": [
+      "Processors",
+      "Graphics cards",
+      "Chipsets"
+    ],
+    "manufacturing_location": "taiwan_semiconductors",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "uniqlo": {
+    "origin": {
+      "country": "Japan",
+      "city": "Yamaguchi",
+      "region": "Yamaguchi"
+    },
+    "amazon_categories": [
+      "Clothing",
+      "Fashion",
+      "Basics"
+    ],
+    "common_products": [
+      "Basic clothing",
+      "Heattech",
+      "Ultra Light Down"
+    ],
+    "manufacturing_location": "asian_textiles",
+    "seasonal_peak": "season_transitions",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "zara": {
+    "origin": {
+      "country": "Spain",
+      "city": "A Coruña",
+      "region": "Galicia"
+    },
+    "amazon_categories": [
+      "Clothing",
+      "Fashion",
+      "Fast Fashion"
+    ],
+    "common_products": [
+      "Trendy clothing",
+      "Shoes",
+      "Accessories"
+    ],
+    "manufacturing_location": "global_fashion",
+    "seasonal_peak": "season_transitions",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "h_and_m": {
+    "origin": {
+      "country": "Sweden",
+      "city": "Stockholm",
+      "region": "Stockholm"
+    },
+    "amazon_categories": [
+      "Clothing",
+      "Fashion",
+      "Affordable"
+    ],
+    "common_products": [
+      "Affordable fashion",
+      "Home goods",
+      "Beauty"
+    ],
+    "manufacturing_location": "asian_textiles",
+    "seasonal_peak": "season_transitions",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "patagonia": {
+    "origin": {
+      "country": "USA",
+      "city": "Ventura",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Clothing",
+      "Outdoor",
+      "Sustainable"
+    ],
+    "common_products": [
+      "Outdoor clothing",
+      "Fleece",
+      "Sustainable gear"
+    ],
+    "manufacturing_location": "sustainable_manufacturing",
+    "seasonal_peak": "outdoor_seasons",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "levi_strauss": {
+    "origin": {
+      "country": "USA",
+      "city": "San Francisco",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Clothing",
+      "Denim",
+      "Classic"
+    ],
+    "common_products": [
+      "Jeans",
+      "Denim jackets",
+      "T-shirts"
+    ],
+    "manufacturing_location": "global_textiles",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "calvin_klein": {
+    "origin": {
+      "country": "USA",
+      "city": "New York",
+      "region": "New York"
+    },
+    "amazon_categories": [
+      "Clothing",
+      "Fashion",
+      "Premium"
+    ],
+    "common_products": [
+      "Underwear",
+      "Jeans",
+      "Fragrances"
+    ],
+    "manufacturing_location": "global_fashion",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "nestle": {
+    "origin": {
+      "country": "Switzerland",
+      "city": "Vevey",
+      "region": "Vaud"
+    },
+    "amazon_categories": [
+      "Food & Beverage",
+      "Snacks",
+      "Coffee"
+    ],
+    "common_products": [
+      "Chocolate",
+      "Coffee",
+      "Baby food",
+      "Water"
+    ],
+    "manufacturing_location": "global_food_production",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "pepsico": {
+    "origin": {
+      "country": "USA",
+      "city": "Purchase",
+      "region": "New York"
+    },
+    "amazon_categories": [
+      "Food & Beverage",
+      "Snacks",
+      "Beverages"
+    ],
+    "common_products": [
+      "Pepsi",
+      "Lay's",
+      "Doritos",
+      "Quaker"
+    ],
+    "manufacturing_location": "global_food_production",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "coca_cola": {
+    "origin": {
+      "country": "USA",
+      "city": "Atlanta",
+      "region": "Georgia"
+    },
+    "amazon_categories": [
+      "Food & Beverage",
+      "Beverages",
+      "Soft Drinks"
+    ],
+    "common_products": [
+      "Coca-Cola",
+      "Sprite",
+      "Fanta",
+      "Dasani"
+    ],
+    "manufacturing_location": "global_food_production",
+    "seasonal_peak": "summer",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "ferrero": {
+    "origin": {
+      "country": "Italy",
+      "city": "Alba",
+      "region": "Piedmont"
+    },
+    "amazon_categories": [
+      "Food & Beverage",
+      "Chocolate",
+      "Snacks"
+    ],
+    "common_products": [
+      "Nutella",
+      "Ferrero Rocher",
+      "Kinder"
+    ],
+    "manufacturing_location": "european_food",
+    "seasonal_peak": "holidays",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "mondelez": {
+    "origin": {
+      "country": "USA",
+      "city": "Chicago",
+      "region": "Illinois"
+    },
+    "amazon_categories": [
+      "Food & Beverage",
+      "Snacks",
+      "Chocolate"
+    ],
+    "common_products": [
+      "Oreo",
+      "Cadbury",
+      "Trident",
+      "Toblerone"
+    ],
+    "manufacturing_location": "global_food_production",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "garmin": {
+    "origin": {
+      "country": "USA",
+      "city": "Olathe",
+      "region": "Kansas"
+    },
+    "amazon_categories": [
+      "Automotive",
+      "Electronics",
+      "GPS"
+    ],
+    "common_products": [
+      "GPS devices",
+      "Dash cams",
+      "Fitness trackers"
+    ],
+    "manufacturing_location": "taiwan_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "pioneer": {
+    "origin": {
+      "country": "Japan",
+      "city": "Tokyo",
+      "region": "Tokyo"
+    },
+    "amazon_categories": [
+      "Automotive",
+      "Electronics",
+      "Audio"
+    ],
+    "common_products": [
+      "Car stereos",
+      "Speakers",
+      "Navigation"
+    ],
+    "manufacturing_location": "japanese_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "kenwood": {
+    "origin": {
+      "country": "Japan",
+      "city": "Yokohama",
+      "region": "Kanagawa"
+    },
+    "amazon_categories": [
+      "Automotive",
+      "Electronics",
+      "Audio"
+    ],
+    "common_products": [
+      "Car audio",
+      "Two-way radios",
+      "Car stereos"
+    ],
+    "manufacturing_location": "japanese_electronics",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "thule": {
+    "origin": {
+      "country": "Sweden",
+      "city": "Malmö",
+      "region": "Skåne"
+    },
+    "amazon_categories": [
+      "Automotive",
+      "Outdoor",
+      "Carriers"
+    ],
+    "common_products": [
+      "Roof boxes",
+      "Bike racks",
+      "Car carriers"
+    ],
+    "manufacturing_location": "european_manufacturing",
+    "seasonal_peak": "summer",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "optimum_nutrition": {
+    "origin": {
+      "country": "USA",
+      "city": "Aurora",
+      "region": "Illinois"
+    },
+    "amazon_categories": [
+      "Health",
+      "Sports Nutrition",
+      "Supplements"
+    ],
+    "common_products": [
+      "Whey protein",
+      "Creatine",
+      "Pre-workout"
+    ],
+    "manufacturing_location": "usa_supplements",
+    "seasonal_peak": "new_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "dymatize": {
+    "origin": {
+      "country": "USA",
+      "city": "Dallas",
+      "region": "Texas"
+    },
+    "amazon_categories": [
+      "Health",
+      "Sports Nutrition",
+      "Protein"
+    ],
+    "common_products": [
+      "ISO100",
+      "Elite Whey",
+      "Creatine"
+    ],
+    "manufacturing_location": "usa_supplements",
+    "seasonal_peak": "new_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "muscletech": {
+    "origin": {
+      "country": "Canada",
+      "city": "Mississauga",
+      "region": "Ontario"
+    },
+    "amazon_categories": [
+      "Health",
+      "Sports Nutrition",
+      "Supplements"
+    ],
+    "common_products": [
+      "NitroTech",
+      "Cell-Tech",
+      "Hydroxycut"
+    ],
+    "manufacturing_location": "north_american_supplements",
+    "seasonal_peak": "new_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "quest_nutrition": {
+    "origin": {
+      "country": "USA",
+      "city": "El Segundo",
+      "region": "California"
+    },
+    "amazon_categories": [
+      "Health",
+      "Nutrition",
+      "Protein Bars"
+    ],
+    "common_products": [
+      "Protein bars",
+      "Protein powder",
+      "Chips"
+    ],
+    "manufacturing_location": "usa_food_supplements",
+    "seasonal_peak": "new_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "graco": {
+    "origin": {
+      "country": "USA",
+      "city": "Elverson",
+      "region": "Pennsylvania"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Gear",
+      "Safety"
+    ],
+    "common_products": [
+      "Car seats",
+      "Strollers",
+      "High chairs"
+    ],
+    "manufacturing_location": "chinese_manufacturing",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "britax": {
+    "origin": {
+      "country": "UK",
+      "city": "Andover",
+      "region": "Hampshire"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Car Seats",
+      "Safety"
+    ],
+    "common_products": [
+      "Car seats",
+      "Strollers",
+      "Travel systems"
+    ],
+    "manufacturing_location": "european_manufacturing",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "uppababy": {
+    "origin": {
+      "country": "USA",
+      "city": "Hingham",
+      "region": "Massachusetts"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Strollers",
+      "Premium"
+    ],
+    "common_products": [
+      "Premium strollers",
+      "Car seats",
+      "Accessories"
+    ],
+    "manufacturing_location": "chinese_manufacturing",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "North America",
+      "Europe"
+    ]
+  },
+  "babyletto": {
+    "origin": {
+      "country": "USA",
+      "city": "New York",
+      "region": "New York"
+    },
+    "amazon_categories": [
+      "Baby",
+      "Furniture",
+      "Modern"
+    ],
+    "common_products": [
+      "Cribs",
+      "Changing tables",
+      "Gliders"
+    ],
+    "manufacturing_location": "sustainable_furniture",
+    "seasonal_peak": "all_year",
+    "market_presence": [
+      "North America"
+    ]
+  },
+  "rei_coop": {
+    "origin": {
+      "country": "USA",
+      "city": "Kent",
+      "region": "Washington"
+    },
+    "amazon_categories": [
+      "Outdoor",
+      "Sports",
+      "Cooperative"
+    ],
+    "common_products": [
+      "Outdoor gear",
+      "Clothing",
+      "Equipment"
+    ],
+    "manufacturing_location": "global_outdoor_manufacturing",
+    "seasonal_peak": "outdoor_seasons",
+    "market_presence": [
+      "North America"
+    ]
+  },
+  "black_diamond": {
+    "origin": {
+      "country": "USA",
+      "city": "Salt Lake City",
+      "region": "Utah"
+    },
+    "amazon_categories": [
+      "Outdoor",
+      "Climbing",
+      "Equipment"
+    ],
+    "common_products": [
+      "Climbing gear",
+      "Headlamps",
+      "Ski equipment"
+    ],
+    "manufacturing_location": "specialized_outdoor",
+    "seasonal_peak": "outdoor_seasons",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "osprey": {
+    "origin": {
+      "country": "USA",
+      "city": "Cortez",
+      "region": "Colorado"
+    },
+    "amazon_categories": [
+      "Outdoor",
+      "Backpacks",
+      "Travel"
+    ],
+    "common_products": [
+      "Hiking backpacks",
+      "Travel packs",
+      "Daypacks"
+    ],
+    "manufacturing_location": "vietnamese_manufacturing",
+    "seasonal_peak": "outdoor_seasons",
+    "market_presence": [
+      "Global"
+    ]
+  },
+  "yeti": {
+    "origin": {
+      "country": "USA",
+      "city": "Austin",
+      "region": "Texas"
+    },
+    "amazon_categories": [
+      "Outdoor",
+      "Coolers",
+      "Drinkware"
+    ],
+    "common_products": [
+      "Coolers",
+      "Tumblers",
+      "Soft coolers"
+    ],
+    "manufacturing_location": "usa_manufacturing",
+    "seasonal_peak": "summer",
+    "market_presence": [
+      "North America"
     ]
   }
 }
