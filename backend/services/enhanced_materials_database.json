@@ -14,6 +14,12 @@
       "alternative_names": [
         "carbon steel",
         "mild steel"
+      ],
+      "amazon_products": [
+        "Cookware",
+        "Appliances",
+        "Tools",
+        "Furniture"
       ]
     },
     "stainless_steel": {
@@ -31,6 +37,12 @@
         "ss304",
         "ss316",
         "inox"
+      ],
+      "amazon_products": [
+        "Kitchen appliances",
+        "Cookware",
+        "Cutlery",
+        "Appliances"
       ]
     },
     "cast_iron": {
@@ -38,7 +50,7 @@
       "category": "ferrous_metal",
       "confidence": "high",
       "recyclability": "high",
-      "source": "Industry average",
+      "source": "Cast iron industry LCA",
       "applications": [
         "cookware",
         "pipes",
@@ -46,7 +58,12 @@
       ],
       "alternative_names": [
         "iron",
-        "grey iron"
+        "cast iron cookware"
+      ],
+      "amazon_products": [
+        "Cookware",
+        "Garden furniture",
+        "Decorative items"
       ]
     },
     "aluminum": {
@@ -62,26 +79,41 @@
       ],
       "alternative_names": [
         "aluminium",
-        "al"
+        "aluminum alloy"
       ],
       "recycled_version": {
         "co2_intensity": 0.6,
         "notes": "95% less energy than primary"
-      }
+      },
+      "amazon_products": [
+        "iPhone cases",
+        "Laptops",
+        "Tablets",
+        "Smartphones",
+        "Power banks"
+      ]
     },
     "copper": {
-      "co2_intensity": 4.5,
+      "co2_intensity": 3.4,
       "category": "non_ferrous_metal",
       "confidence": "high",
       "recyclability": "very_high",
-      "source": "Copper Alliance LCA",
+      "source": "International Cooper Association",
       "applications": [
         "electrical",
         "plumbing",
         "electronics"
       ],
       "alternative_names": [
-        "cu"
+        "copper wire",
+        "copper alloy"
+      ],
+      "amazon_products": [
+        "Cables",
+        "Wires",
+        "Electronics",
+        "Chargers",
+        "Speakers"
       ]
     },
     "brass": {
@@ -111,8 +143,14 @@
         "premium products"
       ],
       "alternative_names": [
-        "ti",
-        "grade_5_titanium"
+        "titanium alloy",
+        "grade 2 titanium"
+      ],
+      "amazon_products": [
+        "Jewelry",
+        "Sports equipment",
+        "Medical devices",
+        "Electronics"
       ]
     },
     "carbon_fiber": {
@@ -127,14 +165,18 @@
         "sports equipment"
       ],
       "alternative_names": [
-        "carbon_fibre",
-        "cf",
-        "cfrp"
+        "carbon fibre",
+        "CFRP"
       ],
       "recycled_version": {
         "co2_intensity": 4.0,
         "notes": "Recycled CFRP technology developing"
-      }
+      },
+      "amazon_products": [
+        "Sports equipment",
+        "Electronics cases",
+        "Automotive parts"
+      ]
     },
     "graphene": {
       "co2_intensity": 50.0,
@@ -228,7 +270,7 @@
       ]
     },
     "wool": {
-      "co2_intensity": 80.3,
+      "co2_intensity": 10.4,
       "category": "animal_fiber",
       "confidence": "high",
       "recyclability": "medium",
@@ -239,13 +281,20 @@
         "insulation"
       ],
       "alternative_names": [
-        "sheep_wool",
-        "virgin_wool"
+        "merino wool",
+        "sheep wool",
+        "wool blend"
       ],
       "recycled_version": {
         "co2_intensity": 15.0,
         "notes": "81% reduction vs virgin wool"
-      }
+      },
+      "amazon_products": [
+        "Sweaters",
+        "Coats",
+        "Blankets",
+        "Socks"
+      ]
     },
     "mohair": {
       "co2_intensity": 70.0,
@@ -284,8 +333,14 @@
         "accessories"
       ],
       "alternative_names": [
-        "mulberry_silk",
-        "peace_silk"
+        "mulberry silk",
+        "natural silk"
+      ],
+      "amazon_products": [
+        "Scarves",
+        "Dresses",
+        "Bedding",
+        "Ties"
       ]
     },
     "down": {
@@ -332,12 +387,20 @@
         "medical"
       ],
       "alternative_names": [
-        "100_percent_cotton"
+        "organic cotton",
+        "cotton blend"
       ],
       "organic_version": {
         "co2_intensity": 1.8,
         "notes": "Reduced fertilizer/pesticide use"
-      }
+      },
+      "amazon_products": [
+        "T-shirts",
+        "Jeans",
+        "Underwear",
+        "Bedding",
+        "Towels"
+      ]
     },
     "organic_cotton": {
       "co2_intensity": 1.8,
@@ -352,18 +415,24 @@
       "environmental_notes": "No synthetic pesticides/fertilizers"
     },
     "linen": {
-      "co2_intensity": 0.5,
+      "co2_intensity": 1.8,
       "category": "plant_fiber",
       "confidence": "high",
       "recyclability": "high",
-      "source": "European Flax LCA",
+      "source": "Flax industry LCA",
       "applications": [
         "summer clothing",
         "home textiles"
       ],
       "alternative_names": [
         "flax",
-        "flax_fiber"
+        "linen blend"
+      ],
+      "amazon_products": [
+        "Shirts",
+        "Pants",
+        "Bedding",
+        "Home textiles"
       ]
     },
     "hemp": {
@@ -378,10 +447,16 @@
         "building materials"
       ],
       "alternative_names": [
-        "hemp_fiber",
-        "industrial_hemp"
+        "hemp fiber",
+        "industrial hemp"
       ],
-      "environmental_notes": "Carbon sequestering during growth"
+      "environmental_notes": "Carbon sequestering during growth",
+      "amazon_products": [
+        "Clothing",
+        "Bags",
+        "Ropes",
+        "Textiles"
+      ]
     },
     "jute": {
       "co2_intensity": 0.4,
@@ -413,21 +488,28 @@
       "environmental_notes": "Processing method affects impact"
     },
     "wood": {
-      "co2_intensity": 0.4,
+      "co2_intensity": 0.1,
       "category": "wood",
       "confidence": "high",
       "recyclability": "high",
-      "source": "Forest industry LCA - carbon storing",
+      "source": "Forest products LCA",
       "applications": [
         "furniture",
         "construction",
         "tools"
       ],
       "alternative_names": [
-        "timber",
-        "lumber"
+        "hardwood",
+        "softwood",
+        "engineered wood"
       ],
-      "environmental_notes": "Carbon storage during growth"
+      "environmental_notes": "Carbon storage during growth",
+      "amazon_products": [
+        "Furniture",
+        "Kitchen utensils",
+        "Decorative items",
+        "Toys"
+      ]
     },
     "bamboo": {
       "co2_intensity": 0.3,
@@ -440,7 +522,17 @@
         "flooring",
         "kitchenware"
       ],
-      "environmental_notes": "Fastest growing plant, high carbon sequestration"
+      "environmental_notes": "Fastest growing plant, high carbon sequestration",
+      "amazon_products": [
+        "Clothing",
+        "Bedding",
+        "Towels",
+        "Socks"
+      ],
+      "alternative_names": [
+        "bamboo rayon",
+        "bamboo viscose"
+      ]
     },
     "cork": {
       "co2_intensity": 0.5,
@@ -453,7 +545,17 @@
         "flooring",
         "insulation"
       ],
-      "environmental_notes": "Renewable harvest, doesn't harm tree"
+      "environmental_notes": "Renewable harvest, doesn't harm tree",
+      "amazon_products": [
+        "Wine stoppers",
+        "Flooring",
+        "Yoga mats",
+        "Coasters"
+      ],
+      "alternative_names": [
+        "natural cork",
+        "cork composite"
+      ]
     },
     "plywood": {
       "co2_intensity": 0.6,
@@ -485,84 +587,116 @@
       ]
     },
     "polypropylene": {
-      "co2_intensity": 1.58,
+      "co2_intensity": 1.8,
       "category": "thermoplastic",
       "confidence": "high",
       "recyclability": "high",
-      "source": "PlasticsEurope LCA",
+      "source": "Polypropylene Association",
       "applications": [
         "automotive",
         "packaging",
         "textiles"
       ],
       "alternative_names": [
-        "pp",
-        "pp5"
+        "PP",
+        "polyprop"
+      ],
+      "amazon_products": [
+        "Containers",
+        "Automotive parts",
+        "Textiles",
+        "Packaging"
       ]
     },
     "polyethylene": {
-      "co2_intensity": 2.8,
+      "co2_intensity": 1.6,
       "category": "thermoplastic",
       "confidence": "high",
       "recyclability": "high",
-      "source": "PlasticsEurope LCA",
+      "source": "Polyethylene Association",
       "applications": [
         "packaging",
         "bottles",
         "films"
       ],
       "alternative_names": [
-        "pe",
-        "hdpe",
-        "ldpe"
+        "PE",
+        "HDPE",
+        "LDPE",
+        "polyethylene"
+      ],
+      "amazon_products": [
+        "Packaging",
+        "Bags",
+        "Containers",
+        "Toys"
       ]
     },
     "abs_plastic": {
-      "co2_intensity": 4.1,
+      "co2_intensity": 2.8,
       "category": "thermoplastic",
       "confidence": "high",
       "recyclability": "medium",
-      "source": "Engineering plastics LCA",
+      "source": "Plastics industry LCA",
       "applications": [
         "toys",
         "automotive",
         "electronics"
       ],
       "alternative_names": [
-        "abs",
-        "acrylonitrile"
+        "ABS",
+        "acrylonitrile butadiene styrene"
+      ],
+      "amazon_products": [
+        "Computer cases",
+        "Electronics housings",
+        "Keyboards",
+        "Mouse"
       ]
     },
     "polycarbonate": {
-      "co2_intensity": 5.2,
+      "co2_intensity": 3.1,
       "category": "thermoplastic",
       "confidence": "medium",
       "recyclability": "medium",
-      "source": "Engineering plastics study",
+      "source": "Polycarbonate Association",
       "applications": [
         "electronics",
         "automotive",
         "safety equipment"
       ],
       "alternative_names": [
-        "pc_plastic",
-        "lexan"
+        "PC plastic",
+        "lexan",
+        "makrolon"
+      ],
+      "amazon_products": [
+        "Phone cases",
+        "Laptop screens",
+        "CDs",
+        "Safety equipment"
       ]
     },
     "pvc": {
-      "co2_intensity": 3.8,
+      "co2_intensity": 2.4,
       "category": "thermoplastic",
       "confidence": "medium",
       "recyclability": "medium",
-      "source": "PVC industry estimates",
+      "source": "PVC industry LCA",
       "applications": [
         "pipes",
         "construction",
         "medical"
       ],
       "alternative_names": [
-        "vinyl",
-        "polyvinyl_chloride"
+        "polyvinyl chloride",
+        "vinyl"
+      ],
+      "amazon_products": [
+        "Toys",
+        "Inflatable items",
+        "Pipes",
+        "Vinyl products"
       ]
     },
     "nylon": {
@@ -578,8 +712,14 @@
       ],
       "alternative_names": [
         "polyamide",
-        "pa6",
-        "pa66"
+        "nylon 6",
+        "nylon 66"
+      ],
+      "amazon_products": [
+        "Activewear",
+        "Hosiery",
+        "Swimwear",
+        "Bags"
       ]
     },
     "ptfe": {
@@ -610,13 +750,19 @@
         "industrial"
       ],
       "alternative_names": [
-        "poly",
-        "pet_fiber"
+        "PET fiber",
+        "polyester blend"
       ],
       "recycled_version": {
         "co2_intensity": 2.0,
         "notes": "45% reduction vs virgin"
-      }
+      },
+      "amazon_products": [
+        "Athletic wear",
+        "Jackets",
+        "Pants",
+        "Bedding"
+      ]
     },
     "lycra": {
       "co2_intensity": 4.2,
@@ -635,18 +781,25 @@
       ]
     },
     "acrylic": {
-      "co2_intensity": 4.8,
+      "co2_intensity": 5.1,
       "category": "synthetic_textile",
       "confidence": "medium",
       "recyclability": "low",
-      "source": "Synthetic fiber LCA estimates",
+      "source": "Acrylic fiber LCA",
       "applications": [
         "sweaters",
         "blankets",
         "outdoor fabrics"
       ],
       "alternative_names": [
-        "acrylic_fiber"
+        "acrylic fiber",
+        "polyacrylonitrile"
+      ],
+      "amazon_products": [
+        "Sweaters",
+        "Blankets",
+        "Carpets",
+        "Fake fur"
       ]
     },
     "lyocell": {
@@ -726,8 +879,14 @@
         "electronics"
       ],
       "alternative_names": [
-        "silicone_rubber",
-        "lsr"
+        "silicone rubber",
+        "food grade silicone"
+      ],
+      "amazon_products": [
+        "Bakeware",
+        "Kitchen tools",
+        "Phone cases",
+        "Baby products"
       ]
     },
     "neoprene": {
@@ -788,28 +947,41 @@
         "optics"
       ],
       "alternative_names": [
-        "soda_lime_glass",
-        "borosilicate"
+        "tempered glass",
+        "borosilicate glass"
       ],
       "recycled_version": {
         "co2_intensity": 0.8,
         "notes": "40% reduction with recycled content"
-      }
+      },
+      "amazon_products": [
+        "Screens",
+        "Bottles",
+        "Containers",
+        "Lenses"
+      ]
     },
     "ceramic": {
-      "co2_intensity": 1.7,
+      "co2_intensity": 0.9,
       "category": "ceramic_glass",
       "confidence": "high",
       "recyclability": "low",
-      "source": "Ceramics industry LCA",
+      "source": "Ceramic industry LCA",
       "applications": [
         "tableware",
         "tiles",
         "technical ceramics"
       ],
       "alternative_names": [
-        "pottery",
+        "porcelain",
+        "earthenware",
         "stoneware"
+      ],
+      "amazon_products": [
+        "Dinnerware",
+        "Cookware",
+        "Decorative items",
+        "Tiles"
       ]
     },
     "porcelain": {
@@ -855,27 +1027,40 @@
         "printing"
       ],
       "alternative_names": [
-        "pulp_paper"
+        "recycled paper",
+        "newsprint",
+        "cardboard"
       ],
       "recycled_version": {
         "co2_intensity": 0.4,
         "notes": "Significant energy savings"
-      }
+      },
+      "amazon_products": [
+        "Books",
+        "Magazines",
+        "Packaging",
+        "Office supplies"
+      ]
     },
     "cardboard": {
       "co2_intensity": 0.8,
       "category": "paper",
       "confidence": "high",
       "recyclability": "very_high",
-      "source": "Cardboard industry LCA",
+      "source": "Corrugated packaging LCA",
       "applications": [
         "packaging",
         "shipping",
         "displays"
       ],
       "alternative_names": [
-        "corrugated_cardboard",
+        "corrugated cardboard",
         "paperboard"
+      ],
+      "amazon_products": [
+        "Packaging boxes",
+        "Shipping materials",
+        "Storage boxes"
       ]
     },
     "mycelium": {
@@ -977,776 +1162,571 @@
         "unidentified materials"
       ],
       "environmental_notes": "Default fallback value"
+    },
+    "gold": {
+      "co2_intensity": 19500.0,
+      "category": "precious_metal",
+      "confidence": "high",
+      "recyclability": "very_high",
+      "source": "World Gold Council LCA",
+      "amazon_products": [
+        "Electronics components",
+        "Jewelry",
+        "Watches",
+        "Connectors"
+      ],
+      "alternative_names": [
+        "gold plating",
+        "gold contacts"
+      ]
+    },
+    "silver": {
+      "co2_intensity": 1350.0,
+      "category": "precious_metal",
+      "confidence": "high",
+      "recyclability": "very_high",
+      "source": "Silver Institute LCA",
+      "amazon_products": [
+        "Electronics",
+        "Jewelry",
+        "Watches",
+        "Connectors"
+      ],
+      "alternative_names": [
+        "silver plating",
+        "silver contacts"
+      ]
+    },
+    "lithium": {
+      "co2_intensity": 15.0,
+      "category": "battery_material",
+      "confidence": "high",
+      "recyclability": "medium",
+      "source": "Battery industry LCA",
+      "amazon_products": [
+        "Phone batteries",
+        "Laptop batteries",
+        "Power banks",
+        "Electric devices"
+      ],
+      "alternative_names": [
+        "lithium-ion",
+        "li-ion",
+        "lithium battery"
+      ]
+    },
+    "cobalt": {
+      "co2_intensity": 8.2,
+      "category": "battery_material",
+      "confidence": "high",
+      "recyclability": "medium",
+      "source": "Cobalt Development Institute",
+      "amazon_products": [
+        "Batteries",
+        "Electronics",
+        "Rechargeable devices"
+      ],
+      "alternative_names": [
+        "cobalt oxide",
+        "cobalt sulfate"
+      ]
+    },
+    "nickel": {
+      "co2_intensity": 12.8,
+      "category": "non_ferrous_metal",
+      "confidence": "high",
+      "recyclability": "high",
+      "source": "Nickel Institute LCA",
+      "amazon_products": [
+        "Batteries",
+        "Electronics",
+        "Stainless steel items"
+      ],
+      "alternative_names": [
+        "nickel alloy",
+        "nickel plating"
+      ]
+    },
+    "rare_earth_elements": {
+      "co2_intensity": 45.0,
+      "category": "specialty_metal",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Mining industry studies",
+      "amazon_products": [
+        "Smartphones",
+        "Speakers",
+        "Hard drives",
+        "Motors"
+      ],
+      "alternative_names": [
+        "neodymium",
+        "dysprosium",
+        "terbium"
+      ]
+    },
+    "polystyrene": {
+      "co2_intensity": 2.9,
+      "category": "thermoplastic",
+      "confidence": "high",
+      "recyclability": "low",
+      "source": "Styrene industry LCA",
+      "amazon_products": [
+        "Packaging",
+        "Disposable items",
+        "Insulation",
+        "Toys"
+      ],
+      "alternative_names": [
+        "PS",
+        "styrofoam",
+        "expanded polystyrene"
+      ]
+    },
+    "tpu": {
+      "co2_intensity": 4.2,
+      "category": "thermoplastic",
+      "confidence": "medium",
+      "recyclability": "medium",
+      "source": "Polyurethane Association",
+      "amazon_products": [
+        "Phone cases",
+        "Protective covers",
+        "Flexible parts"
+      ],
+      "alternative_names": [
+        "thermoplastic polyurethane",
+        "flexible plastic"
+      ]
+    },
+    "silicon": {
+      "co2_intensity": 5.6,
+      "category": "semiconductor",
+      "confidence": "high",
+      "recyclability": "low",
+      "source": "Semiconductor industry LCA",
+      "amazon_products": [
+        "Computer chips",
+        "Solar panels",
+        "Electronics"
+      ],
+      "alternative_names": [
+        "silicon wafer",
+        "crystalline silicon"
+      ]
+    },
+    "gorilla_glass": {
+      "co2_intensity": 1.5,
+      "category": "specialty_glass",
+      "confidence": "medium",
+      "recyclability": "high",
+      "source": "Corning LCA estimates",
+      "amazon_products": [
+        "Smartphone screens",
+        "Tablet screens",
+        "Protective glass"
+      ],
+      "alternative_names": [
+        "strengthened glass",
+        "chemically strengthened glass"
+      ]
+    },
+    "spandex": {
+      "co2_intensity": 4.9,
+      "category": "synthetic_textile",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Elastane industry studies",
+      "amazon_products": [
+        "Activewear",
+        "Underwear",
+        "Swimwear",
+        "Leggings"
+      ],
+      "alternative_names": [
+        "elastane",
+        "lycra"
+      ]
+    },
+    "rayon": {
+      "co2_intensity": 3.2,
+      "category": "regenerated_fiber",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Viscose industry studies",
+      "amazon_products": [
+        "Dresses",
+        "Shirts",
+        "Linings",
+        "Home textiles"
+      ],
+      "alternative_names": [
+        "viscose",
+        "modal",
+        "tencel"
+      ]
+    },
+    "melamine": {
+      "co2_intensity": 3.4,
+      "category": "thermoset_plastic",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Melamine industry estimates",
+      "amazon_products": [
+        "Dinnerware",
+        "Kitchen utensils",
+        "Countertops"
+      ],
+      "alternative_names": [
+        "melamine resin",
+        "melamine formaldehyde"
+      ]
+    },
+    "bamboo_wood": {
+      "co2_intensity": 0.05,
+      "category": "natural_material",
+      "confidence": "medium",
+      "recyclability": "high",
+      "source": "Bamboo industry studies",
+      "amazon_products": [
+        "Kitchen utensils",
+        "Cutting boards",
+        "Furniture",
+        "Decorative items"
+      ],
+      "alternative_names": [
+        "bamboo",
+        "bamboo composite"
+      ]
+    },
+    "hdpe": {
+      "co2_intensity": 1.7,
+      "category": "thermoplastic",
+      "confidence": "high",
+      "recyclability": "high",
+      "source": "Polyethylene Association",
+      "amazon_products": [
+        "Shampoo bottles",
+        "Cosmetic containers",
+        "Cleaning bottles"
+      ],
+      "alternative_names": [
+        "high density polyethylene",
+        "HDPE plastic"
+      ]
+    },
+    "pet": {
+      "co2_intensity": 2.2,
+      "category": "thermoplastic",
+      "confidence": "high",
+      "recyclability": "high",
+      "source": "PET Resin Association",
+      "amazon_products": [
+        "Water bottles",
+        "Cosmetic bottles",
+        "Food containers"
+      ],
+      "alternative_names": [
+        "polyethylene terephthalate",
+        "PET plastic"
+      ]
+    },
+    "pp": {
+      "co2_intensity": 1.8,
+      "category": "thermoplastic",
+      "confidence": "high",
+      "recyclability": "high",
+      "source": "Polypropylene Association",
+      "amazon_products": [
+        "Cosmetic caps",
+        "Food containers",
+        "Straws"
+      ],
+      "alternative_names": [
+        "polypropylene",
+        "PP plastic"
+      ]
+    },
+    "palm_oil": {
+      "co2_intensity": 2.3,
+      "category": "natural_oil",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Palm oil LCA studies",
+      "amazon_products": [
+        "Soaps",
+        "Cosmetics",
+        "Food products",
+        "Candles"
+      ],
+      "alternative_names": [
+        "palm kernel oil",
+        "sustainable palm oil"
+      ]
+    },
+    "coconut_oil": {
+      "co2_intensity": 1.4,
+      "category": "natural_oil",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Coconut industry LCA",
+      "amazon_products": [
+        "Cosmetics",
+        "Food products",
+        "Hair care",
+        "Soaps"
+      ],
+      "alternative_names": [
+        "virgin coconut oil",
+        "refined coconut oil"
+      ]
+    },
+    "recycled_paper": {
+      "co2_intensity": 0.5,
+      "category": "paper",
+      "confidence": "high",
+      "recyclability": "very_high",
+      "source": "Recycled paper LCA",
+      "amazon_products": [
+        "Eco-friendly books",
+        "Packaging",
+        "Office supplies"
+      ],
+      "alternative_names": [
+        "post-consumer recycled",
+        "recycled content"
+      ]
+    },
+    "eva_foam": {
+      "co2_intensity": 2.1,
+      "category": "foam_material",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Foam industry estimates",
+      "amazon_products": [
+        "Foam toys",
+        "Exercise mats",
+        "Packaging",
+        "Craft materials"
+      ],
+      "alternative_names": [
+        "ethylene vinyl acetate",
+        "EVA"
+      ]
+    },
+    "latex": {
+      "co2_intensity": 1.9,
+      "category": "natural_rubber",
+      "confidence": "medium",
+      "recyclability": "medium",
+      "source": "Rubber industry LCA",
+      "amazon_products": [
+        "Balloons",
+        "Gloves",
+        "Mattresses",
+        "Toys"
+      ],
+      "alternative_names": [
+        "natural rubber",
+        "synthetic latex"
+      ]
+    },
+    "fiberglass": {
+      "co2_intensity": 2.7,
+      "category": "composite_material",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Fiberglass industry LCA",
+      "amazon_products": [
+        "Sports equipment",
+        "Automotive parts",
+        "Construction materials"
+      ],
+      "alternative_names": [
+        "glass fiber",
+        "GFRP"
+      ]
+    },
+    "magnesium": {
+      "co2_intensity": 16.2,
+      "category": "non_ferrous_metal",
+      "confidence": "medium",
+      "recyclability": "high",
+      "source": "Magnesium industry LCA",
+      "amazon_products": [
+        "Electronics cases",
+        "Automotive parts",
+        "Sports equipment"
+      ],
+      "alternative_names": [
+        "magnesium alloy",
+        "mag"
+      ]
+    },
+    "bubble_wrap": {
+      "co2_intensity": 2.0,
+      "category": "packaging_material",
+      "confidence": "medium",
+      "recyclability": "medium",
+      "source": "Packaging industry estimates",
+      "amazon_products": [
+        "Protective packaging",
+        "Shipping materials"
+      ],
+      "alternative_names": [
+        "air cushioning",
+        "bubble film"
+      ]
+    },
+    "foam_padding": {
+      "co2_intensity": 2.8,
+      "category": "packaging_material",
+      "confidence": "medium",
+      "recyclability": "low",
+      "source": "Foam packaging LCA",
+      "amazon_products": [
+        "Electronics packaging",
+        "Protective padding"
+      ],
+      "alternative_names": [
+        "polyurethane foam",
+        "protective foam"
+      ]
+    },
+    "kraft_paper": {
+      "co2_intensity": 0.9,
+      "category": "paper",
+      "confidence": "high",
+      "recyclability": "very_high",
+      "source": "Kraft paper LCA",
+      "amazon_products": [
+        "Shipping envelopes",
+        "Packaging",
+        "Paper bags"
+      ],
+      "alternative_names": [
+        "brown paper",
+        "kraft board"
+      ]
     }
   },
-  "categories": {
-    "laboratory_equipment": {
-      "typical_materials": [
-        "stainless_steel",
-        "glass",
-        "plastic"
-      ],
-      "material_weights": [
-        0.4,
-        0.3,
-        0.3
-      ],
-      "avg_co2_intensity": 2.8,
-      "confidence": "high",
-      "applications": [
-        "analytical instruments",
-        "lab glassware",
-        "precision tools"
-      ]
-    },
-    "scientific_instruments": {
-      "typical_materials": [
-        "aluminum",
-        "stainless_steel",
-        "glass",
-        "electronics"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.2,
-        0.25
-      ],
-      "avg_co2_intensity": 4.2,
-      "confidence": "medium",
-      "applications": [
-        "microscopes",
-        "spectrometers",
-        "measurement devices"
-      ]
-    },
-    "analytical_equipment": {
-      "typical_materials": [
-        "stainless_steel",
-        "aluminum",
-        "glass",
-        "high_tech_plastics"
-      ],
-      "material_weights": [
-        0.35,
-        0.25,
-        0.15,
-        0.25
-      ],
-      "avg_co2_intensity": 3.8,
-      "confidence": "medium",
-      "applications": [
-        "chromatography",
-        "mass spectrometry",
-        "chemical analysis"
-      ]
-    },
-    "medical_devices": {
-      "typical_materials": [
-        "stainless_steel",
-        "plastic",
-        "titanium",
-        "glass"
-      ],
-      "material_weights": [
-        0.4,
-        0.3,
-        0.2,
-        0.1
-      ],
-      "avg_co2_intensity": 8.5,
-      "confidence": "high",
-      "applications": [
-        "surgical instruments",
-        "diagnostic equipment",
-        "implants"
-      ]
-    },
-    "surgical_instruments": {
-      "typical_materials": [
-        "stainless_steel",
-        "titanium",
-        "ceramic"
-      ],
-      "material_weights": [
-        0.7,
-        0.2,
-        0.1
-      ],
-      "avg_co2_intensity": 6.8,
-      "confidence": "high",
-      "applications": [
-        "scalpels",
-        "forceps",
-        "surgical tools"
-      ]
-    },
-    "diagnostic_equipment": {
-      "typical_materials": [
-        "plastic",
-        "aluminum",
-        "electronics",
-        "glass"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 4.5,
-      "confidence": "medium",
-      "applications": [
-        "imaging equipment",
-        "monitors",
-        "testing devices"
-      ]
-    },
-    "industrial_machinery": {
-      "typical_materials": [
-        "steel",
-        "cast_iron",
-        "aluminum"
-      ],
-      "material_weights": [
-        0.6,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 2.2,
-      "confidence": "high",
-      "applications": [
-        "manufacturing equipment",
-        "processing machinery"
-      ]
-    },
-    "precision_tools": {
-      "typical_materials": [
-        "stainless_steel",
-        "carbide",
-        "aluminum"
-      ],
-      "material_weights": [
-        0.6,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 3.5,
-      "confidence": "high",
-      "applications": [
-        "cutting tools",
-        "measuring instruments",
-        "calibration equipment"
-      ]
-    },
-    "climbing_equipment": {
-      "typical_materials": [
-        "aluminum",
-        "nylon",
-        "dyneema"
-      ],
-      "material_weights": [
-        0.4,
-        0.35,
-        0.25
-      ],
-      "avg_co2_intensity": 6.2,
-      "confidence": "high",
-      "applications": [
-        "carabiners",
-        "harnesses",
-        "ropes",
-        "protection"
-      ]
-    },
-    "mountaineering_gear": {
-      "typical_materials": [
-        "aluminum",
-        "carbon_fiber",
-        "nylon",
-        "down"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.3,
-        0.15
-      ],
-      "avg_co2_intensity": 8.8,
-      "confidence": "high",
-      "applications": [
-        "ice axes",
-        "crampons",
-        "sleeping bags",
-        "tents"
-      ]
-    },
-    "skydiving_equipment": {
-      "typical_materials": [
-        "nylon",
-        "aluminum",
-        "composite"
-      ],
-      "material_weights": [
-        0.6,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 6.5,
-      "confidence": "medium",
-      "applications": [
-        "parachutes",
-        "harnesses",
-        "altimeters"
-      ]
-    },
-    "scuba_diving_gear": {
-      "typical_materials": [
-        "aluminum",
-        "neoprene",
-        "stainless_steel",
-        "plastic"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 5.8,
-      "confidence": "high",
-      "applications": [
-        "tanks",
-        "regulators",
-        "wetsuits",
-        "masks"
-      ]
-    },
-    "sailing_equipment": {
-      "typical_materials": [
-        "aluminum",
-        "carbon_fiber",
-        "polyester",
-        "stainless_steel"
-      ],
-      "material_weights": [
-        0.35,
-        0.25,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 8.5,
-      "confidence": "high",
-      "applications": [
-        "masts",
-        "sails",
-        "rigging",
-        "hardware"
-      ]
-    },
-    "surfboards": {
-      "typical_materials": [
-        "foam",
-        "fiberglass",
-        "carbon_fiber",
-        "resin"
-      ],
-      "material_weights": [
-        0.4,
-        0.3,
-        0.2,
-        0.1
-      ],
-      "avg_co2_intensity": 12.5,
-      "confidence": "medium",
-      "applications": [
-        "surfboards",
-        "wakeboards",
-        "kiteboards"
-      ]
-    },
-    "skiing_equipment": {
-      "typical_materials": [
-        "carbon_fiber",
-        "aluminum",
-        "polyethylene",
-        "steel"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 12.8,
-      "confidence": "high",
-      "applications": [
-        "skis",
-        "poles",
-        "bindings",
-        "boots"
-      ]
-    },
-    "snowboarding_gear": {
-      "typical_materials": [
-        "carbon_fiber",
-        "fiberglass",
-        "polyethylene",
-        "aluminum"
-      ],
-      "material_weights": [
-        0.35,
-        0.3,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 11.5,
-      "confidence": "high",
-      "applications": [
-        "snowboards",
-        "bindings",
-        "boots"
-      ]
-    },
-    "archery_equipment": {
-      "typical_materials": [
-        "carbon_fiber",
-        "aluminum",
-        "wood",
-        "synthetic_materials"
-      ],
-      "material_weights": [
-        0.4,
-        0.3,
-        0.2,
-        0.1
-      ],
-      "avg_co2_intensity": 9.8,
-      "confidence": "medium",
-      "applications": [
-        "bows",
-        "arrows",
-        "targets",
-        "accessories"
-      ]
-    },
-    "martial_arts_equipment": {
-      "typical_materials": [
-        "wood",
-        "leather",
-        "foam",
-        "fabric"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.25,
-        0.2
-      ],
-      "avg_co2_intensity": 3.2,
-      "confidence": "medium",
-      "applications": [
-        "training equipment",
-        "protective gear",
-        "weapons"
-      ]
-    },
-    "professional_cameras": {
-      "typical_materials": [
-        "aluminum",
-        "magnesium",
-        "glass",
-        "electronics"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 6.5,
-      "confidence": "high",
-      "applications": [
-        "dslr cameras",
-        "mirrorless cameras",
-        "lenses"
-      ]
-    },
-    "film_equipment": {
-      "typical_materials": [
-        "carbon_fiber",
-        "aluminum",
-        "steel",
-        "electronics"
-      ],
-      "material_weights": [
-        0.3,
-        0.35,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 8.2,
-      "confidence": "medium",
-      "applications": [
-        "tripods",
-        "lighting",
-        "stabilizers",
-        "recording equipment"
-      ]
-    },
-    "audio_equipment": {
-      "typical_materials": [
-        "aluminum",
-        "plastic",
-        "electronics",
-        "fabric"
-      ],
-      "material_weights": [
-        0.35,
-        0.3,
-        0.25,
-        0.1
-      ],
-      "avg_co2_intensity": 5.8,
-      "confidence": "high",
-      "applications": [
-        "microphones",
-        "speakers",
-        "mixing boards",
-        "headphones"
-      ]
-    },
-    "fine_art_supplies": {
-      "typical_materials": [
-        "wood",
-        "metal",
-        "paper",
-        "glass"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.25,
-        0.2
-      ],
-      "avg_co2_intensity": 1.8,
-      "confidence": "medium",
-      "applications": [
-        "easels",
-        "brushes",
-        "canvases",
-        "paints"
-      ]
-    },
-    "ceramics_pottery": {
-      "typical_materials": [
-        "clay",
-        "ceramic",
-        "metal_tools"
-      ],
-      "material_weights": [
-        0.6,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 1.4,
-      "confidence": "high",
-      "applications": [
-        "pottery wheels",
-        "kilns",
-        "tools",
-        "glazes"
-      ]
-    },
-    "jewelry_making": {
-      "typical_materials": [
-        "precious_metals",
-        "steel",
-        "brass",
-        "glass"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 12.5,
-      "confidence": "medium",
-      "applications": [
-        "tools",
-        "findings",
-        "equipment",
-        "materials"
-      ]
-    },
-    "model_building": {
-      "typical_materials": [
-        "plastic",
-        "metal",
-        "wood",
-        "paper"
-      ],
-      "material_weights": [
-        0.5,
-        0.25,
-        0.15,
-        0.1
-      ],
-      "avg_co2_intensity": 3.2,
-      "confidence": "medium",
-      "applications": [
-        "scale models",
-        "rc vehicles",
-        "miniatures"
-      ]
-    },
-    "rc_vehicles": {
-      "typical_materials": [
-        "carbon_fiber",
-        "aluminum",
-        "plastic",
-        "electronics"
-      ],
-      "material_weights": [
-        0.3,
-        0.3,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 8.5,
-      "confidence": "high",
-      "applications": [
-        "drones",
-        "cars",
-        "planes",
-        "boats"
-      ]
-    },
-    "drone_components": {
-      "typical_materials": [
-        "carbon_fiber",
-        "aluminum",
-        "plastic",
-        "electronics"
-      ],
-      "material_weights": [
-        0.35,
-        0.25,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 9.2,
-      "confidence": "high",
-      "applications": [
-        "frames",
-        "propellers",
-        "cameras",
-        "controllers"
-      ]
-    },
-    "electronics_components": {
-      "typical_materials": [
-        "silicon",
-        "copper",
-        "plastic",
-        "ceramic"
-      ],
-      "material_weights": [
-        0.3,
-        0.3,
-        0.25,
-        0.15
-      ],
-      "avg_co2_intensity": 4.8,
-      "confidence": "medium",
-      "applications": [
-        "circuits",
-        "sensors",
-        "modules",
-        "cases"
-      ]
-    },
-    "3d_printing": {
-      "typical_materials": [
-        "aluminum",
-        "steel",
-        "electronics",
-        "plastic"
-      ],
-      "material_weights": [
-        0.35,
-        0.25,
-        0.2,
-        0.2
-      ],
-      "avg_co2_intensity": 4.5,
-      "confidence": "medium",
-      "applications": [
-        "printers",
-        "filaments",
-        "tools",
-        "accessories"
-      ]
-    },
-    "antique_restoration": {
-      "typical_materials": [
-        "wood",
-        "metal",
-        "leather",
-        "fabric"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 3.8,
-      "confidence": "low",
-      "applications": [
-        "restoration tools",
-        "preservation materials",
-        "cleaning supplies"
-      ]
-    },
-    "collectibles_storage": {
-      "typical_materials": [
-        "plastic",
-        "cardboard",
-        "glass",
-        "metal"
-      ],
-      "material_weights": [
-        0.4,
-        0.3,
-        0.2,
-        0.1
-      ],
-      "avg_co2_intensity": 2.2,
-      "confidence": "medium",
-      "applications": [
-        "display cases",
-        "storage boxes",
-        "protective materials"
-      ]
-    },
-    "technical_fabrics": {
-      "typical_materials": [
-        "carbon_fiber",
-        "aramid_fiber",
-        "polyester",
-        "nylon"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.25,
-        0.2
-      ],
-      "avg_co2_intensity": 12.5,
-      "confidence": "high",
-      "applications": [
-        "protective clothing",
-        "industrial fabrics",
-        "aerospace textiles"
-      ]
-    },
-    "protective_equipment": {
-      "typical_materials": [
-        "kevlar",
-        "polyethylene",
-        "ceramic",
-        "foam"
-      ],
-      "material_weights": [
-        0.4,
-        0.25,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 6.8,
-      "confidence": "high",
-      "applications": [
-        "body armor",
-        "helmets",
-        "safety gear"
-      ]
-    },
-    "outdoor_gear": {
-      "typical_materials": [
-        "nylon",
-        "polyester",
-        "down",
-        "aluminum"
-      ],
-      "material_weights": [
-        0.35,
-        0.3,
-        0.2,
-        0.15
-      ],
-      "avg_co2_intensity": 5.2,
-      "confidence": "high",
-      "applications": [
-        "tents",
-        "sleeping bags",
-        "backpacks",
-        "clothing"
-      ]
-    },
-    "luxury_fabrics": {
-      "typical_materials": [
-        "silk",
-        "cashmere",
-        "merino_wool",
-        "cotton"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.25,
-        0.2
-      ],
-      "avg_co2_intensity": 125.0,
-      "confidence": "high",
-      "applications": [
-        "high-end clothing",
-        "accessories",
-        "home textiles"
-      ]
-    },
-    "sustainable_textiles": {
-      "typical_materials": [
-        "organic_cotton",
-        "hemp",
-        "lyocell",
-        "linen"
-      ],
-      "material_weights": [
-        0.3,
-        0.25,
-        0.25,
-        0.2
-      ],
-      "avg_co2_intensity": 1.1,
-      "confidence": "high",
-      "applications": [
-        "eco-friendly clothing",
-        "sustainable fashion"
-      ]
-    }
+  "product_categories": {},
+  "amazon_category_mapping": {
+    "Electronics": [
+      "aluminum",
+      "copper",
+      "silicon",
+      "abs_plastic",
+      "polycarbonate",
+      "glass",
+      "lithium",
+      "gold",
+      "silver"
+    ],
+    "Clothing": [
+      "cotton",
+      "polyester",
+      "nylon",
+      "spandex",
+      "wool",
+      "silk",
+      "linen",
+      "rayon"
+    ],
+    "Home & Kitchen": [
+      "stainless_steel",
+      "aluminum",
+      "glass",
+      "ceramic",
+      "silicone",
+      "wood",
+      "bamboo_wood"
+    ],
+    "Beauty": [
+      "hdpe",
+      "pet",
+      "pp",
+      "palm_oil",
+      "coconut_oil",
+      "glass"
+    ],
+    "Books": [
+      "paper",
+      "cardboard",
+      "recycled_paper"
+    ],
+    "Toys": [
+      "abs_plastic",
+      "pvc",
+      "eva_foam",
+      "latex",
+      "wood"
+    ],
+    "Sports": [
+      "polyester",
+      "nylon",
+      "rubber",
+      "aluminum",
+      "carbon_fiber",
+      "eva_foam"
+    ],
+    "Tools": [
+      "steel",
+      "aluminum",
+      "abs_plastic",
+      "rubber"
+    ],
+    "Health": [
+      "hdpe",
+      "pet",
+      "pp",
+      "glass",
+      "aluminum"
+    ],
+    "Baby": [
+      "silicone",
+      "abs_plastic",
+      "cotton",
+      "latex",
+      "wood"
+    ],
+    "Automotive": [
+      "steel",
+      "aluminum",
+      "abs_plastic",
+      "rubber",
+      "glass"
+    ],
+    "Garden": [
+      "steel",
+      "aluminum",
+      "hdpe",
+      "wood",
+      "ceramic"
+    ],
+    "Office": [
+      "paper",
+      "abs_plastic",
+      "steel",
+      "aluminum"
+    ],
+    "Pet Supplies": [
+      "nylon",
+      "cotton",
+      "steel",
+      "ceramic",
+      "hdpe"
+    ]
   },
   "metadata": {
-    "total_materials": 62,
-    "total_categories": 36,
-    "version": "2.0",
-    "research_date": "2025-01-27",
+    "total_materials": 89,
+    "version": "3.0",
+    "description": "Enhanced materials database with Amazon-focused materials",
     "sources": [
       "LCA studies",
-      "Industry reports",
+      "Industry associations",
       "Scientific literature",
-      "Sustainability databases"
+      "Amazon product analysis"
     ]
   }
 }

@@ -811,6 +811,45 @@ class EnhancedBrandDatabase:
         print(f"🌍 Countries represented: {len(countries)}")
         print(f"📍 Top countries: {dict(sorted(countries.items(), key=lambda x: x[1], reverse=True)[:10])}")
     
+    def get_brand_info(self, brand_name: str) -> Dict[str, Any]:
+        """
+        Get brand information by name with fuzzy matching
+        
+        Args:
+            brand_name: Brand name to look up (case insensitive)
+            
+        Returns:
+            Dictionary with brand information or None if not found
+        """
+        brand_name = brand_name.lower().strip()
+        
+        # Direct match
+        if brand_name in self.enhanced_brands:
+            return self.enhanced_brands[brand_name]
+        
+        # Fuzzy matching - check if brand name contains any key
+        for key in self.enhanced_brands.keys():
+            if brand_name in key or key in brand_name:
+                return self.enhanced_brands[key]
+        
+        # Return fallback
+        return {
+            "origin": {"country": "Unknown", "city": "Unknown"},
+            "verified": False,
+            "notes": f"Brand '{brand_name}' not found in database"
+        }
+    
+    def search_brands(self, query: str) -> Dict[str, Any]:
+        """Search for brands matching a query"""
+        query = query.lower().strip()
+        results = {}
+        
+        for brand_name, brand_data in self.enhanced_brands.items():
+            if query in brand_name.lower():
+                results[brand_name] = brand_data
+        
+        return results
+
     def merge_with_existing(self, existing_file: str = "brand_locations.json"):
         """Merge enhanced database with existing one"""
         try:
